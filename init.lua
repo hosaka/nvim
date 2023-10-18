@@ -2,8 +2,9 @@
 _G.hosaka = {}
 
 require("hosaka.options")
--- require("hosaka.keymaps")
--- require("hosaka.autocmds")
+require("hosaka.autocmds")
+require("hosaka.keymaps")
+require("hosaka.leadermaps")
 require("hosaka.packadd")
 
 -- if vim.g.vscode then end
