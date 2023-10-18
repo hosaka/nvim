@@ -86,3 +86,15 @@
 	path = pack/plugins/opt/oil
 	url = https://github.com/stevearc/oil.nvim
 	branch = master
+[submodule "aerial"]
+	path = pack/plugins/opt/aerial
+	url = https://github.com/stevearc/aerial.nvim
+	branch = master
+[submodule "mason"]
+	path = pack/plugins/opt/mason
+	url = https://github.com/williamboman/mason.nvim
+	branch = main
+[submodule "mason-lspconfig"]
+	path = pack/plugins/opt/mason-lspconfig
+	url = https://github.com/williamboman/mason-lspconfig.nvim
+	branch = main
