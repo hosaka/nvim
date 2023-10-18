@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # get realpath to this bash script
- 
+
 PACK=$(realpath -s "$0")
 PACK_PATH=$(dirname "$SCRIPT")
 
@@ -31,6 +31,9 @@ add () {
   if [ "$answer" = "y" ]; then
     git submodule add --name "$sm_name" -b "$sm_branch" "$sm_url" "$sm_path/$sm_name"
   fi
+
+  git add pack/
+  exit $?
 }
 
 remove() {
@@ -49,6 +52,9 @@ remove() {
   # remove associated submodule directory in .git/modules
   git_dir=$(git rev-parse --git-dir)
   rm -rf $git_dir/modules/$sm_path
+
+  git add pack/
+  exit $?
 }
 
 update() {
@@ -57,6 +63,9 @@ update() {
 
   # recursive call to update()
   git submodule --quiet foreach '$toplevel/pack.sh prompt'
+
+  # add changed submodules
+  git add pack/
   exit $?
 }
 
@@ -74,14 +83,14 @@ prompt() {
   upstream_sha1="$(git rev-parse --short $branch)"
 
   if [ $num_changes -ne 0 ]; then
-    echo "Changes in $sm_path (tracking branch: $branch): $num_changes"
+    echo "Changes in $name (tracking branch: $branch):"
 
     git log --oneline --no-merges --date=relative --pretty='%C(auto)%h %C(auto)%s %C(dim)(%ad)' HEAD..$branch
 
-    read -p "Do you want to update $name? (y/N): " answer
+    read -p "Do you want to update $name with $num_changes changes? (y/N): " answer
 
     if [ "$answer" = "y" ]; then
-      git -C "$sm_path" checkout "$branch"
+      git merge --quiet "$branch"
       echo "Updated $name to the latest version ($current_sha1 -> $upstream_sha1)"
     else
       echo "Skipped $name"
