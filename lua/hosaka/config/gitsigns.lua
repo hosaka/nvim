@@ -1,20 +1,18 @@
 require("gitsigns").setup({
-  on_attach = function(buffer)
-    local gs = require("gitsigns")
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = buffer
-      vim.keymap.set(mode, l, r, opts)
-    end
-    map("n", "]h", function()
-      vim.schedule(function()
-        gs.next_hunk()
-      end)
-    end, { expr = true, desc = "Next hunk" })
-    map("n", "[h", function()
-      vim.schedule(function()
-        gs.prev_hunk()
-      end)
-    end, { expr = true, desc = "Prev hunk" })
-  end,
+  on_attach = function(buffer) end,
 })
+
+vim.keymap.set("n", "]h", function()
+  vim.schedule(function()
+    require("gitsigns").next_hunk()
+  end)
+end, { expr = true, desc = "Hunk forward" })
+
+vim.keymap.set("n", "[h", function()
+  vim.schedule(function()
+    require("gitsigns").prev_hunk()
+  end)
+end, { expr = true, desc = "Hunk backward" })
+
+-- hunk text object
+vim.keymap.set({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<cr>")

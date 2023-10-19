@@ -1,6 +1,5 @@
 require("toggleterm").setup({
-  direction = "float",
-  float_opts = { border = "none" },
+  float_opts = { border = "single" },
   on_create = function()
     vim.opt.foldcolumn = "0"
     vim.opt.signcolumn = "no"

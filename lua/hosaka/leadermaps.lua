@@ -9,10 +9,6 @@ hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   -- { mode = "n", keys = "<Leader><Tab>", desc = "+Tabs" },
-
-  -- submodes
-  -- { mode = "n", keys = "]b", postkeys = "]" },
-  -- { mode = "n", keys = "[b", postkeys = "[" },
 }
 
 local nmap_leader = function(suffix, rhs, desc, opts)
@@ -85,22 +81,19 @@ nmap_leader("fs", [[<cmd>Pick lsp scope="workspace_symbol"<cr>]], "Symbol worksp
 nmap_leader("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], "Symbol buffer")
 
 -- g is for git
--- if vim.fn.executable("lazygit") == 1 then
---   local lazygit = require("toggleterm.terminal").Terminal:new({ cmd = "lazygit", hidden = true })
---   map("n", "<Leader>gg", function()
---     lazygit:toggle()
---   end, { desc = "LazyGit", noremap = true, silent = true })
--- end
 nmap_leader("gg", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
+nmap_leader("gG", [[<cmd>lua hosaka.toggle_lazygit()<cr>]], "Lazygit")
 nmap_leader("gc", [[<cmd>lua require('neogit').open({'commit'})<cr>]], "Commit")
 nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
 
-nmap_leader("ga", [[<cmd>lua require("gitsigns").stage_hunk()]], "Add hunk")
-nmap_leader("gA", [[<cmd>lua require("gitsigns").stage_buffer()]], "Add buffer")
-nmap_leader("gp", [[<cmd>lua require("gitsigns").preview_hunk()]], "Preview hunk")
-nmap_leader("gu", [[<cmd>lua require("gitsigns").undo_stage_hunk()]], "Undo add hunk")
-nmap_leader("gr", [[<cmd>lua require("gitsigns").reset_hunk()]], "Reset hunk")
-nmap_leader("gR", [[<cmd>lua require("gitsigns").reset_buffer()]], "Reset buffer")
+nmap_leader("ga", [[<cmd>lua require("gitsigns").stage_hunk()<cr>]], "Add hunk")
+nmap_leader("gA", [[<cmd>lua require("gitsigns").stage_buffer()<cr>]], "Add buffer")
+nmap_leader("gb", [[<cmd>lua require("gitsigns").blame_line()<cr>]], "Blame line")
+nmap_leader("gp", [[<cmd>lua require("gitsigns").preview_hunk()<cr>]], "Preview hunk")
+nmap_leader("gr", [[<cmd>lua require("gitsigns").reset_hunk()<cr>]], "Reset hunk")
+nmap_leader("gR", [[<cmd>lua require("gitsigns").reset_buffer()<cr>]], "Reset buffer")
+nmap_leader("gu", [[<cmd>lua require("gitsigns").undo_stage_hunk()<cr>]], "Undo add hunk")
+nmap_leader("gq", [[<cmd>lua require("gitsigns").setqflist()<cr>:open<cr>]], "Quickfix hunks")
 
 -- o is for option
 -- nmap_leader("oi", [[<cmd>lua vim.lsp.inlay_hint()<cr>]], "Toggle inlay hints")

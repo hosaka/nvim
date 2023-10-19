@@ -3,6 +3,7 @@ _G.hosaka = {}
 
 require("hosaka.options")
 require("hosaka.autocmds")
+require("hosaka.functions")
 require("hosaka.keymaps")
 require("hosaka.leadermaps")
 require("hosaka.packadd")

@@ -30,10 +30,11 @@ map("n", "<S-l>", [[<cmd>bnext<cr>]], { desc = "Next buffer" })
 map({ "i", "n" }, "<Esc>", [[<cmd>nohlsearch<cr><esc>]])
 
 -- delete selection with backspace in select mode
-map('s', [[<BS>]], [[<BS>i]])
+map("s", [[<BS>]], [[<BS>i]])
 
 -- terminals
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal Mode" })
+-- map("t", "jk", "<C-\\><C-n>", { desc = "Normal Mode" })
 map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to Left Window" })
 map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to Lower Window" })
 map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to Upper Window" })
