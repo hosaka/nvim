@@ -1,0 +1,28 @@
+{
+  "name": "hosaka-snippets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "languages": [
+    {
+      "id": "all",
+      "extensions": "*"
+    }
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./all.json"
+      },
+      {
+        "language": [
+          "lua"
+        ],
+        "path": "./lua.json"
+      }
+    ]
+  }
+}
