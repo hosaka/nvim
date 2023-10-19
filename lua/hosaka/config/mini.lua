@@ -4,6 +4,31 @@ require("mini.sessions").setup({ directory = vim.fn.stdpath("config") .. "/misc/
 
 require("mini.starter").setup()
 
+local ministatus = require("mini.statusline")
+ministatus.setup({
+  content = {
+    active = function()
+      local mode, mode_hl = ministatus.section_mode({ trunc_width = 120 })
+      local git = ministatus.section_git({ trunc_width = 75 })
+      local diagnostics = ministatus.section_diagnostics({ trunc_width = 75 })
+      local filename = ministatus.section_filename({ trunc_width = 140 })
+      local fileinfo = ministatus.section_fileinfo({ trunc_width = 120 })
+      local searchcount = ministatus.section_searchcount({ trunc_width = 75 })
+      local location = ministatus.section_location({ trunc_width = 75 })
+
+      return ministatus.combine_groups({
+        { hl = mode_hl, strings = { mode } },
+        { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
+        "%<", -- truncate point
+        { hl = "MiniStatuslineFilename", strings = { filename } },
+        "%=", -- left alignment
+        { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+        { hl = mode_hl, strings = { searchcount, location } },
+      })
+    end,
+  },
+})
+
 require("mini.tabline").setup()
 
 vim.schedule(function()
@@ -34,7 +59,7 @@ vim.schedule(function()
       option_toggle_prefix = "<Leader>o",
     },
     autocommands = {
-      relnum_in_visual_mode = true,
+      -- relnum_in_visual_mode = true,
     },
   })
 
@@ -80,9 +105,6 @@ vim.schedule(function()
       -- z key
       { mode = "n", keys = "z" },
       { mode = "x", keys = "z" },
-      -- { mode = "n", keys = "c" },
-      -- { mode = "n", keys = "d" },
-      -- { mode = "n", keys = "y" },
     },
     clues = {
       hosaka.leader_group_clues,
@@ -110,10 +132,11 @@ vim.schedule(function()
 
   require("mini.comment").setup()
 
-  require("mini.completion").setup({
+  local minicomplete = require("mini.completion")
+  minicomplete.setup({
     lsp_completion = {
       source_func = "omnifunc",
-      auto_setup = false,
+      -- auto_setup = true,
     },
     window = {
       info = { border = "single" },
@@ -141,6 +164,13 @@ vim.schedule(function()
       try_as_border = true,
     },
   })
+
+  -- TODO: would sitll prefer folke/flash
+  -- require("mini.jump2d").setup({
+  --   view = {
+  --     dim = true,
+  --   },
+  -- })
 
   local minimisc = require("mini.misc")
   minimisc.setup({
