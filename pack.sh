@@ -37,23 +37,30 @@ add () {
 }
 
 remove() {
-  # unregister submodule
-  git submodule deinit -f "$sm_path/$sm_name"
+  read -p "Remove $sm_path/$sm_name? (y/N)" answer
 
-  # remove the submodule working tree
-  git rm --cached "$sm_path/$sm_name"
+  sm_path = "$sm_path/$sm_name"
 
-  # remove submodule from .gitmodules
-  git config -f .gitmodules --remove-section "submodule.$sm_name"
+  if [ "$answer" = "y" ]; then
+    # unregister submodule
+    git submodule deinit -f "$sm_path"
 
-  # remoev submodule directory
-  rm -r "$sm_path/$sm_name"
+    # remove the submodule working tree
+    git rm --cached "$sm_path"
 
-  # remove associated submodule directory in .git/modules
-  git_dir=$(git rev-parse --git-dir)
-  rm -rf "$git_dir/modules/$sm_path/$sm_name"
+    # remove submodule from .gitmodules
+    git config -f .gitmodules --remove-section "submodule.$sm_name"
 
-  git add pack/
+    # remoev submodule directory
+    rm -r "$sm_path"
+
+    # remove associated submodule directory in .git/modules
+    git_dir=$(git rev-parse --git-dir)
+    rm -rf "$git_dir/modules/$sm_name"
+
+    git add pack/
+  fi
+
   exit $?
 }
 

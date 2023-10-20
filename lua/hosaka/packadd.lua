@@ -26,7 +26,6 @@ lazy("conform")
 
 lazy("nvim-treesitter")
 lazy("nvim-treesitter-context")
-lazy("nvim-treesitter-textobjects")
 lazy("nvim-treesitter-refactor")
 
 lazy("telescope")

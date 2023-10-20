@@ -98,11 +98,6 @@
 	url = https://github.com/nvim-treesitter/nvim-treesitter-context
 	branch = master
 
-[submodule "nvim-treesitter-textobjects"]
-	path = pack/plugins/opt/nvim-treesitter-textobjects
-	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	branch = master
-
 [submodule "nvim-web-devicons"]
 	path = pack/plugins/opt/nvim-web-devicons
 	url = https://github.com/nvim-tree/nvim-web-devicons
