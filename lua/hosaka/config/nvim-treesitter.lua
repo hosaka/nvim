@@ -1,8 +1,4 @@
 require("nvim-treesitter.configs").setup({
-  highlight = { enable = true, disable = { "vimdoc" } },
-  incremental_selection = { enable = false },
-  indent = { enable = false },
-  textobjects = { enable = false },
   ensure_installed = {
     "bash",
     "c",
@@ -27,5 +23,40 @@ require("nvim-treesitter.configs").setup({
     "vim",
     "vimdoc",
     "yaml",
+  },
+  highlight = {
+    enable = true,
+    disable = { "vimdoc" },
+  },
+  incremental_selection = {
+    enable = false,
+  },
+  indent = {
+    enable = false,
+  },
+  -- nvim-treesitter-refactor
+  refactor = {
+    highlight_definitions = {
+      enabled = true,
+    },
+    highlight_current_scope = {
+      enabled = true,
+    },
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "grr",
+      },
+    },
+    navigation = {
+      enable = true,
+      keymaps = {
+        goto_definition = "gnd",
+      },
+    },
+  },
+  -- nvim-treesitter-textobject
+  textobjects = {
+    enable = false,
   },
 })

@@ -1,45 +1,38 @@
-local packadd = function(plugin)
-  vim.cmd(string.format([[%s %s]], "packadd", plugin))
-  pcall(require, "hosaka.config." .. plugin)
-end
+local load = hosaka.load
+local lazy = hosaka.lazy
 
-local packadd_defer = function(plugin)
-  vim.schedule(function()
-    packadd(plugin)
-  end)
-end
+load("mini")
 
-packadd("mini")
+load("plenary")
+load("nvim-web-devicons")
 
-packadd("plenary")
-packadd("dressing")
-packadd("nvim-web-devicons")
+lazy("dressing")
+lazy("gitsigns")
+lazy("diffview")
+lazy("neogit")
 
-packadd_defer("gitsigns")
-packadd_defer("diffview")
-packadd_defer("neogit")
+load("nvim-cmp")
+load("luasnip")
+load("cmp-luasnip")
+load("cmp-nvim-lsp")
+load("cmp-buffer")
+load("cmp-cmdline")
 
-packadd("luasnip")
-packadd("cmp-nvim-lsp")
-packadd("cmp-luasnip")
-packadd("cmp-buffer")
-packadd("cmp-cmdline")
-packadd("nvim-cmp")
+lazy("mason")
+lazy("mason-lspconfig")
+lazy("nvim-lspconfig")
+lazy("nvim-lint")
+lazy("conform")
 
-packadd_defer("mason")
-packadd_defer("mason-lspconfig")
-packadd_defer("nvim-lspconfig")
-packadd_defer("nvim-lint")
-packadd_defer("conform")
+lazy("nvim-treesitter")
+lazy("nvim-treesitter-context")
+lazy("nvim-treesitter-textobjects")
+lazy("nvim-treesitter-refactor")
 
-packadd_defer("nvim-treesitter")
-packadd_defer("nvim-treesitter-context")
-packadd_defer("nvim-treesitter-textobjects")
-
-packadd_defer("telescope")
-packadd_defer("toggleterm")
-packadd_defer("nvim-spectre")
-packadd_defer("oil")
+lazy("telescope")
+lazy("toggleterm")
+lazy("nvim-spectre")
+lazy("oil")
 
 local hooks = function()
   -- ensure all help tags are updated
