@@ -15,6 +15,7 @@ load("nvim-cmp")
 load("luasnip")
 load("cmp-luasnip")
 load("cmp-nvim-lsp")
+load("cmp-nvim-lsp-signature-help")
 load("cmp-buffer")
 load("cmp-cmdline")
 

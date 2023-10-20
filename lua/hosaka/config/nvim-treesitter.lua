@@ -1,3 +1,7 @@
+if vim.fn.exists("syntax_on") ~= 1 then
+  vim.cmd([[syntax enable]])
+end
+
 require("nvim-treesitter.configs").setup({
   ensure_installed = {
     "bash",
@@ -31,13 +35,13 @@ require("nvim-treesitter.configs").setup({
   incremental_selection = {
     enable = false,
     keymaps = {
-      init_selection = "<C-Space>",
-      node_incrementqal = "<C-Space>",
-      scope_incremental = false,
-      node_decremental = "<BS>",
+      init_selection = "gnn",
+      node_incrementqal = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
     },
   },
   indent = {
-    enable = true,
+    enable = false,
   },
 })

@@ -8,7 +8,6 @@ hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
-  -- { mode = "n", keys = "<Leader><Tab>", desc = "+Tabs" },
 }
 
 local nmap_leader = function(suffix, rhs, desc, opts)
@@ -96,7 +95,8 @@ nmap_leader("gu", [[<cmd>lua require("gitsigns").undo_stage_hunk()<cr>]], "Undo 
 nmap_leader("gq", [[<cmd>lua require("gitsigns").setqflist()<cr>:open<cr>]], "Quickfix hunks")
 
 -- o is for option
--- nmap_leader("oi", [[<cmd>lua vim.lsp.inlay_hint()<cr>]], "Toggle inlay hints")
+nmap_leader("ot", [[<cmd>lua vim.lsp.inlay_hint(0)<cr>]], "Toggle inlay hints")
+nmap_leader("oT", [[<cmd>TSContextToggle<cr>]], "Toggle context")
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")

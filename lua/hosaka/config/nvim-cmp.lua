@@ -5,6 +5,7 @@ vim.api.nvim_set_hl(0, "GhostText", { link = "Comment", default = true })
 cmp.setup({
   sources = {
     { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
     { name = "luasnip" },
   },
   {
@@ -28,6 +29,7 @@ cmp.setup({
     format = function(entry, item)
       local short_name = {
         nvim_lsp = "lsp",
+        nvim_lsp_signature_help = "lsp",
         nvim_lua = "nvim",
         luasnip = "snip",
       }
