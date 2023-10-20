@@ -113,11 +113,6 @@
 	url = https://github.com/nvim-lua/plenary.nvim
 	branch = master
 
-[submodule "telescope"]
-	path = pack/plugins/opt/telescope
-	url = https://github.com/nvim-telescope/telescope.nvim
-	branch = master
-
 [submodule "toggleterm"]
 	path = pack/plugins/opt/toggleterm
 	url = https://github.com/akinsho/toggleterm.nvim

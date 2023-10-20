@@ -39,20 +39,18 @@ add () {
 remove() {
   read -p "Remove $sm_path/$sm_name? (y/N)" answer
 
-  sm_path = "$sm_path/$sm_name"
-
   if [ "$answer" = "y" ]; then
     # unregister submodule
-    git submodule deinit -f "$sm_path"
+    git submodule deinit -f "$sm_path/$sm_name"
 
     # remove the submodule working tree
-    git rm --cached "$sm_path"
+    git rm --cached "$sm_path/$sm_name"
 
     # remove submodule from .gitmodules
     git config -f .gitmodules --remove-section "submodule.$sm_name"
 
     # remoev submodule directory
-    rm -r "$sm_path"
+    rm -r "$sm_path/$sm_name"
 
     # remove associated submodule directory in .git/modules
     git_dir=$(git rev-parse --git-dir)

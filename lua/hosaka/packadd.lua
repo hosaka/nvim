@@ -28,7 +28,6 @@ lazy("nvim-treesitter")
 lazy("nvim-treesitter-context")
 lazy("nvim-treesitter-refactor")
 
-lazy("telescope")
 lazy("toggleterm")
 lazy("nvim-spectre")
 lazy("oil")
