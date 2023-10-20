@@ -1,104 +1,130 @@
-[submodule "plenary"]
-	path = pack/plugins/opt/plenary
-	url = https://github.com/nvim-lua/plenary.nvim
-	branch = master
-[submodule "gitsigns"]
-	path = pack/plugins/opt/gitsigns
-	url = https://github.com/lewis6991/gitsigns.nvim
-	branch = main
-[submodule "telescope"]
-	path = pack/plugins/opt/telescope
-	url = https://github.com/nvim-telescope/telescope.nvim
-	branch = master
-[submodule "nvim-lspconfig"]
-	path = pack/plugins/opt/nvim-lspconfig
-	url = https://github.com/neovim/nvim-lspconfig
-	branch = master
-[submodule "nvim-treesitter"]
-	path = pack/plugins/opt/nvim-treesitter
-	url = https://github.com/nvim-treesitter/nvim-treesitter
-	branch = master
-[submodule "nvim-treesitter-textobjects"]
-	path = pack/plugins/opt/nvim-treesitter-textobjects
-	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	branch = master
-[submodule "nvim-web-devicons"]
-	path = pack/plugins/opt/nvim-web-devicons
-	url = https://github.com/nvim-tree/nvim-web-devicons
-	branch = master
-[submodule "mini"]
-	path = pack/plugins/opt/mini
-	url = https://github.com/echasnovski/mini.nvim
-	branch = main
-[submodule "luasnip"]
-	path = pack/plugins/opt/luasnip
-	url = https://github.com/L3MON4D3/LuaSnip
-	branch = master
-[submodule "nvim-treesitter-context"]
-	path = pack/plugins/opt/nvim-treesitter-context
-	url = https://github.com/nvim-treesitter/nvim-treesitter-context
-	branch = master
-[submodule "nvim-lint"]
-	path = pack/plugins/opt/nvim-lint
-	url = https://github.com/mfussenegger/nvim-lint
-	branch = master
-[submodule "conform"]
-	path = pack/plugins/opt/conform
-	url = https://github.com/stevearc/conform.nvim
-	branch = master
-[submodule "neogit"]
-	path = pack/plugins/opt/neogit
-	url = https://github.com/NeogitOrg/neogit
-	branch = master
-[submodule "diffview"]
-	path = pack/plugins/opt/diffview
-	url = https://github.com/sindrets/diffview.nvim
-	branch = main
-[submodule "dressing"]
-	path = pack/plugins/opt/dressing
-	url = https://github.com/stevearc/dressing.nvim
-	branch = master
-[submodule "nvim-spectre"]
-	path = pack/plugins/opt/nvim-spectre
-	url = https://github.com/nvim-pack/nvim-spectre
-	branch = master
-[submodule "nvim-cmp"]
-	path = pack/plugins/opt/nvim-cmp
-	url = https://github.com/hrsh7th/nvim-cmp
-	branch = main
-[submodule "cmp-nvim-lsp"]
-	path = pack/plugins/opt/cmp-nvim-lsp
-	url = https://github.com/hrsh7th/cmp-nvim-lsp
-	branch = main
-[submodule "cmp-buffer"]
-	path = pack/plugins/opt/cmp-buffer
-	url = https://github.com/hrsh7th/cmp-buffer
-	branch = main
-[submodule "cmp-cmdline"]
-	path = pack/plugins/opt/cmp-cmdline
-	url = https://github.com/hrsh7th/cmp-cmdline
-	branch = main
-[submodule "toggleterm"]
-	path = pack/plugins/opt/toggleterm
-	url = https://github.com/akinsho/toggleterm.nvim
-	branch = main
-[submodule "oil"]
-	path = pack/plugins/opt/oil
-	url = https://github.com/stevearc/oil.nvim
-	branch = master
 [submodule "aerial"]
 	path = pack/plugins/opt/aerial
 	url = https://github.com/stevearc/aerial.nvim
 	branch = master
-[submodule "mason"]
-	path = pack/plugins/opt/mason
-	url = https://github.com/williamboman/mason.nvim
+
+[submodule "cmp-buffer"]
+	path = pack/plugins/opt/cmp-buffer
+	url = https://github.com/hrsh7th/cmp-buffer
 	branch = main
-[submodule "mason-lspconfig"]
-	path = pack/plugins/opt/mason-lspconfig
-	url = https://github.com/williamboman/mason-lspconfig.nvim
+
+[submodule "cmp-cmdline"]
+	path = pack/plugins/opt/cmp-cmdline
+	url = https://github.com/hrsh7th/cmp-cmdline
 	branch = main
+
 [submodule "cmp-luasnip"]
 	path = pack/plugins/opt/cmp-luasnip
 	url = https://github.com/saadparwaiz1/cmp_luasnip
 	branch = master
+
+[submodule "cmp-nvim-lsp"]
+	path = pack/plugins/opt/cmp-nvim-lsp
+	url = https://github.com/hrsh7th/cmp-nvim-lsp
+	branch = main
+
+[submodule "conform"]
+	path = pack/plugins/opt/conform
+	url = https://github.com/stevearc/conform.nvim
+	branch = master
+
+[submodule "diffview"]
+	path = pack/plugins/opt/diffview
+	url = https://github.com/sindrets/diffview.nvim
+	branch = main
+
+[submodule "dressing"]
+	path = pack/plugins/opt/dressing
+	url = https://github.com/stevearc/dressing.nvim
+	branch = master
+
+[submodule "gitsigns"]
+	path = pack/plugins/opt/gitsigns
+	url = https://github.com/lewis6991/gitsigns.nvim
+	branch = main
+
+[submodule "luasnip"]
+	path = pack/plugins/opt/luasnip
+	url = https://github.com/L3MON4D3/LuaSnip
+	branch = master
+
+[submodule "mason"]
+	path = pack/plugins/opt/mason
+	url = https://github.com/williamboman/mason.nvim
+	branch = main
+
+[submodule "mason-lspconfig"]
+	path = pack/plugins/opt/mason-lspconfig
+	url = https://github.com/williamboman/mason-lspconfig.nvim
+	branch = main
+
+[submodule "mini"]
+	path = pack/plugins/opt/mini
+	url = https://github.com/echasnovski/mini.nvim
+	branch = main
+
+[submodule "neogit"]
+	path = pack/plugins/opt/neogit
+	url = https://github.com/NeogitOrg/neogit
+	branch = master
+
+[submodule "nvim-cmp"]
+	path = pack/plugins/opt/nvim-cmp
+	url = https://github.com/hrsh7th/nvim-cmp
+	branch = main
+
+[submodule "nvim-lint"]
+	path = pack/plugins/opt/nvim-lint
+	url = https://github.com/mfussenegger/nvim-lint
+	branch = master
+
+[submodule "nvim-lspconfig"]
+	path = pack/plugins/opt/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig
+	branch = master
+
+[submodule "nvim-spectre"]
+	path = pack/plugins/opt/nvim-spectre
+	url = https://github.com/nvim-pack/nvim-spectre
+	branch = master
+
+[submodule "nvim-treesitter"]
+	path = pack/plugins/opt/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter
+	branch = master
+
+[submodule "nvim-treesitter-context"]
+	path = pack/plugins/opt/nvim-treesitter-context
+	url = https://github.com/nvim-treesitter/nvim-treesitter-context
+	branch = master
+
+[submodule "nvim-treesitter-textobjects"]
+	path = pack/plugins/opt/nvim-treesitter-textobjects
+	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+	branch = master
+
+[submodule "nvim-web-devicons"]
+	path = pack/plugins/opt/nvim-web-devicons
+	url = https://github.com/nvim-tree/nvim-web-devicons
+	branch = master
+
+[submodule "oil"]
+	path = pack/plugins/opt/oil
+	url = https://github.com/stevearc/oil.nvim
+	branch = master
+
+[submodule "plenary"]
+	path = pack/plugins/opt/plenary
+	url = https://github.com/nvim-lua/plenary.nvim
+	branch = master
+
+[submodule "telescope"]
+	path = pack/plugins/opt/telescope
+	url = https://github.com/nvim-telescope/telescope.nvim
+	branch = master
+
+[submodule "toggleterm"]
+	path = pack/plugins/opt/toggleterm
+	url = https://github.com/akinsho/toggleterm.nvim
+	branch = main
+

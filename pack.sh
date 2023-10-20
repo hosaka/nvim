@@ -38,20 +38,20 @@ add () {
 
 remove() {
   # unregister submodule
-  git submodule deinit -f "$sm_path"
+  git submodule deinit -f "$sm_path/$sm_name"
 
   # remove the submodule working tree
-  git rm --cached "$sm_path"
+  git rm --cached "$sm_path/$sm_name"
 
   # remove submodule from .gitmodules
   git config -f .gitmodules --remove-section "submodule.$sm_name"
 
   # remoev submodule directory
-  rm -r $sm_path
+  rm -r "$sm_path/$sm_name"
 
   # remove associated submodule directory in .git/modules
   git_dir=$(git rev-parse --git-dir)
-  rm -rf $git_dir/modules/$sm_path
+  rm -rf "$git_dir/modules/$sm_path/$sm_name"
 
   git add pack/
   exit $?
