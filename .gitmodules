@@ -118,7 +118,3 @@
 	url = https://github.com/akinsho/toggleterm.nvim
 	branch = main
 
-[submodule "nvim-treesitter-refactor"]
-	path = pack/plugins/opt/nvim-treesitter-refactor
-	url = https://github.com/nvim-treesitter/nvim-treesitter-refactor
-	branch = master

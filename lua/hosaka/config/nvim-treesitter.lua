@@ -30,34 +30,14 @@ require("nvim-treesitter.configs").setup({
   },
   incremental_selection = {
     enable = false,
+    keymaps = {
+      init_selection = "<C-Space>",
+      node_incrementqal = "<C-Space>",
+      scope_incremental = false,
+      node_decremental = "<BS>",
+    },
   },
   indent = {
-    enable = false,
-  },
-  -- nvim-treesitter-refactor
-  refactor = {
-    highlight_definitions = {
-      enabled = true,
-      clear_on_cursor_move = true,
-    },
-    highlight_current_scope = {
-      enabled = true,
-    },
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "grr",
-      },
-    },
-    navigation = {
-      enable = false,
-      keymaps = {
-        goto_definition = "gnd",
-        list_definitions = "gnD",
-        list_definitions_toc = "gnD",
-        goto_next_usage = "<a-*>",
-        goto_previous_usage = "<a-#>",
-      },
-    },
+    enable = true,
   },
 })
