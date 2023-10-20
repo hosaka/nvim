@@ -98,3 +98,7 @@
 	path = pack/plugins/opt/mason-lspconfig
 	url = https://github.com/williamboman/mason-lspconfig.nvim
 	branch = main
+[submodule "cmp-luasnip"]
+	path = pack/plugins/opt/cmp-luasnip
+	url = https://github.com/saadparwaiz1/cmp_luasnip
+	branch = master

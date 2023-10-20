@@ -1,15 +1,4 @@
 local lspconfig = require("lspconfig")
-local lsp_defaults = lspconfig.util.default_config
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(event)
-    local opts = { buffer = event.buf }
-    vim.notify("Lsp Attached")
-    -- vim.keymap.set("n", "K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], opts)
-    -- vim.keymap.set("n", "gd", [[<cmd>lua vim.lsp.buf.definition()<cr>]], opts)
-    -- vim.keymap.set("n", "gD", [[<cmd>lua vim.lsp.buf.declaration()<cr>]], opts)
-  end,
-})
 
 vim.diagnostic.config({
   float = {
@@ -21,13 +10,25 @@ vim.diagnostic.config({
   update_in_insert = false,
 })
 
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   callback = function(event)
+--     local opts = { buffer = event.buf }
+--     vim.notify("Lsp Attached")
+--   end,
+-- })
+
+-- default attach for all lsp servers
 local default_on_attach = function(client, buffer)
-  vim.api.nvim_buf_set_option(buffer, "omnifunc", "v:lua.MiniCompletion.completefunc_lsp")
+  vim.notify("Lsp Attached")
 end
 
+-- default setup for all lsp servers
 local default_setup = function(server)
-  require("lspconfig")[server].setup({})
+  lspconfig[server].setup({})
 end
+
+-- default capabilities (lsp completion)
+local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("mason").setup({
   -- prefer existing binaries over the ones installed by mason
@@ -50,8 +51,9 @@ require("mason-lspconfig").setup({
       require("lspconfig").lua_ls.setup({
         on_attach = function(client, buffer)
           default_on_attach(client, buffer)
-          -- lua_ls specific extras go here
+          -- lsp specific extras go here
         end,
+        capabilities = default_capabilities,
         settings = {
           Lua = {
             hint = {

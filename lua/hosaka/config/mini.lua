@@ -132,18 +132,17 @@ vim.schedule(function()
 
   require("mini.comment").setup()
 
-  local minicomplete = require("mini.completion")
-  minicomplete.setup({
-    lsp_completion = {
-      source_func = "omnifunc",
-      -- auto_setup = true,
-    },
-    window = {
-      info = { border = "single" },
-      signature = { border = "single" },
-    },
-  })
-
+  -- local minicomplete = require("mini.completion")
+  -- minicomplete.setup({
+  --   -- lsp_completion = {
+  --   --   source_func = "omnifunc",
+  --   -- },
+  --   window = {
+  --     info = { border = "single" },
+  --     signature = { border = "single" },
+  --   },
+  -- })
+  --
   require("mini.cursorword").setup()
 
   local hipatterns = require("mini.hipatterns")
