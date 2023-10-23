@@ -30,6 +30,10 @@ require("nvim-treesitter.configs").setup({
     "vimdoc",
     "yaml",
   },
+  -- nvim-ts-autotag
+  autotag = {
+    enable = true,
+  },
   highlight = {
     enable = true,
     disable = { "vimdoc" },

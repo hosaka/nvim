@@ -27,6 +27,7 @@ lazy("conform")
 
 lazy("nvim-treesitter")
 lazy("nvim-treesitter-context")
+lazy("nvim-ts-autotag")
 
 lazy("oil")
 lazy("nvim-spectre")

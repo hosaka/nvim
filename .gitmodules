@@ -130,3 +130,7 @@
 	path = pack/plugins/opt/notifier
 	url = https://github.com/vigoux/notifier.nvim
 	branch = master
+[submodule "nvim-ts-autotag"]
+	path = pack/plugins/opt/nvim-ts-autotag
+	url = https://github.com/windwp/nvim-ts-autotag
+	branch = main
