@@ -267,7 +267,7 @@ require("mason-lspconfig").setup({
     end,
 
     -- tailwind
-    tilwindcss = function()
+    tailwindcss = function()
       require("lspconfig").tailwindcss.setup({
         on_attach = function(client, buffer)
           default_on_attach(client, buffer)
