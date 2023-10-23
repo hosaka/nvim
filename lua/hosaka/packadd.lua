@@ -32,6 +32,7 @@ lazy("oil")
 lazy("nvim-spectre")
 lazy("schemastore")
 lazy("toggleterm")
+lazy("notifier")
 
 local hooks = function()
   -- ensure all help tags are updated
