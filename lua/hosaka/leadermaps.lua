@@ -55,7 +55,6 @@ nmap_leader("cq", [[<cmd>copen<cr>]], "Quickfix list")
 -- e is for edit
 nmap_leader("en", [[<cmd>enew<cr>]], "New file")
 nmap_leader("ew", [[<cmd>write<cr>]], "Write file")
-nmap_leader("er", [[<cmd>lua require("spectre").open()<cr>]], "Replace in files")
 nmap_leader("ed", [[<cmd>lua require("oil").toggle_float()<cr>]], "Directory")
 
 -- f is for find
@@ -67,11 +66,12 @@ nmap_leader("fg", [[<cmd>Pick grep_live<cr>]], "Grep live")
 nmap_leader("fG", [[<cmd>Pick grep pattern="<cword>"<cr>]], "Grep word")
 nmap_leader("fc", [[<cmd>Pick git_commits choose_type="show_patch"<cr>]], "Commits")
 nmap_leader("fC", [[<cmd>Pick git_commits path="%" choose_type="show_patch"<cr>]], "Buffer commits")
+nmap_leader("fr", [[<cmd>lua require("spectre").open()<cr>]], "Replace in files")
 
 nmap_leader("ff", [[<cmd>Pick files<cr>]], "Files")
 nmap_leader("<Space>", [[<cmd>Pick files<cr>]], "Files")
 nmap_leader("fh", [[<cmd>Pick help<cr>]], "Help")
-nmap_leader("fr", [[<cmd>Pick resume<cr>]], "Resume")
+nmap_leader("fR", [[<cmd>Pick resume<cr>]], "Resume")
 nmap_leader("fo", [[<cmd>Pick options<cr>]], "Option")
 
 nmap_leader("fd", [[<cmd>Pick diagnostic scope="all"<cr>]], "Diagnostic workspace")

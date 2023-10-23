@@ -290,6 +290,15 @@ require("mason-lspconfig").setup({
               },
             })
           end, { buffer = buffer, desc = "Organize imports" })
+          vim.keymap.set("n", "<Leader>cu", function()
+            vim.lsp.buf.code_action({
+              apply = true,
+              context = {
+                only = { "source.removeUnused.ts" },
+                diagnostics = {},
+              },
+            })
+          end, { buffer = buffer, desc = "Remove unused imports" })
         end,
         capabilities = default_capabilities,
         settings = {
