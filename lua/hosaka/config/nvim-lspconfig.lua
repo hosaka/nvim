@@ -19,7 +19,7 @@ vim.diagnostic.config({
 
 -- default attach for all lsp servers
 local default_on_attach = function(client, buffer)
-  vim.notify("Lsp Attached")
+  -- vim.notify("Lsp Attached")
 end
 
 -- default setup for all lsp servers
@@ -47,7 +47,6 @@ require("mason-lspconfig").setup({
       local runtime_path = vim.split(package.path, ";")
       table.insert(runtime_path, "lua/?.lua")
       table.insert(runtime_path, "lua/?/init.lua")
-
       require("lspconfig").lua_ls.setup({
         on_attach = function(client, buffer)
           default_on_attach(client, buffer)
@@ -67,18 +66,269 @@ require("mason-lspconfig").setup({
               path = runtime_path,
             },
             diagnostics = {
-              -- Get the language server to recognize the `vim` global
+              -- common globals
               globals = { "vim" },
+              -- disables workspace diagnostics
+              workspaceDelay = -1,
             },
             workspace = {
               checkThirdParty = false,
               ignoreSubmodules = true,
               library = {
-                -- Make the server aware of Neovim runtime files
+                -- make the server aware of Neovim runtime files
                 vim.fn.expand("$VIMRUNTIME/lua"),
                 vim.fn.stdpath("config") .. "/lua",
               },
             },
+          },
+        },
+      })
+    end,
+
+    -- json
+    jsonls = function()
+      require("lspconfig").jsonls.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+        end,
+        on_new_config = function(config)
+          -- lazy load schemastore when needed
+          config.settings.json.schemas = config.settings.json.schemas or {}
+          vim.list_extend(config.settings.json.schemas, require("schemastore").json.schemas())
+        end,
+        capabilities = {
+          default_capabilities,
+          textDocument = {
+            foldingRange = {
+              dynamicRegistration = false,
+              lineFoldingOnly = true,
+            },
+          },
+        },
+        settings = {
+          json = {
+            format = { enable = true },
+            validate = { enable = true },
+          },
+        },
+      })
+    end,
+
+    -- yaml
+    yamlls = function()
+      require("lspconfig").yamlls.setup({
+        -- TODO: this doesn't run on lsp attach for some reason
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+
+          if vim.fn.has("nvim-0.10") == 0 then
+            client.server_capabilities.documentFormattingProvider = true
+          end
+        end,
+        on_new_config = function(config)
+          -- lazy load schemastore when needed
+          config.settings.yaml.schemas =
+            vim.tbl_deep_extend("force", config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
+        end,
+        capabilities = default_capabilities,
+        settings = {
+          yaml = {
+            format = { enable = true },
+            keyOrdering = false,
+            schemaStore = { enable = false, url = "", validate = true },
+          },
+          redhat = { telemetry = { enabled = false } },
+        },
+      })
+    end,
+
+    -- toml
+    taplo = function()
+      require("lspconfig").taplo.setup({
+        on_attach = function(client, buffer) end,
+        capabilities = default_capabilities,
+      })
+    end,
+
+    --docker
+    dockerls = function()
+      require("lspconfig").dockerls.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+        end,
+        capabilities = default_capabilities,
+      })
+    end,
+
+    -- python
+    pyright = function()
+      require("lspconfig").pyright.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+        end,
+        capabilities = default_capabilities,
+      })
+    end,
+    ruff_lsp = function()
+      require("lspconfig").ruff_lsp.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+
+          -- disable hover in favor of pyright
+          client.server_capabilities.hoverProvide = false
+
+          vim.keymap.set("n", "<Leader>co", function()
+            vim.lsp.buf.code_action({
+              apply = true,
+              context = {
+                only = { "source.organizeImports" },
+                diagnostics = {},
+              },
+            })
+          end, { buffer = buffer, desc = "Organize imports" })
+        end,
+        capabilities = default_capabilities,
+      })
+    end,
+
+    --golang
+    gopls = function()
+      require("lspconfig").gopls.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+
+          -- workaround for gopls not supporting semanticTokensProvider
+          -- see https://github.com/golang/go/issues/54531#issuecomment-1464982242
+          if not client.server_capabilities.semanticTokensProvider then
+            local semantic = client.config.capabilities.textDocument.semanticTokens
+            client.server_capabilities.semanticTokensProvider = {
+              full = true,
+              legend = {
+                tokenTypes = semantic.tokenTypes,
+                tokenModifiers = semantic.tokenModifiers,
+              },
+              range = true,
+            }
+          end
+        end,
+        capabilities = default_capabilities,
+        settings = {
+          gopls = {
+            gofumpt = true,
+            analyses = {
+              fieldalignment = true,
+              nilness = true,
+              unusedparams = true,
+              unusedwrite = true,
+              useany = true,
+            },
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
+            directoryFilters = { "-.git", "-.node_modules", "-.vscode", "-.idea" },
+            semanticTokens = true,
+            staticcheck = true,
+            usePlaceholders = true,
+          },
+        },
+      })
+    end,
+
+    -- rust
+    rust_analyzer = function()
+      require("lspconfig").rust_analyzer.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+        end,
+        capabilities = default_capabilities,
+        settings = {
+          cargo = {
+            features = "all",
+          },
+          check = {
+            command = "clippy",
+            extraArgs = { "--no-deps" },
+          },
+          procMacro = {
+            ignored = {
+              ["async-trait"] = { "async_trait" },
+              ["napi-derive"] = { "napi" },
+              ["async-recursion"] = { "async_recursion" },
+            },
+          },
+        },
+      })
+    end,
+
+    -- tailwind
+    tilwindcss = function()
+      require("lspconfig").tailwindcss.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+        end,
+        capabilities = default_capabilities,
+      })
+    end,
+
+    -- javascript/typescript
+    tsserver = function()
+      require("lspconfig").tsserver.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+          vim.keymap.set("n", "<Leader>co", function()
+            vim.lsp.buf.code_action({
+              apply = true,
+              context = {
+                only = { "source.organizeImports.ts" },
+                diagnostics = {},
+              },
+            })
+          end, { buffer = buffer, desc = "Organize imports" })
+        end,
+        capabilities = default_capabilities,
+        settings = {
+          typescript = {
+            format = {
+              indentSize = vim.o.shiftwidth,
+              convertTabsToSpace = vim.o.expandtab,
+              tabSize = vim.o.tabstop,
+            },
+            inlayHints = {
+              includeInlayEnumMemberValueHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+            },
+          },
+          javascript = {
+            format = {
+              indentSize = vim.o.shiftwidth,
+              convertTabsToSpace = vim.o.expandtab,
+              tabSize = vim.o.tabstop,
+            },
+            inlayHints = {
+              includeInlayEnumMemberValueHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+            },
+          },
+          completions = {
+            completeFunctionCalls = true,
           },
         },
       })

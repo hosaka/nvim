@@ -122,3 +122,7 @@
 	path = pack/plugins/opt/cmp-nvim-lsp-signature-help
 	url = https://github.com/hrsh7th/cmp-nvim-lsp-signature-help
 	branch = main
+[submodule "schemastore"]
+	path = pack/plugins/opt/schemastore
+	url = https://github.com/b0o/SchemaStore.nvim
+	branch = main

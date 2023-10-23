@@ -1,10 +1,22 @@
 require("conform").setup({
   format_on_save = {
-    timeout_ms = 1000,
+    timeout_ms = 500,
     lsp_fallback = true,
   },
   formatters_by_ft = {
     lua = { "stylua" },
+    python = { "isort", "black" },
+    go = { "goimports" },
+    dockerfile = { "hadolint" },
+    javascript = { "prettier" },
+    typescript = { "prettier" },
+    css = { "prettier" },
+    html = { "prettier" },
+    json = { "prettier" },
+    yaml = { "prettier" },
+    markdown = { "prettier" },
+    graphql = { "prettier" },
+    handlebars = { "prettier" },
   },
   -- custom formatters
   formatters = {

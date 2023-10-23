@@ -28,9 +28,10 @@ lazy("conform")
 lazy("nvim-treesitter")
 lazy("nvim-treesitter-context")
 
-lazy("toggleterm")
-lazy("nvim-spectre")
 lazy("oil")
+lazy("nvim-spectre")
+lazy("schemastore")
+lazy("toggleterm")
 
 local hooks = function()
   -- ensure all help tags are updated
