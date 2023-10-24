@@ -1,31 +1,31 @@
 require("conform").setup({
   format_on_save = {
-    timeout_ms = 500,
+    async = true,
+    timeout_ms = 10000,
     lsp_fallback = true,
   },
   formatters_by_ft = {
-    lua = { "stylua" },
-    python = { "isort", "black" },
-    go = { "goimports" },
-    dockerfile = { "hadolint" },
-    javascript = { "prettier" },
-    typescript = { "prettier" },
     css = { "prettier" },
-    html = { "prettier" },
-    json = { "prettier" },
-    yaml = { "prettier" },
-    markdown = { "prettier" },
+    dockerfile = { "hadolint" },
+    go = { "goimports" },
     graphql = { "prettier" },
     handlebars = { "prettier" },
+    html = { "prettier" },
+    javascript = { "prettier" },
+    json = { "prettier" },
+    lua = { "stylua" },
+    markdown = { "prettier" },
+    python = { "isort", "black" },
+    sh = { "shfmt" },
+    typescript = { "prettier" },
+    yaml = { "prettier" },
   },
   -- custom formatters
   formatters = {
-    -- dprint = {
-    --   condition = function (ctx)
-    --     return vim.fs.find({"dprint.json"}, { path = ctx.filename, upward = true})[1]
-    --   end
-    -- }
+    shfmt = {
+      prepend_args = { "-i", "2" },
+    },
   },
 })
 
-vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
