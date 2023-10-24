@@ -87,6 +87,7 @@
 	path = pack/plugins/opt/nvim-spectre
 	url = https://github.com/nvim-pack/nvim-spectre
 	branch = master
+	ignore = dirty
 
 [submodule "nvim-treesitter"]
 	path = pack/plugins/opt/nvim-treesitter
@@ -117,6 +118,7 @@
 	path = pack/plugins/opt/toggleterm
 	url = https://github.com/akinsho/toggleterm.nvim
 	branch = main
+	ignore = untracked
 
 [submodule "cmp-nvim-lsp-signature-help"]
 	path = pack/plugins/opt/cmp-nvim-lsp-signature-help
