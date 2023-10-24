@@ -164,6 +164,8 @@ vim.schedule(function()
     },
   })
 
+  require("mini.jump").setup()
+
   require("mini.jump2d").setup({
     view = {
       dim = true,
@@ -197,7 +199,6 @@ vim.schedule(function()
   local minipick = require("mini.pick")
   minipick.setup()
   vim.ui.select = minipick.ui_select
-  -- vim.keymap.set("i", ",", [[<cmd>pick buf_lines scope='current'<cr>]], { nowait = true })
 
   require("mini.surround").setup({
     search_method = "cover_or_next",

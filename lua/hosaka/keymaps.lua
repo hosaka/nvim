@@ -34,12 +34,12 @@ map("s", [[<BS>]], [[<BS>i]])
 
 -- terminal navigation
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal Mode" })
--- map("t", "jk", "<C-\\><C-n>", { desc = "Normal Mode" })
 map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to Left Window" })
 map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to Lower Window" })
 map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to Upper Window" })
 map("t", "<C-l>", [[<cmd>wincmd l<cr>]], { desc = "Go to Right Window" })
 map("t", "<C-w>", "<C-\\><C-n><C-w>", { desc = "Normal Mode Window" })
 
--- jump
+-- faster navigation
+-- map("n", ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
 map({ "n", "x", "o" }, "<CR>", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
