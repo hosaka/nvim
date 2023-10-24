@@ -76,7 +76,7 @@ require("mason-lspconfig").setup({
             },
             workspace = {
               checkThirdParty = false,
-              -- ignoreSubmodules = false,
+              ignoreSubmodules = false,
               ignoreDir = { "./misc" },
               library = {
                 -- make the server aware of neovim runtime files

@@ -56,8 +56,9 @@ nmap_leader("cq", [[<cmd>copen<cr>]], "Quickfix list")
 
 -- e is for edit
 nmap_leader("en", [[<cmd>enew<cr>]], "New file")
-nmap_leader("ew", [[<cmd>write<cr>]], "Write file")
 nmap_leader("ed", [[<cmd>lua require("oil").toggle_float()<cr>]], "Directory")
+nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
+-- nmap_leader("ew", [[<cmd>lua MiniSessions.wrter()<cr>]], "Write session")
 
 -- f is for find
 nmap_leader("f/", [[<cmd>Pick history scope="/"<cr>]], "/ history")
@@ -98,7 +99,8 @@ nmap_leader("gq", [[<cmd>lua require("gitsigns").setqflist()<cr>:open<cr>]], "Qu
 
 -- o is for option
 nmap_leader("ot", [[<cmd>lua vim.lsp.inlay_hint(0)<cr>]], "Toggle inlay hints")
-nmap_leader("oT", [[<cmd>TSContextToggle<cr>]], "Toggle context")
+nmap_leader("oT", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")
+nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
