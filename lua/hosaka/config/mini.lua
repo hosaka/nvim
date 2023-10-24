@@ -2,13 +2,17 @@ vim.cmd("colorscheme randomhue")
 
 require("mini.sessions").setup({ directory = vim.fn.stdpath("config") .. "/misc/sessions" })
 
-require("mini.starter").setup()
+require("mini.starter").setup({
+  footer = "",
+})
 
 local ministatus = require("mini.statusline")
 ministatus.setup({
   content = {
     active = function()
       local mode, mode_hl = ministatus.section_mode({ trunc_width = 120 })
+      local spell = vim.wo.spell and (ministatus.is_truncated(120) and "S" or "SPELL") or ""
+      local wrap = vim.wo.wrap and (ministatus.is_truncated(120) and "W" or "WRAP") or ""
       local git = ministatus.section_git({ trunc_width = 75 })
       local diagnostics = ministatus.section_diagnostics({ trunc_width = 75 })
       local filename = ministatus.section_filename({ trunc_width = 140 })
@@ -17,7 +21,7 @@ ministatus.setup({
       local location = ministatus.section_location({ trunc_width = 75 })
 
       return ministatus.combine_groups({
-        { hl = mode_hl, strings = { mode } },
+        { hl = mode_hl, strings = { mode, spell, wrap } },
         { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
         "%<", -- truncate point
         { hl = "MiniStatuslineFilename", strings = { filename } },
@@ -35,12 +39,12 @@ vim.schedule(function()
   local ai = require("mini.ai")
   ai.setup({
     custom_textobjects = {
-      o = ai.gen_spec.treesitter({
+      O = ai.gen_spec.treesitter({
         a = { "@block.outer", "@conditional.outer", "@loop.outer" },
         i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-      }, {}),
-      f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-      c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+      }),
+      F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+      C = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
       t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
     },
   })
@@ -51,15 +55,11 @@ vim.schedule(function()
     options = {
       -- manage options manually
       basic = false,
-      -- extra_ui = true,
     },
     mappings = {
       windows = true,
       move_with_alt = true,
       option_toggle_prefix = "<Leader>o",
-    },
-    autocommands = {
-      -- relnum_in_visual_mode = true,
     },
   })
 
@@ -164,12 +164,16 @@ vim.schedule(function()
     },
   })
 
-  -- TODO: would sitll prefer folke/flash
-  -- require("mini.jump2d").setup({
-  --   view = {
-  --     dim = true,
-  --   },
-  -- })
+  require("mini.jump2d").setup({
+    view = {
+      dim = true,
+      n_steps_ahead = 2,
+    },
+    mappings = {
+      -- see keymaps.lua
+      start_jumping = "",
+    },
+  })
 
   local minimisc = require("mini.misc")
   minimisc.setup({
@@ -193,7 +197,7 @@ vim.schedule(function()
   local minipick = require("mini.pick")
   minipick.setup()
   vim.ui.select = minipick.ui_select
-  -- vim.keymap.set("i", ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
+  -- vim.keymap.set("i", ",", [[<cmd>pick buf_lines scope='current'<cr>]], { nowait = true })
 
   require("mini.surround").setup({
     search_method = "cover_or_next",

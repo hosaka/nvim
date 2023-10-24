@@ -1,3 +1,4 @@
+-- enable syntax highlight if it wasn't already (as it is time consuming)
 if vim.fn.exists("syntax_on") ~= 1 then
   vim.cmd([[syntax enable]])
 end

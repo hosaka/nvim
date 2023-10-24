@@ -26,8 +26,8 @@ opt.laststatus = 2 -- Always show statusline
 opt.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
 opt.list = true -- Show whitespaces
 opt.number = true -- Show line numbers
-opt.pumblend = 10 -- Popup blend
-opt.pumheight = 10 -- Maximum number of entries in a popup
+opt.pumblend = 10 -- Popup transparency
+opt.pumheight = 10 -- Popup max number of entries
 opt.relativenumber = true -- Relative line numbers
 opt.ruler = false -- Don't show curor position
 opt.scrolloff = 4 -- Lines to keep above and below the cursor
@@ -39,17 +39,35 @@ opt.splitbelow = true -- Put new windows below current
 opt.splitright = true -- Put new windows right of current
 opt.termguicolors = true -- Enable gui colors
 opt.virtualedit = "block" -- Allow cursor to move to virtual space in visual block mode
-opt.winblend = 10 -- Floating window blend
+opt.winblend = 10 -- Floating windows transparency
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 
+vim.o.fillchars = table.concat({
+  "eob: ",
+  "fold:╌",
+  "horiz:═",
+  "horizdown:╦",
+  "horizup:╩",
+  "vert:║",
+  "verthoriz:╬",
+  "vertleft:╣",
+  "vertright:╠",
+}, ",")
+vim.o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",")
+
 if vim.fn.has("nvim-0.9") == 1 then
   opt.splitkeep = "screen" -- Reduce scroll during window split
-  opt.shortmess:append("C") -- Don't show "Scanning..." messages
+  opt.shortmess:append("C") -- Don't show Scanning... messages
 end
 
 if vim.fn.has("nvim-0.10") == 1 then
   opt.smoothscroll = true
+end
+
+-- enable syntax highlight if it wasn't already (as it is time consuming)
+if vim.fn.exists("syntax_on") ~= 1 then
+  vim.cmd([[syntax enable]])
 end
 
 vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
@@ -73,6 +91,8 @@ opt.smartindent = true -- Insert indents automatically
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = "block" -- Allow going past the end line in visual block mode
+
+opt.iskeyword:append("-") -- Treat dash separated words as text objects
 
 -- Pattern for a start of 'numbered' list.
 -- At least one special character (0-9, -, +, *) optionally followed by some
