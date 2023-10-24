@@ -35,6 +35,7 @@ lazy("nvim-spectre")
 lazy("schemastore")
 lazy("toggleterm")
 lazy("notifier")
+lazy("indent-blankline")
 
 local hooks = function()
   vim.cmd([[colorscheme tokyonight-moon]])

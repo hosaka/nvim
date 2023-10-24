@@ -140,3 +140,8 @@
 	path = pack/plugins/opt/tokyonight
 	url = https://github.com/folke/tokyonight.nvim
 	branch = main
+[submodule "indent-blankline"]
+	path = pack/plugins/opt/indent-blankline
+	url = https://github.com/lukas-reineke/indent-blankline.nvim
+	branch = master
+	ignore = untracked
