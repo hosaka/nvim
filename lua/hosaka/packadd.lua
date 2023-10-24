@@ -2,6 +2,7 @@ local load = hosaka.load
 local lazy = hosaka.lazy
 
 load("mini")
+lazy("tokyonight")
 
 load("plenary")
 load("nvim-web-devicons")
@@ -36,6 +37,8 @@ lazy("toggleterm")
 lazy("notifier")
 
 local hooks = function()
+  vim.cmd([[colorscheme tokyonight-moon]])
+
   -- ensure all help tags are updated
   vim.cmd("helptags ALL")
 

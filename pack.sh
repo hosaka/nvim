@@ -5,7 +5,7 @@
 PACK=$(realpath -s "$0")
 PACK_PATH=$(dirname "$SCRIPT")
 
-read -r -d '' USAGE << EOF
+read -r -d '' USAGE <<EOF
 Usage: $0 [add|remove|update]
 
 Commands:
@@ -25,7 +25,7 @@ sm_branch=""
 sm_url=""
 sm_path="pack/plugins/opt"
 
-add () {
+add() {
   read -p "Add $sm_name from $sm_url on branch $sm_branch to $sm_path/$sm_name? (y/N): " answer
 
   if [ "$answer" = "y" ]; then
@@ -37,6 +37,7 @@ add () {
 }
 
 remove() {
+
   read -p "Remove $sm_path/$sm_name? (y/N)" answer
 
   if [ "$answer" = "y" ]; then
@@ -117,62 +118,60 @@ eval set -- "$options"
 
 while [ "$1" != "" ]; do
   case "$1" in
-    --name)
-      shift
-      sm_name="$1"
-      ;;
-    --branch)
-      shift
-      sm_branch="$1"
-      ;;
-    --url)
-      shift
-      sm_url="$1"
-      ;;
-    --path)
-      shift
-      sm_path="$1"
-      ;;
-    --)
-      shift
-      break
-      ;;
-    *)
-      usage
-      exit 1
-      ;;
+  --name)
+    shift
+    sm_name="$1"
+    ;;
+  --branch)
+    shift
+    sm_branch="$1"
+    ;;
+  --url)
+    shift
+    sm_url="$1"
+    ;;
+  --path)
+    shift
+    sm_path="$1"
+    ;;
+  --)
+    shift
+    break
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
   esac
   shift
 done
 
 case "$1" in
-  "add")
-    if [ -z "$sm_name" ] || [ -z "$sm_url" ] || [ -z "$sm_branch" ]; then
-      echo "Missing required arguments for 'add'"
-      usage
-      exit 1
-    fi
-    add
-    ;;
-  "remove")
-    if [ -z "$sm_name" ]; then
-      echo "Missing required arguments for 'remove'"
-      usage
-      exit 1
-    fi
-    remove
-    ;;
-  "update")
-    update
-    ;;
-  "prompt")
-    prompt
-    ;;
-  *)
-    echo "Invalid command: $1" >&2
+"add")
+  if [ -z "$sm_name" ] || [ -z "$sm_url" ] || [ -z "$sm_branch" ]; then
+    echo "Missing required arguments for 'add'"
     usage
     exit 1
-    ;;
+  fi
+  add
+  ;;
+"remove")
+  if [ -z "$sm_name" ]; then
+    echo "Missing required arguments for 'remove'"
+    usage
+    exit 1
+  fi
+  remove
+  ;;
+"update")
+  update
+  ;;
+"prompt")
+  prompt
+  ;;
+*)
+  echo "Invalid command: $1" >&2
+  usage
+  exit 1
+  ;;
 esac
-
-

@@ -1,4 +1,4 @@
-vim.cmd("colorscheme randomhue")
+--vim.cmd([[colorscheme randomhue]])
 
 require("mini.sessions").setup({ directory = vim.fn.stdpath("config") .. "/misc/sessions" })
 

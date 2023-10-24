@@ -136,3 +136,7 @@
 	path = pack/plugins/opt/nvim-ts-autotag
 	url = https://github.com/windwp/nvim-ts-autotag
 	branch = main
+[submodule "tokyonight"]
+	path = pack/plugins/opt/tokyonight
+	url = https://github.com/folke/tokyonight.nvim
+	branch = main
