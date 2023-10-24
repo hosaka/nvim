@@ -38,11 +38,13 @@ nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout
 nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
 
 -- c is for code
-nmap_leader("ci", [[<cmd>lua vim.lsp.buf.hover()<cr>]], "Info popup")
-nmap_leader("ca", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Argument popup")
-nmap_leader("cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "References")
+nmap_leader("ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup")
+xmap_leader("ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup")
 nmap_leader("cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename")
+nmap_leader("cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "References")
 nmap_leader("cs", [[<cmd>lua vim.lsp.buf.definition()<cr>]], "Source definition")
+nmap_leader("ct", [[<cmd>lua vim.lsp.buf.type_definition()<cr>]], "Type definition")
+
 nmap_leader("cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format")
 xmap_leader("cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format selection")
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")

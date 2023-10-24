@@ -19,7 +19,10 @@ vim.diagnostic.config({
 
 -- default attach for all lsp servers
 local default_on_attach = function(client, buffer)
-  -- vim.notify("Lsp Attached")
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buffer, desc = "Lsp hover" })
+  vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = buffer, desc = "Lsp signature help" })
+  vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = buffer, desc = "Lsp signature help" })
+  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "Lsp implementation" })
 end
 
 -- default setup for all lsp servers
@@ -73,9 +76,10 @@ require("mason-lspconfig").setup({
             },
             workspace = {
               checkThirdParty = false,
-              ignoreSubmodules = true,
+              -- ignoreSubmodules = false,
+              ignoreDir = { "./misc" },
               library = {
-                -- make the server aware of Neovim runtime files
+                -- make the server aware of neovim runtime files
                 vim.fn.expand("$VIMRUNTIME/lua"),
                 vim.fn.stdpath("config") .. "/lua",
               },
