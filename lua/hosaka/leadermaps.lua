@@ -8,18 +8,27 @@ hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
+
+  { mode = "x", keys = "<Leader>c", desc = "+Code" },
+  { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
+
+  -- FIXME: doesn't work for some reason
+  -- { mode = "n", keys = "gc", desc = "+Comment" },
+  -- { mode = "n", keys = "gs", desc = "+Surround" },
 }
 
-local nmap_leader = function(suffix, rhs, desc, opts)
+local map_leader = function(mode, suffix, rhs, desc, opts)
   opts = opts or {}
   opts.desc = desc
-  vim.keymap.set("n", "<Leader>" .. suffix, rhs, opts)
+  vim.keymap.set(mode, "<Leader>" .. suffix, rhs, opts)
+end
+
+local nmap_leader = function(suffix, rhs, desc, opts)
+  map_leader("n", suffix, rhs, desc, opts)
 end
 
 local xmap_leader = function(suffix, rhs, desc, opts)
-  opts = opts or {}
-  opts.desc = desc
-  vim.keymap.set("x", "<Leader>" .. suffix, rhs, opts)
+  map_leader("x", suffix, rhs, desc, opts)
 end
 
 -- tabs
@@ -38,19 +47,11 @@ nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout
 nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
 
 -- c is for code
-nmap_leader("ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup")
-xmap_leader("ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup")
-nmap_leader("cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename")
-nmap_leader("cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "References")
-nmap_leader("cs", [[<cmd>lua vim.lsp.buf.definition()<cr>]], "Source definition")
-nmap_leader("ct", [[<cmd>lua vim.lsp.buf.type_definition()<cr>]], "Type definition")
-
-nmap_leader("cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format")
-xmap_leader("cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format selection")
+-- NOTE: a number of keymaps are set when an LSP is attached to a buffer
+-- see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
 nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
 nmap_leader("ck", [[<cmd>lua vim.diagnostic.goto_prev()<cr>]], "Prev diagnostic")
-
 nmap_leader("cl", [[<cmd>lopen<cr>]], "Location list")
 nmap_leader("cq", [[<cmd>copen<cr>]], "Quickfix list")
 
@@ -98,8 +99,7 @@ nmap_leader("gu", [[<cmd>lua require("gitsigns").undo_stage_hunk()<cr>]], "Undo 
 nmap_leader("gq", [[<cmd>lua require("gitsigns").setqflist()<cr>:open<cr>]], "Quickfix hunks")
 
 -- o is for option
-nmap_leader("ot", [[<cmd>lua vim.lsp.inlay_hint(0)<cr>]], "Toggle inlay hints")
-nmap_leader("oT", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")
+nmap_leader("ot", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 
 -- q is for quit
@@ -107,9 +107,10 @@ nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
 nmap_leader("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
 
 -- t is for terminal
-nmap_leader("tt", [[<cmd>ToggleTerm<cr>]], "Terminal")
-nmap_leader("tf", [[<cmd>ToggleTerm direction=float<cr>]], "Terminal Float")
-nmap_leader("th", [[<cmd>ToggleTerm size=10 direction=horizontal<cr>]], "Terminal Horizontal")
-nmap_leader("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], "Terminal Vertical")
-nmap_leader("ts", [[<cmd>TermSelect<cr>]], "Terminal Select")
-nmap_leader("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], "Terminal Send Line")
+nmap_leader("tt", [[<cmd>ToggleTerm<cr>]], "Terminal toggle")
+nmap_leader("tf", [[<cmd>ToggleTerm direction=float<cr>]], "Terminal float")
+nmap_leader("th", [[<cmd>ToggleTerm size=10 direction=horizontal<cr>]], "Terminal horizontal")
+nmap_leader("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], "Terminal vertical")
+nmap_leader("ts", [[<cmd>TermSelect<cr>]], "Terminal select")
+nmap_leader("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], "Terminal send line")
+xmap_leader("tl", [[<cmd>ToggleTermSendVisualSelection<cr><esc>]], "Terminal send selection")

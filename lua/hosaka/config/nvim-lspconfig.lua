@@ -1,5 +1,3 @@
-local lspconfig = require("lspconfig")
-
 vim.diagnostic.config({
   float = {
     border = "single",
@@ -19,19 +17,58 @@ vim.diagnostic.config({
 
 -- default attach for all lsp servers
 local default_on_attach = function(client, buffer)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buffer, desc = "Lsp hover" })
-  vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = buffer, desc = "Lsp signature help" })
-  vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = buffer, desc = "Lsp signature help" })
-  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = buffer, desc = "Lsp implementation" })
-end
+  local map = function(mode, lhs, rhs, desc, has)
+    -- skips the keymap if lsp method is not supported
+    if has ~= nil then
+      if not client.supports_method(has) then
+        return
+      end
+    end
 
--- default setup for all lsp servers
-local default_setup = function(server)
-  lspconfig[server].setup({})
+    local opts = {}
+    opts.desc = desc
+    opts.buffer = buffer
+
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+
+  local mapl = function(mode, suffix, rhs, desc, has)
+    map(mode, "<Leader>" .. suffix, rhs, desc, has)
+  end
+
+  map("n", "K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], "Hover popup")
+  map("n", "gd", [[<cmd>lua vim.lsp.buf.definition()<cr>]], "Go to definition", "textDocument/definition")
+  map("n", "gD", [[<cmd>lua vim.lsp.buf.declaration()<cr>]], "Go to declaration", "textDocument/declaration")
+  map("n", "gI", [[<cmd>lua vim.lsp.buf.implementation()<cr>]], "Go to implementation", "textDocument/implementation")
+  map("n", "gY", [[<cmd>lua vim.lsp.buf.type_definition()<cr>]], "Go to type definition", "textDocument/typeDefinition")
+  map("n", "gK", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
+  map("i", "<C-k>", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
+
+  mapl("n", "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
+  mapl("x", "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
+  mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
+  mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
+  -- TODO: format should trigger conform.nvim and fallback to LSP
+  mapl("n", "cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format buffer")
+  mapl("x", "cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format selection")
+
+  if vim.lsp.inlay_hint then
+    mapl("n", "ch", function()
+      vim.lsp.inlay_hint(buffer)
+    end, "Toggle inlay hints", "textDocument/inlayHint")
+  end
 end
 
 -- default capabilities (lsp completion)
 local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+-- default setup for all lsp servers
+local default_setup = function(server)
+  require("lspconfig")[server].setup({
+    on_attach = default_on_attach,
+    capabilities = default_capabilities,
+  })
+end
 
 require("mason").setup({
   -- prefer existing binaries over the ones installed by mason
