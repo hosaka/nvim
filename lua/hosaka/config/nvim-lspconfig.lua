@@ -88,10 +88,19 @@ require("mason-lspconfig").setup({
       table.insert(runtime_path, "lua/?.lua")
       table.insert(runtime_path, "lua/?/init.lua")
       require("lspconfig").lua_ls.setup({
-        on_attach = function(client, buffer)
-          default_on_attach(client, buffer)
-          -- lsp specific extras go here
-        end,
+        handlers = {
+          -- don't open quickfix list in case of multiple definitions
+          -- luals treats `local x = function()` a two definitions of `x`
+          ["textDocument/definition"] = function(_, result, ctx, _)
+            if result == nil or vim.tbl_isempty(result) then
+              return nil
+            end
+            local client = vim.lsp.get_client_by_id(ctx.client_id)
+            local res = vim.tbl_islist(result) and result[1] or result
+            vim.lsp.util.jump_to_location(res, client.offset_encoding)
+          end,
+        },
+        on_attach = default_on_attach,
         capabilities = default_capabilities,
         settings = {
           Lua = {
@@ -129,9 +138,7 @@ require("mason-lspconfig").setup({
     -- json
     jsonls = function()
       require("lspconfig").jsonls.setup({
-        on_attach = function(client, buffer)
-          default_on_attach(client, buffer)
-        end,
+        on_attach = default_on_attach,
         on_new_config = function(config)
           -- lazy load schemastore when needed
           config.settings.json.schemas = config.settings.json.schemas or {}
@@ -186,7 +193,7 @@ require("mason-lspconfig").setup({
     -- toml
     taplo = function()
       require("lspconfig").taplo.setup({
-        on_attach = function(client, buffer) end,
+        on_attach = default_on_attach,
         capabilities = default_capabilities,
       })
     end,
@@ -194,9 +201,7 @@ require("mason-lspconfig").setup({
     --docker
     dockerls = function()
       require("lspconfig").dockerls.setup({
-        on_attach = function(client, buffer)
-          default_on_attach(client, buffer)
-        end,
+        on_attach = default_on_attach,
         capabilities = default_capabilities,
       })
     end,
@@ -204,9 +209,7 @@ require("mason-lspconfig").setup({
     -- python
     pyright = function()
       require("lspconfig").pyright.setup({
-        on_attach = function(client, buffer)
-          default_on_attach(client, buffer)
-        end,
+        on_attach = default_on_attach,
         capabilities = default_capabilities,
       })
     end,
@@ -286,6 +289,9 @@ require("mason-lspconfig").setup({
       require("lspconfig").rust_analyzer.setup({
         on_attach = function(client, buffer)
           default_on_attach(client, buffer)
+          -- local rt = require("rust-tools")
+          -- vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = buffer, desc = "Hover popup" })
+          -- vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = buffer, desc = "Action popup" })
         end,
         capabilities = default_capabilities,
         settings = {
@@ -310,9 +316,7 @@ require("mason-lspconfig").setup({
     -- tailwind
     tailwindcss = function()
       require("lspconfig").tailwindcss.setup({
-        on_attach = function(client, buffer)
-          default_on_attach(client, buffer)
-        end,
+        on_attach = default_on_attach,
         capabilities = default_capabilities,
       })
     end,
