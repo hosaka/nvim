@@ -42,4 +42,4 @@ map("t", "<C-w>", "<C-\\><C-n><C-w>", { desc = "Normal Mode Window" })
 
 -- faster navigation
 -- map("n", ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
-map({ "n", "x", "o" }, "<CR>", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
+map({ "n", "x", "o" }, "s", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])

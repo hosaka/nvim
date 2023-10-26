@@ -195,7 +195,7 @@ vim.schedule(function()
     modes = {
       insert = true,
       command = true,
-      terminal = true,
+      terminal = false,
     },
   })
 
@@ -205,6 +205,15 @@ vim.schedule(function()
 
   require("mini.surround").setup({
     search_method = "cover_or_next",
+    mappings = {
+      add = "gsa",
+      delete = "gsd",
+      find = "gsf",
+      find_left = "gsF",
+      highlight = "gsh",
+      replace = "gsr",
+      update_n_lines = "gsn",
+    },
   })
 
   require("mini.trailspace").setup()
