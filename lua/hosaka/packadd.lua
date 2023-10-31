@@ -20,6 +20,8 @@ load("cmp-nvim-lsp-signature-help")
 load("cmp-buffer")
 load("cmp-cmdline")
 
+lazy("rust-tools")
+
 lazy("mason")
 lazy("mason-lspconfig")
 lazy("nvim-lspconfig")

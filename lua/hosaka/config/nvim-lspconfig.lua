@@ -286,27 +286,37 @@ require("mason-lspconfig").setup({
 
     -- rust
     rust_analyzer = function()
-      require("lspconfig").rust_analyzer.setup({
-        on_attach = function(client, buffer)
-          default_on_attach(client, buffer)
-          -- local rt = require("rust-tools")
-          -- vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = buffer, desc = "Hover popup" })
-          -- vim.keymap.set("n", "<Leader>ca", rt.code_action_group.code_action_group, { buffer = buffer, desc = "Action popup" })
-        end,
-        capabilities = default_capabilities,
-        settings = {
-          cargo = {
-            features = "all",
-          },
-          check = {
-            command = "clippy",
-            extraArgs = { "--no-deps" },
-          },
-          procMacro = {
-            ignored = {
-              ["async-trait"] = { "async_trait" },
-              ["napi-derive"] = { "napi" },
-              ["async-recursion"] = { "async_recursion" },
+      require("rust-tools").setup({
+        tools = {
+          inlay_hints = { auto = false },
+        },
+        server = {
+          on_attach = function(client, buffer)
+            default_on_attach(client, buffer)
+            local rt = require("rust-tools")
+            vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = buffer, desc = "Hover popup" })
+            vim.keymap.set(
+              "n",
+              "<Leader>ca",
+              rt.code_action_group.code_action_group,
+              { buffer = buffer, desc = "Action popup" }
+            )
+          end,
+          capabilities = default_capabilities,
+          settings = {
+            cargo = {
+              features = "all",
+            },
+            check = {
+              command = "clippy",
+              extraArgs = { "--no-deps" },
+            },
+            procMacro = {
+              ignored = {
+                ["async-trait"] = { "async_trait" },
+                ["napi-derive"] = { "napi" },
+                ["async-recursion"] = { "async_recursion" },
+              },
             },
           },
         },
