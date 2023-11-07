@@ -176,7 +176,7 @@ require("mason-lspconfig").setup({
         on_new_config = function(config)
           -- lazy load schemastore when needed
           config.settings.yaml.schemas =
-            vim.tbl_deep_extend("force", config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
+              vim.tbl_deep_extend("force", config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
         end,
         capabilities = default_capabilities,
         settings = {
