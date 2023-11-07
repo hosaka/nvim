@@ -24,14 +24,11 @@ end
 
 hosaka.now(function() packadd("mini") end)
 
-packadd("plenary")
 packadd("nvim-web-devicons")
 
+packadd_later("plenary")
 packadd_later("tokyonight")
 packadd_later("dressing")
-packadd_later("gitsigns")
-packadd_later("diffview")
-packadd_later("neogit")
 
 packadd("nvim-cmp")
 packadd("luasnip")
@@ -41,7 +38,9 @@ packadd("cmp-nvim-lsp-signature-help")
 packadd("cmp-buffer")
 packadd("cmp-cmdline")
 
+
 packadd_later("rust-tools")
+packadd_later("schemastore")
 
 packadd_later("mason")
 packadd_later("mason-lspconfig")
@@ -54,8 +53,10 @@ packadd_later("nvim-treesitter-context")
 packadd_later("nvim-ts-autotag")
 
 packadd_later("oil")
+packadd_later("gitsigns")
+packadd_later("diffview")
+packadd_later("neogit")
 packadd_later("nvim-spectre")
-packadd_later("schemastore")
 packadd_later("toggleterm")
 packadd_later("notifier")
 packadd_later("indent-blankline")
