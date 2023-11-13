@@ -17,7 +17,7 @@ end
 -- This reduces time before a fully functional start screen is shown. Use this
 -- for plugins that are not directly related to startup process.
 --
--- @param plugin String with name of plugin as subdirectory in 'pack'
+-- @param plugin String with name of plugin as subdirectory in 'pack/plugins/opt/'
 local packadd_later = function(plugin)
   hosaka.later(function() packadd(plugin) end)
 end
@@ -37,7 +37,6 @@ packadd("cmp-nvim-lsp")
 packadd("cmp-nvim-lsp-signature-help")
 packadd("cmp-buffer")
 packadd("cmp-cmdline")
-
 
 packadd_later("rust-tools")
 packadd_later("schemastore")
