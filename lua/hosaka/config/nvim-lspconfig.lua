@@ -90,14 +90,10 @@ require("mason-lspconfig").setup({
       require("lspconfig").lua_ls.setup({
         handlers = {
           -- don't open quickfix list in case of multiple definitions
-          -- luals treats `local x = function()` a two definitions of `x`
-          ["textDocument/definition"] = function(_, result, ctx, _)
-            if result == nil or vim.tbl_isempty(result) then
-              return nil
-            end
-            local client = vim.lsp.get_client_by_id(ctx.client_id)
-            local res = vim.tbl_islist(result) and result[1] or result
-            vim.lsp.util.jump_to_location(res, client.offset_encoding)
+          -- luals treats `local x = function()` as two definitions of `x`
+          ["textDocument/definition"] = function(err, result, ctx, config)
+            if type(result) == 'table' then result { result[1] } end
+            vim.lsp.handlers['textDocument/definition'](err, result, ctx, config)
           end,
         },
         on_attach = default_on_attach,
