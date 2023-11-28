@@ -1,7 +1,5 @@
 require("lint").linters_by_ft = {
   sh = { "shellcheck" },
-  javascript = { "eslint" },
-  typescript = { "eslint" },
 }
 
 local debounce = function(ms, fn)

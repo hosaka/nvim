@@ -328,6 +328,17 @@ require("mason-lspconfig").setup({
     end,
 
     -- javascript/typescript
+    eslint = function()
+      require("lspconfig").eslint.setup({
+        on_attach = default_on_attach,
+        capabilities = default_capabilities,
+        settings = {
+          workingDirectories = {
+            mode = "auto"
+          }
+        }
+      })
+    end,
     tsserver = function()
       require("lspconfig").tsserver.setup({
         on_attach = function(client, buffer)
