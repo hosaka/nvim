@@ -5,6 +5,7 @@ hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>e", desc = "+Edit" },
   { mode = "n", keys = "<Leader>f", desc = "+Find" },
   { mode = "n", keys = "<Leader>g", desc = "+Git" },
+  { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
@@ -47,7 +48,6 @@ nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout
 nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
 
 -- c is for code
--- NOTE: a number of keymaps are set when an LSP is attached to a buffer
 -- see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
 nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
@@ -104,15 +104,6 @@ nmap_leader("gg", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
 nmap_leader("gG", [[<cmd>lua hosaka.toggle_lazygit()<cr>]], "Lazygit")
 nmap_leader("gc", [[<cmd>lua require('neogit').open({'commit'})<cr>]], "Commit")
 nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
-
-nmap_leader("ga", [[<cmd>lua require("gitsigns").stage_hunk()<cr>]], "Add hunk")
-nmap_leader("gA", [[<cmd>lua require("gitsigns").stage_buffer()<cr>]], "Add buffer")
-nmap_leader("gb", [[<cmd>lua require("gitsigns").blame_line()<cr>]], "Blame line")
-nmap_leader("gp", [[<cmd>lua require("gitsigns").preview_hunk()<cr>]], "Preview hunk")
-nmap_leader("gr", [[<cmd>lua require("gitsigns").reset_hunk()<cr>]], "Reset hunk")
-nmap_leader("gR", [[<cmd>lua require("gitsigns").reset_buffer()<cr>]], "Reset buffer")
-nmap_leader("gu", [[<cmd>lua require("gitsigns").undo_stage_hunk()<cr>]], "Undo add hunk")
-nmap_leader("gq", [[<cmd>lua require("gitsigns").setqflist()<cr>:open<cr>]], "Quickfix hunks")
 
 -- o is for option
 nmap_leader("ot", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")
