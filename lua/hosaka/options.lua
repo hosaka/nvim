@@ -5,14 +5,18 @@ vim.g.maplocalleader = "\\"
 local opt = vim.opt
 
 -- General
-opt.autowrite = true                                                                              -- Enable auto write
-opt.backup = false                                                                                -- Don't store backups
-opt.mouse = "a"                                                                                   -- Enable mouse
-opt.switchbuf = "usetab"                                                                          -- Use already opened buffers when switching
-opt.writebackup = false                                                                           -- Don't store backups
-opt.confirm = true                                                                                -- Confirm to save changes before exiting modified buffer
-opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } -- Defines what needs to be saved in a session
-opt.wildmode = "longest:full,full"                                                                -- Command-line completion mode
+opt.autowrite = true    -- Enable auto write
+opt.backup = false      -- Don't store backups
+opt.mouse = "a"         -- Enable mouse
+opt.switchbuf =
+"usetab"                -- Use already opened buffers when switching
+opt.writebackup = false -- Don't store backups
+opt.confirm = true      -- Confirm to save changes before exiting modified buffer
+opt.wildmode =
+"longest:full,full"     -- Command-line completion mode
+
+-- Defines what needs to be saved in a session
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
 
 -- Undo
 opt.undodir = vim.fn.stdpath("config") .. "/misc/undodir" -- Persistent undo dir
@@ -119,13 +123,6 @@ end
 if vim.treesitter.foldtext then
   opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 end
-
--- Don't auto-wrap comments and don't insert comment leader after hitting 'o'.
--- This needs a FileType autocmd to persist.
-vim.cmd([[augroup CustomSettings]])
-vim.cmd([[autocmd!]])
-vim.cmd([[autocmd FileType * setlocal formatoptions-=c formatoptions-=o]])
-vim.cmd([[augroup END]])
 
 -- Clipboard
 if vim.fn.has("wsl") then

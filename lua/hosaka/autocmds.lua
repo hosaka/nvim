@@ -39,3 +39,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- don't auto wrap comments and don't insert comment leader after 'o'
+-- this needs a FileType autocmd to persist
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("no_auto_comment"),
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "c", "o" })
+  end,
+})
