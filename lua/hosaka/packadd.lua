@@ -59,6 +59,7 @@ packadd_later("nvim-spectre")
 packadd_later("toggleterm")
 packadd_later("notifier")
 packadd_later("indent-blankline")
+packadd_later("oatmeal")
 
 local hooks = function()
   vim.cmd([[colorscheme tokyonight-moon]])

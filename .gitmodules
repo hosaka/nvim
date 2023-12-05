@@ -149,3 +149,7 @@
 	path = pack/plugins/opt/rust-tools
 	url = https://github.com/simrat39/rust-tools.nvim
 	branch = master
+[submodule "oatmeal"]
+	path = pack/plugins/opt/oatmeal
+	url = https://github.com/dustinblackman/oatmeal.nvim.git
+	branch = master
