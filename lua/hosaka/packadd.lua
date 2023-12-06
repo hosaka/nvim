@@ -26,7 +26,6 @@ hosaka.now(function() packadd("mini") end)
 
 packadd("nvim-web-devicons")
 
-packadd_later("plenary")
 packadd_later("tokyonight")
 packadd_later("dressing")
 
@@ -55,7 +54,6 @@ packadd_later("oil")
 packadd_later("gitsigns")
 packadd_later("diffview")
 packadd_later("neogit")
-packadd_later("nvim-spectre")
 packadd_later("toggleterm")
 packadd_later("notifier")
 packadd_later("indent-blankline")

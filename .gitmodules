@@ -83,12 +83,6 @@
 	url = https://github.com/neovim/nvim-lspconfig
 	branch = master
 
-[submodule "nvim-spectre"]
-	path = pack/plugins/opt/nvim-spectre
-	url = https://github.com/nvim-pack/nvim-spectre
-	branch = master
-	ignore = dirty
-
 [submodule "nvim-treesitter"]
 	path = pack/plugins/opt/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter
