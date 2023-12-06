@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # get realpath to this bash script
-
-PACK=$(realpath -s "$0")
-PACK_PATH=$(dirname "$SCRIPT")
+# PACK=$(realpath -s "$0")
+# PACK_PATH=$(dirname "$SCRIPT")
 
 read -r -d '' USAGE <<EOF
 Usage: $0 [add|remove|update]
+
+Options:
+-h,--help - Print this message and quit
 
 Commands:
 add --name <name> --url <url> --branch <branch>
@@ -15,10 +17,8 @@ update\n
 EOF
 
 usage() {
-  printf "$USAGE"
+  printf "%s" "$USAGE"
 }
-
-command=""
 
 sm_name=""
 sm_branch=""
@@ -50,13 +50,14 @@ remove() {
     # remove submodule from .gitmodules
     git config -f .gitmodules --remove-section "submodule.$sm_name"
 
-    # remoev submodule directory
-    rm -r "$sm_path/$sm_name"
+    # remove submodule directory
+    rm -r "$sm_path:?/$sm_name:?"
 
     # remove associated submodule directory in .git/modules
     git_dir=$(git rev-parse --git-dir)
     rm -rf "$git_dir/modules/$sm_name"
 
+    git add .gitmodules
     git add pack/
   fi
 
@@ -65,7 +66,7 @@ remove() {
 
 update() {
   procs=$(nproc)
-  git fetch --recurse-submodules --jobs=$procs
+  git fetch --recurse-submodules --jobs="$procs"
 
   # recursive call to update()
   git submodule --quiet foreach '$toplevel/pack.sh prompt'
@@ -84,14 +85,14 @@ prompt() {
   # abspath="$(git rev-parse --show-toplevel)"
 
   branch="$(git rev-parse --abbrev-ref --symbolic-full-name @{u})"
-  num_changes="$(git rev-list --count HEAD..$branch)"
+  num_changes="$(git rev-list --count HEAD.."$branch")"
   current_sha1="$(git rev-parse --short HEAD)"
-  upstream_sha1="$(git rev-parse --short $branch)"
+  upstream_sha1="$(git rev-parse --short "$branch")"
 
-  if [ $num_changes -ne 0 ]; then
+  if [ "$num_changes" -ne 0 ]; then
     echo "Changes in $name (tracking branch: $branch):"
 
-    git log --oneline --no-merges --date=relative --pretty='%C(auto)%h %C(auto)%s %C(dim)(%ad)' HEAD..$branch
+    git log --oneline --no-merges --date=relative --pretty='%C(auto)%h %C(auto)%s %C(dim)(%ad)' HEAD.."$branch"
 
     read -p "Do you want to update $name with $num_changes changes? (y/N): " answer
 
@@ -108,10 +109,10 @@ prompt() {
   exit $?
 }
 
-options=$(getopt -o "" --long "name:,branch:,url:,path:" -n "$0" -- "$@")
+options=$(getopt -o "b:,u:,p:,h" --long "name:,branch:,url:,path:,help" -n "$0" -- "$@")
 
 if [ $? -ne 0 ]; then
-  usage
+  exit 1
 fi
 
 eval set -- "$options"
@@ -133,6 +134,10 @@ while [ "$1" != "" ]; do
   --path)
     shift
     sm_path="$1"
+    ;;
+  --hep)
+    usage
+    exit 0
     ;;
   --)
     shift
