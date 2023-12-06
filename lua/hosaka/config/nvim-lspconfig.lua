@@ -48,9 +48,10 @@ local default_on_attach = function(client, buffer)
   mapl("x", "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
   mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
   mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
-  -- TODO: format should trigger conform.nvim and fallback to LSP
-  mapl("n", "cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format buffer")
-  mapl("x", "cf", [[<cmd>lua vim.lsp.buf.format()<cr><esc>]], "Format selection")
+
+  local format_cmd = [[<cmd>lua require("conform").format({ lsp_fallback = true })<cr>]]
+  mapl("n", "cf", format_cmd, "Format buffer")
+  mapl("x", "cf", format_cmd, "Format selection")
 
   if vim.lsp.inlay_hint then
     mapl("n", "ch", function()
