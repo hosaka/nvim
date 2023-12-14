@@ -24,6 +24,7 @@ end
 
 hosaka.now(function() packadd("mini") end)
 
+packadd("plenary")
 packadd("nvim-web-devicons")
 
 packadd_later("tokyonight")
