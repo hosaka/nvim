@@ -57,8 +57,9 @@ nmap_leader("cq", [[<cmd>copen<cr>]], "Quickfix list")
 
 -- e is for edit
 nmap_leader("en", [[<cmd>enew<cr>]], "New file")
-nmap_leader("ed", [[<cmd>lua require("oil").toggle_float()<cr>]], "Directory")
-nmap_leader("er", [[<cmd>lua require("spectre").open()<cr>]], "Replace in files")
+nmap_leader("ed", [[<cmd>lua MiniFiles.open()<cr>]], "Directory")
+nmap_leader("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], "File directory")
+-- nmap_leader("ed", [[<cmd>lua require("oil").toggle_float()<cr>]], "Directory")
 nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
 nmap_leader("ew", function()
   vim.ui.input({ prompt = "Session name:" }, function(input)

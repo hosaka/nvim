@@ -37,13 +37,13 @@ now(function()
         local location = ministatus.section_location({ trunc_width = 75 })
 
         return ministatus.combine_groups({
-          { hl = mode_hl,                 strings = { mode, spell, wrap } },
+          { hl = mode_hl, strings = { mode, spell, wrap } },
           { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
           "%<", -- truncate point
           { hl = "MiniStatuslineFilename", strings = { filename } },
           "%=", -- left alignment
           { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
-          { hl = mode_hl,                  strings = { searchcount, location } },
+          { hl = mode_hl, strings = { searchcount, location } },
         })
       end,
     },
@@ -52,7 +52,7 @@ end)
 
 now(function()
   require("mini.tabline").setup({
-    tabpage_section = "right"
+    tabpage_section = "right",
   })
 end)
 
@@ -189,14 +189,71 @@ later(function()
 end)
 
 later(function()
+  -- defaults
+  local show_dotfiles = false
+
+  local content_filter = function(fs_entry)
+    local show = true
+    if not show_dotfiles then
+      show = not vim.startswith(fs_entry.name, ".")
+    end
+    return show
+  end
+
+  local toggle_dotfiles = function()
+    show_dotfiles = not show_dotfiles
+    MiniFiles.refresh({
+      content = { filter = content_filter },
+    })
+  end
+
+  local map_split = function(buf_id, lhs, direction)
+    local rhs = function()
+      local new_target_window
+      vim.api.nvim_win_call(MiniFiles.get_target_window(), function()
+        vim.cmd("belowright " .. direction)
+        new_target_window = vim.api.nvim_get_current_win()
+      end)
+
+      -- setting window as a target keeps mini.files open
+      MiniFiles.set_target_window(new_target_window)
+    end
+
+    local desc = "Open in " .. direction
+    vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
+  end
+
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesBufferCreate",
+    callback = function(args)
+      local buf_id = args.data.buf_id
+      -- adding `desc` will show keymaps in the help popup (g.)
+      vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
+      map_split(buf_id, "<C-s>", "split")
+      map_split(buf_id, "<C-v>", "vsplit")
+    end,
+  })
+
+  require("mini.files").setup({
+    content = {
+      filter = content_filter,
+    },
+    windows = {
+      preview = true,
+      width_preview = 50,
+    },
+  })
+end)
+
+later(function()
   local hipatterns = require("mini.hipatterns")
   local hi_words = require("mini.extra").gen_highlighter.words
   hipatterns.setup({
     highlighters = {
-      fixme = hi_words({ "fixme", "fixme", "fixme" }, "minihipatternsfixme"),
-      hack = hi_words({ "hack", "hack", "hack" }, "minihipatternshack"),
-      todo = hi_words({ "todo", "todo", "todo" }, "minihipatternstodo"),
-      note = hi_words({ "note", "note", "note" }, "minihipatternsnote"),
+      fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "minihipatternsfixme"),
+      hack = hi_words({ "HACK", "Hack", "hack" }, "minihipatternshack"),
+      todo = hi_words({ "TODO", "Todo", "todo" }, "minihipatternstodo"),
+      note = hi_words({ "NOTE", "Note", "note" }, "minihipatternsnote"),
 
       hex_color = hipatterns.gen_highlighter.hex_color(),
     },

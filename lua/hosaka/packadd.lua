@@ -5,11 +5,11 @@ local packadd = function(plugin)
   -- order (see `:h load-plugins`). Use `packadd` otherwise to also force
   -- 'plugin' scripts to be executed right away.
   -- local command = vim.v.vim_did_enter == 1 and 'packadd' or 'packadd!'
-  local command = 'packadd'
+  local command = "packadd"
   vim.cmd(string.format([[%s %s]], command, plugin))
 
   -- Try execute its configuration
-  pcall(require, 'hosaka.config.' .. plugin)
+  pcall(require, "hosaka.config." .. plugin)
 end
 
 -- Defer plugin source right after Vim is loaded
@@ -19,10 +19,14 @@ end
 --
 -- @param plugin String with name of plugin as subdirectory in 'pack/plugins/opt/'
 local packadd_later = function(plugin)
-  hosaka.later(function() packadd(plugin) end)
+  hosaka.later(function()
+    packadd(plugin)
+  end)
 end
 
-hosaka.now(function() packadd("mini") end)
+hosaka.now(function()
+  packadd("mini")
+end)
 
 packadd("plenary")
 packadd("nvim-web-devicons")
@@ -51,7 +55,7 @@ packadd_later("nvim-treesitter")
 packadd_later("nvim-treesitter-context")
 packadd_later("nvim-ts-autotag")
 
-packadd_later("oil")
+-- packadd_later("oil")
 packadd_later("gitsigns")
 packadd_later("diffview")
 packadd_later("neogit")
