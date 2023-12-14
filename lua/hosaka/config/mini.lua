@@ -9,7 +9,14 @@ now(function()
 end)
 
 now(function()
-  require("mini.starter").setup({
+  local starter = require("mini.starter")
+  starter.setup({
+    items = {
+      starter.sections.sessions(),
+      starter.sections.recent_files(5, false, false),
+      starter.sections.pick(),
+      starter.sections.builtin_actions(),
+    },
     footer = "",
   })
 end)
