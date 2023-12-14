@@ -51,7 +51,9 @@ now(function()
 end)
 
 now(function()
-  require("mini.tabline").setup()
+  require("mini.tabline").setup({
+    tabpage_section = "right"
+  })
 end)
 
 -- delayed config
