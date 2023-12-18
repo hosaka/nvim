@@ -47,3 +47,12 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.formatoptions:remove({ "c", "o" })
   end,
 })
+
+-- change the border on MiniFiles buffers
+vim.api.nvim_create_autocmd("User", {
+  group = augroup("mini_files_border"),
+  pattern = "MiniFilesWindowOpen",
+  callback = function(args)
+    vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
+  end,
+})

@@ -45,6 +45,10 @@ cmp.setup({
       hl_group = "GhostText",
     },
   },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
 })
 
 cmp.setup.cmdline(":", {

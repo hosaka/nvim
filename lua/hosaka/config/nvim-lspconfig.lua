@@ -1,6 +1,6 @@
 vim.diagnostic.config({
   float = {
-    border = "single",
+    border = "rounded",
   },
   -- underline = false,
   severity_sort = true,
@@ -58,6 +58,13 @@ local default_on_attach = function(client, buffer)
       vim.lsp.inlay_hint(buffer)
     end, "Toggle inlay hints", "textDocument/inlayHint")
   end
+
+  local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or "rounded"
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  end
 end
 
 -- default capabilities (lsp completion)
@@ -74,6 +81,9 @@ end
 require("mason").setup({
   -- prefer existing binaries over the ones installed by mason
   -- PATH = "append",
+  ui = {
+    border = "rounded",
+  },
 })
 
 require("mason-lspconfig").setup({
@@ -93,8 +103,10 @@ require("mason-lspconfig").setup({
           -- don't open quickfix list in case of multiple definitions
           -- luals treats `local x = function()` as two definitions of `x`
           ["textDocument/definition"] = function(err, result, ctx, config)
-            if type(result) == 'table' then result { result[1] } end
-            vim.lsp.handlers['textDocument/definition'](err, result, ctx, config)
+            if type(result) == "table" then
+              result({ result[1] })
+            end
+            vim.lsp.handlers["textDocument/definition"](err, result, ctx, config)
           end,
         },
         on_attach = default_on_attach,
@@ -173,7 +185,7 @@ require("mason-lspconfig").setup({
         on_new_config = function(config)
           -- lazy load schemastore when needed
           config.settings.yaml.schemas =
-              vim.tbl_deep_extend("force", config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
+            vim.tbl_deep_extend("force", config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
         end,
         capabilities = default_capabilities,
         settings = {
@@ -335,9 +347,9 @@ require("mason-lspconfig").setup({
         capabilities = default_capabilities,
         settings = {
           workingDirectories = {
-            mode = "auto"
-          }
-        }
+            mode = "auto",
+          },
+        },
       })
     end,
     tsserver = function()
@@ -407,3 +419,5 @@ require("mason-lspconfig").setup({
     end,
   },
 })
+
+require("lspconfig.ui.windows").default_options.border = "rounded"

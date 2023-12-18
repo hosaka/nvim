@@ -108,6 +108,7 @@ later(function()
     window = {
       config = {
         width = "auto",
+        border = "rounded",
       },
       scroll_down = "<c-n>",
       scroll_up = "<c-p>",
