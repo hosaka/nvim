@@ -39,6 +39,8 @@ Use `pack.sh` script (essentially a wrapper over some git commands) to date pack
 - [ ] Keep quickfix in focus when navigating items, until closed with `q`
 - [ ] Try setting up [nvim-dap](https://github.com/mfussenegger/nvim-dap) for some LSPs
 - [ ] Make use of some opensource code assistance ([ollama](https://ollama.ai))
+- [ ] Get mini.pairs to work nicely with nvim-cmp, perhaps needs a <CR> remap
+- [ ] Replace tokyonight colorscheme with a base16 generated one
 
 ### Pack
 
