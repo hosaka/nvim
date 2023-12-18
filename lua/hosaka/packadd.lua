@@ -28,9 +28,7 @@ hosaka.now(function()
   packadd("mini")
 end)
 
-packadd("plenary")
 packadd("nvim-web-devicons")
-
 packadd_later("tokyonight")
 packadd_later("dressing")
 
@@ -55,7 +53,7 @@ packadd_later("nvim-treesitter")
 packadd_later("nvim-treesitter-context")
 packadd_later("nvim-ts-autotag")
 
--- packadd_later("oil")
+packadd_later("plenary")
 packadd_later("gitsigns")
 packadd_later("diffview")
 packadd_later("neogit")
@@ -68,10 +66,10 @@ local hooks = function()
   vim.cmd([[colorscheme tokyonight-moon]])
 
   -- ensure all help tags are updated
-  vim.cmd("helptags ALL")
+  vim.cmd([[helptags ALL]])
 
   -- update treesitter parsers
-  vim.cmd("silent TSUpdate")
+  vim.cmd([[silent TSUpdate]])
 end
 
 hosaka.later(hooks)

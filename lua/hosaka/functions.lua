@@ -6,7 +6,9 @@ local H = {}
 -- (strictly preserving order and not blocking in between).
 hosaka.now = function(f)
   local ok, err = pcall(f)
-  if not ok then table.insert(H.exec_errors, err) end
+  if not ok then
+    table.insert(H.exec_errors, err)
+  end
   H.schedule_finish()
 end
 
@@ -20,7 +22,9 @@ end
 H.finish_is_scheduled = false
 
 H.schedule_finish = function()
-  if H.finish_is_scheduled then return end
+  if H.finish_is_scheduled then
+    return
+  end
   vim.schedule(H.finish)
   H.finish_is_scheduled = true
 end
@@ -46,9 +50,11 @@ end
 H.exec_errors = {}
 
 H.report_errors = function()
-  if #H.exec_errors == 0 then return end
-  local msg = 'There were errors during startup:\n\n' .. table.concat(H.exec_errors, '\n\n')
-  vim.api.nvim_echo({ { msg, 'ErrorMsg' } }, true, {})
+  if #H.exec_errors == 0 then
+    return
+  end
+  local msg = "There were errors during startup:\n\n" .. table.concat(H.exec_errors, "\n\n")
+  vim.api.nvim_echo({ { msg, "ErrorMsg" } }, true, {})
 end
 
 hosaka.toggle_lazygit = function()
