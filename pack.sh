@@ -13,11 +13,11 @@ Options:
 Commands:
 add --name <name> --url <url> --branch <branch>
 remove --name <name>
-update\n
+update
 EOF
 
 usage() {
-  printf "%s" "$USAGE"
+  printf "%s\n" "$USAGE"
 }
 
 sm_name=""
