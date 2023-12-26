@@ -1,6 +1,6 @@
 local cmp = require("cmp")
 
-vim.api.nvim_set_hl(0, "GhostText", { link = "Comment", default = true })
+-- vim.api.nvim_set_hl(0, "GhostText", { link = "Comment", default = true })
 
 cmp.setup({
   sources = {
@@ -14,6 +14,27 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    -- select next item, expand a snippet or navigate to the next placeholder
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif require("luasnip").expand_or_jumpable() then
+        require("luasnip").expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    -- select previous item, or navigate to the previous placeholder
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif require("luasnip").jumpable(-1) then
+        require("luasnip").jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<C-Space>"] = cmp.mapping.complete(),
   }),
   snippet = {
     expand = function(args)
@@ -40,15 +61,21 @@ cmp.setup({
     end,
   },
   experimental = {
-    -- NOTE: set this to false if using copilot.lua
-    ghost_text = {
-      hl_group = "GhostText",
-    },
+    -- ghost_text = {
+    --   hl_group = "GhostText",
+    -- },
   },
   window = {
     completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
+})
+
+cmp.setup.cmdline("/", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "buffer" },
+  }),
 })
 
 cmp.setup.cmdline(":", {

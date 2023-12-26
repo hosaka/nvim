@@ -27,19 +27,19 @@ map("n", "<S-h>", [[<cmd>bprevious<cr>]], { desc = "Prev buffer" })
 map("n", "<S-l>", [[<cmd>bnext<cr>]], { desc = "Next buffer" })
 
 -- cancel search highlight
-map({ "i", "n" }, "<Esc>", [[<cmd>nohlsearch<cr><esc>]])
+map({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]])
 
 -- delete selection with backspace in select mode
 map("s", [[<BS>]], [[<BS>i]])
 
 -- terminal navigation
-map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal Mode" })
+map("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Normal Mode" })
+map("t", "<C-w>", [[<C-\><C-n><C-w>]], { desc = "Normal Mode Window" })
 map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to Left Window" })
 map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to Lower Window" })
 map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to Upper Window" })
 map("t", "<C-l>", [[<cmd>wincmd l<cr>]], { desc = "Go to Right Window" })
-map("t", "<C-w>", "<C-\\><C-n><C-w>", { desc = "Normal Mode Window" })
 
 -- faster navigation
--- map("n", ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
+map("n", ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
 map({ "n", "x", "o" }, "s", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
