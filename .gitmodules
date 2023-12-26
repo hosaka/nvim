@@ -98,11 +98,6 @@
 	url = https://github.com/nvim-tree/nvim-web-devicons
 	branch = master
 
-[submodule "oil"]
-	path = pack/plugins/opt/oil
-	url = https://github.com/stevearc/oil.nvim
-	branch = master
-
 [submodule "plenary"]
 	path = pack/plugins/opt/plenary
 	url = https://github.com/nvim-lua/plenary.nvim
