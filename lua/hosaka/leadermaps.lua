@@ -50,6 +50,7 @@ nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "
 -- c is for code
 -- see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
+nmap_leader("cD", [[<cmd>lua vim.diagnostic.setloclist()<cr>]], "Diagnostic list")
 nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
 nmap_leader("ck", [[<cmd>lua vim.diagnostic.goto_prev()<cr>]], "Prev diagnostic")
 nmap_leader("cl", [[<cmd>lopen<cr>]], "Location list")
