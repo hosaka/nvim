@@ -44,8 +44,7 @@ local default_on_attach = function(client, buffer)
   map("n", "gK", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
   map("i", "<C-k>", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
 
-  mapl("n", "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
-  mapl("x", "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
+  mapl({ "n", "x" }, "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
   mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
   mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
 
@@ -104,7 +103,7 @@ require("mason-lspconfig").setup({
           -- luals treats `local x = function()` as two definitions of `x`
           ["textDocument/definition"] = function(err, result, ctx, config)
             if type(result) == "table" then
-              result({ result[1] })
+              result = { result[1] }
             end
             vim.lsp.handlers["textDocument/definition"](err, result, ctx, config)
           end,
@@ -128,6 +127,8 @@ require("mason-lspconfig").setup({
               globals = { "vim" },
               -- disables workspace diagnostics
               workspaceDelay = -1,
+              -- noisy missing-fields warnings
+              disable = { "missing-fields" },
             },
             workspace = {
               checkThirdParty = false,

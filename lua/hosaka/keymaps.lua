@@ -15,8 +15,7 @@ local map = function(mode, key, cmd, opts)
 end
 
 -- disable s shortcut (use cl instead) in order to use mini.surround
-map("n", "s", [[<Nop>]])
-map("x", "s", [[<Nop>]])
+map({ "n", "x" }, "s", [[<Nop>]])
 
 -- paste above/below linewise
 map({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above" })
