@@ -35,6 +35,8 @@ cmp.setup({
       end
     end, { "i", "s" }),
     ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
   }),
   snippet = {
     expand = function(args)
