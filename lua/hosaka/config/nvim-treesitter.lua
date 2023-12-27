@@ -51,4 +51,36 @@ require("nvim-treesitter.configs").setup({
   indent = {
     enable = false,
   },
+  -- nvim-treesitter-textobjects
+  textobjects = {
+    select = {
+      enable = false,
+      lookahead = true,
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- updates jumplist (go back with C-o)
+      goto_next_start = {
+        ["]m"] = { query = "@function.outer", desc = "Function start forward" },
+      },
+      goto_next_end = {
+        ["]M"] = { query = "@function.outer", desc = "Function end forward" },
+      },
+      goto_previous_start = {
+        ["[m"] = { query = "@function.outer", desc = "Function start backward" },
+      },
+      goto_previous_end = {
+        ["[M"] = { query = "@function.outer", desc = "Function end backward" },
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>cp"] = { query = "@parameter.inner", desc = "Swap next parameter" },
+      },
+      swap_previous = {
+        ["<leader>cP"] = { query = "@parameter.inner", desc = "Swap prev parameter" },
+      },
+    },
+  },
 })

@@ -1,51 +1,49 @@
 -- Leader key
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = " "
 
 local opt = vim.opt
 
 -- General
-opt.autowrite = true    -- Enable auto write
-opt.backup = false      -- Don't store backups
-opt.mouse = "a"         -- Enable mouse
-opt.switchbuf =
-"usetab"                -- Use already opened buffers when switching
+opt.autowrite = true -- Enable auto write
+opt.backup = false -- Don't store backups
+opt.mouse = "a" -- Enable mouse
+opt.switchbuf = "usetab" -- Use already opened buffers when switching
 opt.writebackup = false -- Don't store backups
-opt.confirm = true      -- Confirm to save changes before exiting modified buffer
-opt.wildmode =
-"longest:full,full"     -- Command-line completion mode
+opt.confirm = true -- Confirm to save changes before exiting modified buffer
+opt.wildmode = "longest:full,full" -- Command-line completion mode
 
 -- Defines what needs to be saved in a session
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
 
 -- Undo
 opt.undodir = vim.fn.stdpath("config") .. "/misc/undodir" -- Persistent undo dir
-opt.undofile = true                                       -- Enable persistentt undo
+opt.undofile = true -- Enable persistentt undo
 
 -- UI
-opt.breakindent = true    -- Indent wrapped lines to match line start
-opt.conceallevel = 3      -- Hide * markup for bold and italic
-opt.cursorline = true     -- Enable highlighting of the current line
-opt.laststatus = 2        -- Always show statusline
-opt.linebreak = true      -- Wrap long lines at 'breakat' if 'wrap' is set
-opt.list = true           -- Show whitespaces
-opt.number = true         -- Show line numbers
-opt.pumblend = 10         -- Popup transparency
-opt.pumheight = 10        -- Popup max number of entries
+opt.breakindent = true -- Indent wrapped lines to match line start
+opt.conceallevel = 3 -- Hide * markup for bold and italic
+opt.cursorline = true -- Enable highlighting of the current line
+opt.laststatus = 2 -- Always show statusline
+opt.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
+opt.list = true -- Show whitespaces
+opt.number = true -- Show line numbers
+opt.pumblend = 10 -- Popup transparency
+opt.pumheight = 10 -- Popup max number of entries
 opt.relativenumber = true -- Relative line numbers
-opt.ruler = false         -- Don't show curor position
-opt.scrolloff = 4         -- Lines to keep above and below the cursor
+opt.ruler = false -- Don't show curor position
+opt.scrolloff = 4 -- Lines to keep above and below the cursor
 opt.shortmess = "aoOWFcS" -- Disable some messages from ins-completion-menu
-opt.showmode = false      -- Dont show mode since we have a statusline
-opt.sidescrolloff = 8     -- Columns to keep to the left and right around the cursor
-opt.signcolumn = "yes"    -- Always show the signcolumn, otherwise it would shift the text each time
-opt.splitbelow = true     -- Put new windows below current
-opt.splitright = true     -- Put new windows right of current
-opt.termguicolors = true  -- Enable gui colors
+opt.showmode = false -- Dont show mode since we have a statusline
+opt.sidescrolloff = 8 -- Columns to keep to the left and right around the cursor
+opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+opt.splitbelow = true -- Put new windows below current
+opt.splitright = true -- Put new windows right of current
+opt.termguicolors = true -- Enable gui colors
 opt.virtualedit = "block" -- Allow cursor to move to virtual space in visual block mode
-opt.winblend = 10         -- Floating windows transparency
-opt.winminwidth = 5       -- Minimum window width
-opt.wrap = false          -- Disable line wrap
+opt.winblend = 10 -- Floating windows transparency
+opt.winminwidth = 5 -- Minimum window width
+opt.wrap = false -- Disable line wrap
 
 vim.o.fillchars = table.concat({
   "eob: ",
@@ -61,7 +59,7 @@ vim.o.fillchars = table.concat({
 vim.o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",")
 
 if vim.fn.has("nvim-0.9") == 1 then
-  opt.splitkeep = "screen"  -- Reduce scroll during window split
+  opt.splitkeep = "screen" -- Reduce scroll during window split
   opt.shortmess:append("C") -- Don't show Scanning... messages
 end
 
@@ -77,26 +75,26 @@ end
 vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
 
 -- Editing
-opt.autoindent = true                         -- Use auto indent
+opt.autoindent = true -- Use auto indent
 opt.completeopt = "menuone,noinsert,noselect" -- Customize completions
-opt.expandtab = true                          -- Use spaces instead of tabs
-opt.formatoptions = "rqnl1j"                  -- Improve comment editing
-opt.grepformat = "%f:%l:%c:%m"                -- Grep formatting
-opt.grepprg = "rg --vimgrep"                  -- Set rg as grep
-opt.ignorecase = true                         -- Ignore case
-opt.inccommand = "nosplit"                    -- Preview incremental substitute
-opt.incsearch = true                          -- Show search results while typing
-opt.infercase = true                          -- Infer letter cases
-opt.iskeyword:append("-")                     -- Treat dash-separated-words as a word text object
-opt.shiftround = true                         -- Round indent
-opt.shiftwidth = 2                            -- Size of an indent
-opt.smartcase = true                          -- Don't ignore case with capitals
-opt.smartindent = true                        -- Insert indents automatically
-opt.tabstop = 2                               -- Number of spaces tabs count for
-opt.updatetime = 200                          -- Save swap file and trigger CursorHold
-opt.virtualedit = "block"                     -- Allow going past the end line in visual block mode
+opt.expandtab = true -- Use spaces instead of tabs
+opt.formatoptions = "rqnl1j" -- Improve comment editing
+opt.grepformat = "%f:%l:%c:%m" -- Grep formatting
+opt.grepprg = "rg --vimgrep" -- Set rg as grep
+opt.ignorecase = true -- Ignore case
+opt.inccommand = "nosplit" -- Preview incremental substitute
+opt.incsearch = true -- Show search results while typing
+opt.infercase = true -- Infer letter cases
+opt.iskeyword:append("-") -- Treat dash-separated-words as a word text object
+opt.shiftround = true -- Round indent
+opt.shiftwidth = 2 -- Size of an indent
+opt.smartcase = true -- Don't ignore case with capitals
+opt.smartindent = true -- Insert indents automatically
+opt.tabstop = 2 -- Number of spaces tabs count for
+opt.updatetime = 200 -- Save swap file and trigger CursorHold
+opt.virtualedit = "block" -- Allow going past the end line in visual block mode
 
-opt.iskeyword:append("-")                     -- Treat dash separated words as text objects
+opt.iskeyword:append("-") -- Treat dash separated words as text objects
 
 -- Pattern for a start of 'numbered' list.
 -- At least one special character (0-9, -, +, *) optionally followed by some
@@ -105,17 +103,17 @@ opt.formatlistpat = [[^s\*[0-9\-\+\*]\+[\.\)]*\s\+]]
 
 -- Spelling
 opt.complete:append("kspell") -- Add spellcheck options for autocomplete
-opt.complete:remove("t")      -- Don't use tags for completion
+opt.complete:remove("t") -- Don't use tags for completion
 opt.dictionary = vim.fn.stdpath("config") .. "/misc/dict/english.txt"
-opt.spelllang = "en"          -- Define spelling dictionaries
-opt.spelloptions = "camel"    -- Treat parts of calemCase words as separate words
+opt.spelllang = "en" -- Define spelling dictionaries
+opt.spelloptions = "camel" -- Treat parts of calemCase words as separate words
 
 -- Folding
 opt.foldenable = true -- Enable folding
-opt.foldlevel = 99    -- Higher fold level
+opt.foldlevel = 99 -- Higher fold level
 
 if vim.treesitter.foldexpr then
-  opt.foldmethod = "expr"                          -- Set expr folding methond
+  opt.foldmethod = "expr" -- Set expr folding methond
   opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use tresitter as folding expr
 else
   opt.foldmethod = "indent"

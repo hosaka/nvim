@@ -142,3 +142,7 @@
 	path = pack/plugins/opt/oatmeal
 	url = https://github.com/dustinblackman/oatmeal.nvim.git
 	branch = master
+[submodule "nvim-treesitter-textobjects"]
+	path = pack/plugins/opt/nvim-treesitter-textobjects
+	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+	branch = master

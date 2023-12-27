@@ -51,6 +51,7 @@ packadd_later("conform")
 
 packadd_later("nvim-treesitter")
 packadd_later("nvim-treesitter-context")
+packadd_later("nvim-treesitter-textobjects")
 packadd_later("nvim-ts-autotag")
 
 packadd_later("plenary")

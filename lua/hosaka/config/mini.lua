@@ -65,12 +65,14 @@ later(function()
   local ai = require("mini.ai")
   ai.setup({
     custom_textobjects = {
+      a = ai.gen_spec.treesitter({ a = "@parameter.outer", i = "@parameter.inner" }),
+      c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+      F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
       o = ai.gen_spec.treesitter({
         a = { "@block.outer", "@conditional.outer", "@loop.outer" },
         i = { "@block.inner", "@conditional.inner", "@loop.inner" },
       }),
-      f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
-      c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+      -- html-like tags
       t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
     },
   })
@@ -251,10 +253,10 @@ later(function()
   local hi_words = require("mini.extra").gen_highlighter.words
   hipatterns.setup({
     highlighters = {
-      fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "minihipatternsfixme"),
-      hack = hi_words({ "HACK", "Hack", "hack" }, "minihipatternshack"),
-      todo = hi_words({ "TODO", "Todo", "todo" }, "minihipatternstodo"),
-      note = hi_words({ "NOTE", "Note", "note" }, "minihipatternsnote"),
+      fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "MiniHipatternsFixme"),
+      hack = hi_words({ "HACK", "Hack", "hack" }, "MiniHipatternsHack"),
+      todo = hi_words({ "TODO", "Todo", "todo" }, "MiniHipatternsTodo"),
+      note = hi_words({ "NOTE", "Note", "note" }, "MiniHipatternsNote"),
 
       hex_color = hipatterns.gen_highlighter.hex_color(),
     },
