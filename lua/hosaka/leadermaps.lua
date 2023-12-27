@@ -12,10 +12,6 @@ hosaka.leader_group_clues = {
 
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
-
-  -- FIXME: doesn't work for some reason
-  -- { mode = "n", keys = "gc", desc = "+Comment" },
-  -- { mode = "n", keys = "gs", desc = "+Surround" },
 }
 
 local map_leader = function(mode, suffix, rhs, desc, opts)
@@ -31,6 +27,10 @@ end
 local xmap_leader = function(suffix, rhs, desc, opts)
   map_leader("x", suffix, rhs, desc, opts)
 end
+
+-- registers
+xmap_leader("p", [["_dP]], "Paste to blackhole")
+xmap_leader("d", [["_d]], "Delete to blackhole")
 
 -- tabs
 -- map("n", "<Leader><Tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
@@ -72,6 +72,7 @@ end, "Write session")
 -- f is for find
 nmap_leader("<Space>", [[<cmd>Pick files<cr>]], "Files")
 nmap_leader(",", [[<cmd>Pick buffers<cr>]], "Open buffers")
+nmap_leader("?", [[<cmd>Pick oldfiles<cr>]], "Recent files")
 nmap_leader("f/", [[<cmd>Pick history scope="/"<cr>]], "/ history")
 nmap_leader("f:", [[<cmd>Pick history scope=":"<cr>]], ": history")
 nmap_leader("fa", [[<cmd>Pick git_hunks scope='staged'<cr>]], "Added hunks (all)")
@@ -109,6 +110,9 @@ nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
 -- o is for option
 nmap_leader("ot", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
+nmap_leader("op", function()
+  vim.g.minipairs_disable = not vim.g.minipairs_disable
+end, "Toggle autopairs")
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
