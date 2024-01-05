@@ -90,7 +90,6 @@ later(function()
     },
     mappings = {
       windows = true,
-      move_with_alt = true,
       option_toggle_prefix = "<leader>o",
     },
   })
@@ -310,7 +309,7 @@ later(function()
   require("mini.pairs").setup({
     modes = {
       insert = true,
-      command = true,
+      command = false,
       terminal = false,
     },
   })

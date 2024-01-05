@@ -64,6 +64,7 @@ packadd_later("indent-blankline")
 packadd_later("oatmeal")
 
 local hooks = function()
+  -- set the colorscheme
   vim.cmd([[colorscheme tokyonight-moon]])
 
   -- ensure all help tags are updated
