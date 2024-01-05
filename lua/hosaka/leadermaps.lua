@@ -114,6 +114,12 @@ nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 nmap_leader("op", function()
   vim.g.minipairs_disable = not vim.g.minipairs_disable
 end, "Toggle autopairs")
+nmap_leader("of", function()
+  vim.g.autoformat_disable = not vim.g.autoformat_disable
+end, "Toggle autoformat (all)")
+nmap_leader("oF", function()
+  vim.b.autoformat_disable = not vim.b.autoformat_disable
+end, "Toggle autoformat (current)")
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")

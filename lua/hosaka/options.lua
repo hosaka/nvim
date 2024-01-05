@@ -40,11 +40,14 @@ opt.sidescrolloff = 8 -- Columns to keep to the left and right around the cursor
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opt.splitbelow = true -- Put new windows below current
 opt.splitright = true -- Put new windows right of current
-opt.termguicolors = true -- Enable gui colors
 opt.virtualedit = "block" -- Allow cursor to move to virtual space in visual block mode
 opt.winblend = 10 -- Floating windows transparency
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
+
+if vim.fn.has("nvim-0.10") == 0 then
+  opt.termguicolors = true -- Enable gui colors
+end
 
 o.fillchars = table.concat({
   "eob: ",

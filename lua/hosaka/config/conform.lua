@@ -1,9 +1,14 @@
 require("conform").setup({
-  format_on_save = {
-    async = true,
-    timeout_ms = 10000,
-    lsp_fallback = true,
-  },
+  format_on_save = function(buffer)
+    if vim.g.autoformat_disable or vim.b[buffer].autoformat_disable then
+      return
+    end
+    return {
+      async = true,
+      timeout_ms = 10000,
+      lsp_fallback = true,
+    }
+  end,
   formatters_by_ft = {
     css = { "prettier" },
     dockerfile = { "hadolint" },
@@ -28,4 +33,5 @@ require("conform").setup({
   },
 })
 
+vim.g.autoformat_disable = false
 vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
