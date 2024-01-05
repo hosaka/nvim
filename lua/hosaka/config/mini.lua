@@ -233,6 +233,12 @@ later(function()
       vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
       map_split(buf_id, "<C-s>", "split")
       map_split(buf_id, "<C-v>", "vsplit")
+      vim.keymap.set(
+        "n",
+        "<CR>",
+        [[<cmd>lua MiniFiles.go_in({ close_on_file = true})<cr>]],
+        { buffer = buf_id, desc = "Open" }
+      )
     end,
   })
 
@@ -243,6 +249,10 @@ later(function()
     windows = {
       preview = true,
       width_preview = 50,
+    },
+    mappings = {
+      go_in = "L",
+      go_in_plus = "l",
     },
   })
 end)
