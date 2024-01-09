@@ -51,7 +51,7 @@ remove() {
     git config -f .gitmodules --remove-section "submodule.$sm_name"
 
     # remove submodule directory
-    rm -r "$sm_path:?/$sm_name:?"
+    rm -r "${sm_path:?}/${sm_name:?}"
 
     # remove associated submodule directory in .git/modules
     git_dir=$(git rev-parse --git-dir)
