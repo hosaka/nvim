@@ -117,10 +117,6 @@
 	path = pack/plugins/opt/schemastore
 	url = https://github.com/b0o/SchemaStore.nvim
 	branch = main
-[submodule "notifier"]
-	path = pack/plugins/opt/notifier
-	url = https://github.com/vigoux/notifier.nvim
-	branch = master
 [submodule "nvim-ts-autotag"]
 	path = pack/plugins/opt/nvim-ts-autotag
 	url = https://github.com/windwp/nvim-ts-autotag

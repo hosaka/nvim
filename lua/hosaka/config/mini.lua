@@ -2,6 +2,24 @@ local now, later = hosaka.now, hosaka.later
 
 -- immediate config
 now(function()
+  local notify = require("mini.notify")
+  notify.setup({
+    content = {
+      format = function(notif)
+        return notif.msg
+      end,
+    },
+    window = {
+      config = {
+        border = "rounded",
+      },
+    },
+  })
+
+  vim.notify = notify.make_notify()
+end)
+
+now(function()
   require("mini.sessions").setup({
     autowrite = true,
     directory = vim.fn.stdpath("config") .. "/misc/sessions",

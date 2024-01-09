@@ -59,7 +59,6 @@ packadd_later("gitsigns")
 packadd_later("diffview")
 packadd_later("neogit")
 packadd_later("toggleterm")
-packadd_later("notifier")
 packadd_later("indent-blankline")
 packadd_later("oatmeal")
 
