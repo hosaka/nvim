@@ -54,11 +54,12 @@ local default_on_attach = function(client, buffer)
 
   if vim.lsp.inlay_hint then
     mapl("n", "ch", function()
-      vim.lsp.inlay_hint(buffer)
+      vim.lsp.inlay_hint.enable(buffer, not vim.lsp.inlay_hint.is_enabled(buffer))
     end, "Toggle inlay hints", "textDocument/inlayHint")
   end
 
   local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  ---@diagnostic disable-next-line: duplicate-set-field
   function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
     opts = opts or {}
     opts.border = opts.border or "rounded"

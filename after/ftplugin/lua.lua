@@ -1,5 +1,5 @@
 -- custom comments
-vim.opt_local.comments = ":---,:--"
+vim.bo.comments = ":---,:--"
 
 -- custom textobjects
 vim.b.minai_config = {
