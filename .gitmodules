@@ -130,10 +130,6 @@
 	url = https://github.com/lukas-reineke/indent-blankline.nvim
 	branch = master
 	ignore = untracked
-[submodule "rust-tools"]
-	path = pack/plugins/opt/rust-tools
-	url = https://github.com/simrat39/rust-tools.nvim
-	branch = master
 [submodule "oatmeal"]
 	path = pack/plugins/opt/oatmeal
 	url = https://github.com/dustinblackman/oatmeal.nvim.git
@@ -141,4 +137,8 @@
 [submodule "nvim-treesitter-textobjects"]
 	path = pack/plugins/opt/nvim-treesitter-textobjects
 	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+	branch = master
+[submodule "rustaceanvim"]
+	path = pack/plugins/opt/rustaceanvim
+	url = https://github.com/mrcjkb/rustaceanvim.git
 	branch = master

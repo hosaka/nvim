@@ -40,7 +40,7 @@ packadd("cmp-nvim-lsp-signature-help")
 packadd("cmp-buffer")
 packadd("cmp-cmdline")
 
-packadd_later("rust-tools")
+packadd_later("rustaceanvim")
 packadd_later("schemastore")
 
 packadd_later("mason")

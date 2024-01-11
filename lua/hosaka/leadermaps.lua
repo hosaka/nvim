@@ -8,6 +8,7 @@ hosaka.leader_group_clues = {
   { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
+  { mode = "n", keys = "<Leader>r", desc = "+Run" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
 
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
@@ -124,6 +125,8 @@ end, "Toggle autoformat (current)")
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
 nmap_leader("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
+
+-- r is for run and it is created when LSPs attach to buffers
 
 -- t is for terminal
 nmap_leader("tt", [[<cmd>ToggleTerm<cr>]], "Terminal toggle")

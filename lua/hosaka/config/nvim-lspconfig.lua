@@ -297,41 +297,62 @@ require("mason-lspconfig").setup({
 
     -- rust
     rust_analyzer = function()
-      require("rust-tools").setup({
-        tools = {
-          inlay_hints = { auto = false },
-        },
+      -- note: attach is handled by `rustaceanvim` itself
+      vim.g.rustaceanvim = {
         server = {
           on_attach = function(client, buffer)
             default_on_attach(client, buffer)
-            local rt = require("rust-tools")
-            vim.keymap.set("n", "K", rt.hover_actions.hover_actions, { buffer = buffer, desc = "Hover popup" })
             vim.keymap.set(
               "n",
-              "<Leader>ca",
-              rt.code_action_group.code_action_group,
-              { buffer = buffer, desc = "Action popup" }
+              "<Leader>rr",
+              [[<cmd>RustLsp runnables last<cr>]],
+              { buffer = buffer, desc = "Run last (rust)" }
             )
+            vim.keymap.set(
+              "n",
+              "<Leader>rR",
+              [[<cmd>RustLsp runnables<cr>]],
+              { buffer = buffer, desc = "Runnables (rust)" }
+            )
+            vim.keymap.set(
+              "n",
+              "<Leader>ce",
+              [[<cmd>RustLsp explainError<cr>]],
+              { buffer = buffer, desc = "Explain error (rust)" }
+            )
+            vim.keymap.set(
+              "n",
+              "<Leader>ec",
+              [[<cmd>RustLsp openCargo<cr>]],
+              { buffer = buffer, desc = "Cargo.toml (rust)" }
+            )
+            vim.keymap.set("n", "J", [[<cmd>RustLsp joinLines<cr>]], { buffer = buffer, desc = "Join lines (rust)" })
           end,
-          capabilities = default_capabilities,
-          settings = {
-            cargo = {
-              features = "all",
-            },
-            check = {
-              command = "clippy",
-              extraArgs = { "--no-deps" },
-            },
-            procMacro = {
-              ignored = {
-                ["async-trait"] = { "async_trait" },
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
+          default_settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                features = "all",
+              },
+              check = {
+                command = "clippy",
+                extraArgs = { "--no-deps" },
+              },
+              procMacro = {
+                ignored = {
+                  ["async-trait"] = { "async_trait" },
+                  ["napi-derive"] = { "napi" },
+                  ["async-recursion"] = { "async_recursion" },
+                },
               },
             },
           },
         },
-      })
+        tools = {
+          float_win_config = {
+            border = "rounded",
+          },
+        },
+      }
     end,
 
     -- tailwind
