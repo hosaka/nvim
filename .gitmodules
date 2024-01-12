@@ -1,8 +1,3 @@
-[submodule "aerial"]
-	path = pack/plugins/opt/aerial
-	url = https://github.com/stevearc/aerial.nvim
-	branch = master
-
 [submodule "cmp-buffer"]
 	path = pack/plugins/opt/cmp-buffer
 	url = https://github.com/hrsh7th/cmp-buffer
@@ -130,10 +125,6 @@
 	url = https://github.com/lukas-reineke/indent-blankline.nvim
 	branch = master
 	ignore = untracked
-[submodule "oatmeal"]
-	path = pack/plugins/opt/oatmeal
-	url = https://github.com/dustinblackman/oatmeal.nvim.git
-	branch = master
 [submodule "nvim-treesitter-textobjects"]
 	path = pack/plugins/opt/nvim-treesitter-textobjects
 	url = https://github.com/nvim-treesitter/nvim-treesitter-textobjects
