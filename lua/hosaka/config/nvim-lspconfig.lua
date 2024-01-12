@@ -368,6 +368,18 @@ require("mason-lspconfig").setup({
       require("lspconfig").eslint.setup({
         on_attach = default_on_attach,
         capabilities = default_capabilities,
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+          -- note: enable as needed
+          -- "vue",
+          -- "svelte",
+          -- "astro",
+        },
         settings = {
           workingDirectories = {
             mode = "auto",
