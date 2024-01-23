@@ -5,7 +5,11 @@ end
 -- check if file needs to be reloaded when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   group = augroup("checktime"),
-  command = "checktime",
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd([[checktime]])
+    end
+  end,
 })
 
 -- resize splits if window got resized
@@ -54,5 +58,14 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "MiniFilesWindowOpen",
   callback = function(args)
     vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
+  end,
+})
+
+-- do not use conceal for json files
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("json_conceal"),
+  pattern = { "json" },
+  callback = function()
+    vim.opt_local.conceallevel = 0
   end,
 })

@@ -23,7 +23,7 @@ opt.undofile = true -- Enable persistent undo
 
 -- Appearance
 opt.breakindent = true -- Indent wrapped lines to match line start
-opt.conceallevel = 3 -- Hide * markup for bold and italic
+opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.cursorline = true -- Enable highlighting of the current line
 opt.laststatus = 2 -- Always show statusline
 opt.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
