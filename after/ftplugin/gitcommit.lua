@@ -1,1 +1,2 @@
-vim.cmd([[runtime! ftplugin/text.lua]])
+vim.opt_local.wrap = true
+vim.opt_local.spell = true
