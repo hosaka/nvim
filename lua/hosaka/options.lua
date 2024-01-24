@@ -18,7 +18,6 @@ vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
 
 -- Undo
-opt.undodir = vim.fn.stdpath("config") .. "/misc/undodir" -- Persistent undo dir
 opt.undofile = true -- Enable persistent undo
 
 -- Appearance

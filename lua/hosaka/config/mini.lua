@@ -30,10 +30,7 @@ now(function()
 end)
 
 now(function()
-  require("mini.sessions").setup({
-    autowrite = true,
-    directory = vim.fn.stdpath("config") .. "/misc/sessions",
-  })
+  require("mini.sessions").setup()
 end)
 
 now(function()
