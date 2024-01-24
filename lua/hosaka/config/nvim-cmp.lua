@@ -6,7 +6,6 @@ cmp.setup({
   sources = {
     { name = "nvim_lsp" },
     { name = "nvim_lsp_signature_help" },
-    { name = "luasnip" },
   },
   {
     { name = "buffer" },
@@ -16,22 +15,24 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace }),
     -- select next item, expand a snippet or navigate to the next placeholder
     ["<Tab>"] = cmp.mapping(function(fallback)
-      local luasnip = require("luasnip")
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
+      elseif vim.snippet.jumpable(1) then
+        vim.schedule(function()
+          vim.snippet.jump(1)
+        end)
       else
         fallback()
       end
     end, { "i", "s" }),
     -- select previous item, or navigate to the previous placeholder
     ["<S-Tab>"] = cmp.mapping(function(fallback)
-      local luasnip = require("luasnip")
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
+      elseif vim.snippet.jumpable(-1) then
+        vim.schedule(function()
+          vim.snippet.jump(-1)
+        end)
       else
         fallback()
       end
@@ -42,7 +43,7 @@ cmp.setup({
   }),
   snippet = {
     expand = function(args)
-      require("luasnip").lsp_expand(args.body)
+      vim.snippet.expand(args.body)
     end,
   },
   -- pre-select first item
@@ -54,9 +55,8 @@ cmp.setup({
     format = function(entry, item)
       local short_name = {
         nvim_lsp = "lsp",
-        nvim_lsp_signature_help = "lsp",
+        nvim_lsp_signature_help = "sig",
         nvim_lua = "nvim",
-        luasnip = "snip",
       }
 
       local menu_name = short_name[entry.source.name] or entry.source.name

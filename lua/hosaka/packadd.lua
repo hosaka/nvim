@@ -33,8 +33,6 @@ packadd_later("tokyonight")
 packadd_later("dressing")
 
 packadd("nvim-cmp")
-packadd("luasnip")
-packadd("cmp-luasnip")
 packadd("cmp-nvim-lsp")
 packadd("cmp-nvim-lsp-signature-help")
 packadd("cmp-buffer")
@@ -60,7 +58,6 @@ packadd_later("diffview")
 packadd_later("neogit")
 packadd_later("toggleterm")
 packadd_later("indent-blankline")
-packadd_later("oatmeal")
 
 local hooks = function()
   -- set the colorscheme
