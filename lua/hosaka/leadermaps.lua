@@ -45,6 +45,7 @@ xmap_leader("d", [["_d]], "Delete to blackhole")
 nmap_leader("bb", [[<cmd>b#<cr>]], "Other")
 nmap_leader("bn", [[<cmd>bnext<cr>]], "Next")
 nmap_leader("bp", [[<cmd>bprevious<cr>]], "Prev")
+nmap_leader("bs", [[<cmd>lua hosaka.new_scratch_buffer()<cr>]], "Scratch")
 nmap_leader("bd", [[<cmd>lua require("mini.bufremove").delete()<cr>]], "Delete")
 nmap_leader("bD", [[<cmd>lua require("mini.bufremove").delete(0, true)<cr>]], "Delete!")
 nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout")
@@ -57,7 +58,7 @@ nmap_leader("cD", [[<cmd>lua vim.diagnostic.setloclist()<cr>]], "Diagnostic list
 nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
 nmap_leader("ck", [[<cmd>lua vim.diagnostic.goto_prev()<cr>]], "Prev diagnostic")
 nmap_leader("cl", [[<cmd>lopen<cr>]], "Location list")
-nmap_leader("cq", [[<cmd>copen<cr>]], "Quickfix list")
+nmap_leader("cq", [[<cmd>lua hosaka.toggle_quickfix()<cr>]], "Quickfix list")
 
 -- e is for edit
 nmap_leader("en", [[<cmd>enew<cr>]], "New file")
@@ -66,7 +67,7 @@ nmap_leader("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]],
 nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
 nmap_leader("ew", function()
   vim.ui.input({ prompt = "Session name:" }, function(input)
-    if input ~= nil then
+    if input then
       MiniSessions.write(input)
     end
   end)
