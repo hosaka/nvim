@@ -43,6 +43,8 @@ xmap_leader("d", [["_d]], "Delete to blackhole")
 
 -- b is for buffer
 nmap_leader("bb", [[<cmd>b#<cr>]], "Other")
+nmap_leader("bn", [[<cmd>bnext<cr>]], "Next")
+nmap_leader("bp", [[<cmd>bprevious<cr>]], "Prev")
 nmap_leader("bd", [[<cmd>lua require("mini.bufremove").delete()<cr>]], "Delete")
 nmap_leader("bD", [[<cmd>lua require("mini.bufremove").delete(0, true)<cr>]], "Delete!")
 nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout")
