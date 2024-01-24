@@ -13,7 +13,7 @@ git submodules update --init --recursive
 
 - **Required**:
 
-  - neovim>=0.8, git, [ripgrep](https://github.com/BurntSushi/ripgrep), [lazygit](https://github.com/jesseduffield/lazygit) (optional)
+  - neovim>=0.10 (nightly), git, [ripgrep](https://github.com/BurntSushi/ripgrep), [lazygit](https://github.com/jesseduffield/lazygit) (optional)
 
 - **Optional**:
   - **Fonts**: A [Nerd Font](https://www.nerdfonts.com/).
