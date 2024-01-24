@@ -10,6 +10,7 @@ hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
+  { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
@@ -132,6 +133,8 @@ nmap_leader("fr", [[<cmd>Pick resume<cr>]], "Resume")
 nmap_leader("fR", [[<cmd>Pick lsp scope='references'<cr>]], "References (LSP)")
 nmap_leader("fs", [[<cmd>Pick lsp scope="workspace_symbol"<cr>]], "Symbol workspace (LSP)")
 nmap_leader("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], "Symbol buffer (LSP)")
+nmap_leader("fv", [[<cmd>Pick visit_paths cwd=''<cr>]], "Visit paths (all)")
+nmap_leader("fV", [[<cmd>Pick visit_paths<cr>]], "Visit paths")
 
 -- g is for git
 nmap_leader("gg", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
@@ -166,3 +169,31 @@ nmap_leader("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], "Terminal 
 nmap_leader("ts", [[<cmd>TermSelect<cr>]], "Terminal select")
 nmap_leader("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], "Terminal send line")
 xmap_leader("tl", [[<cmd>ToggleTermSendVisualSelection<cr><esc>]], "Terminal send selection")
+
+-- v is for visits
+nmap_leader("vv", [[<cmd>lua MiniVisits.add_label("core")<cr>]], "Add core label")
+nmap_leader("vV", [[<cmd>lua MiniVisits.remove_label("core")<cr>]], "Remove core label")
+nmap_leader("va", [[<cmd>lua MiniVisits.add_label()<cr>]], "Add label")
+nmap_leader("vr", [[<cmd>lua MiniVisits.remove_label()<cr>]], "Remove label")
+
+local map_pick_core = function(lhs, cwd, desc)
+  local rhs = function()
+    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    MiniExtra.pickers.visit_paths({ cwd = cwd, filter = "core", sort = sort_latest }, { source = { name = desc } })
+  end
+  nmap_leader(lhs, rhs, desc)
+end
+
+map_pick_core("vc", "", "Core visits (all)")
+map_pick_core("vC", nil, "Core visits")
+
+local map_iterate_core = function(lhs, direction, desc)
+  local rhs = function()
+    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    MiniVisits.iterate_paths(direction, vim.fn.getcwd(), { filter = "core", sort = sort_latest, wrap = true })
+  end
+  vim.keymap.set("n", lhs, rhs, { desc = desc })
+end
+
+map_iterate_core("[[", "forward", "Core forward")
+map_iterate_core("]]", "backward", "Core backward")

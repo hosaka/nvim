@@ -393,3 +393,7 @@ end)
 later(function()
   require("mini.trailspace").setup()
 end)
+
+later(function()
+  require("mini.visits").setup()
+end)
