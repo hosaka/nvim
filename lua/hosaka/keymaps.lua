@@ -1,16 +1,10 @@
-local default_opts = {
-  noremap = true,
-  silent = true,
-  expr = false,
-  nowait = false,
-  script = false,
-  unique = false,
-}
-
 -- NOTE: a lot of mappings are defined by mini.basics
 
 local map = function(mode, key, cmd, opts)
-  local opts = vim.tbl_extend("force", default_opts, opts or {})
+  opts = opts or {}
+  if opts.silent == nil then
+    opts.silent = true
+  end
   vim.keymap.set(mode, key, cmd, opts)
 end
 
@@ -20,10 +14,6 @@ map({ "n", "x" }, "s", [[<Nop>]])
 -- paste above/below linewise
 map({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above" })
 map({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc = "Paste below" })
-
--- switching buffers
-map("n", "<S-h>", [[<cmd>bprevious<cr>]], { desc = "Prev buffer" })
-map("n", "<S-l>", [[<cmd>bnext<cr>]], { desc = "Next buffer" })
 
 -- cancel search highlight
 map({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]])

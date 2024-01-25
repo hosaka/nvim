@@ -1,5 +1,5 @@
 -- Source plugin and its configuration immediately
--- @param plugin String with name of plugin as subdirectory in 'pack'
+--- @param plugin string Name of plugin as subdirectory in 'pack'
 local packadd = function(plugin)
   -- Add plugin. Using `packadd!` during startup is better for initialization
   -- order (see `:h load-plugins`). Use `packadd` otherwise to also force
@@ -17,7 +17,7 @@ end
 -- This reduces time before a fully functional start screen is shown. Use this
 -- for plugins that are not directly related to startup process.
 --
--- @param plugin String with name of plugin as subdirectory in 'pack/plugins/opt/'
+--- @param plugin string Name of plugin as subdirectory in 'pack/plugins/opt/'
 local packadd_later = function(plugin)
   hosaka.later(function()
     packadd(plugin)
