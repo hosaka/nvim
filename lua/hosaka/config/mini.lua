@@ -182,16 +182,6 @@ later(function()
       miniclue.gen_clues.z(),
     },
   })
-
-  -- enable clues in help buffers
-  local clue_group = vim.api.nvim_create_augroup("hosaka_miniclue", { clear = true })
-  vim.api.nvim_create_autocmd("filetype", {
-    group = clue_group,
-    pattern = "help",
-    callback = function(event)
-      miniclue.enable_buf_triggers(event.buf)
-    end,
-  })
 end)
 
 later(function()

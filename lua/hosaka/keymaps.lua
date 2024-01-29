@@ -8,7 +8,7 @@ local map = function(mode, key, cmd, opts)
   vim.keymap.set(mode, key, cmd, opts)
 end
 
--- disable s shortcut (use cl instead) in order to use mini.surround
+-- disable s shortcut (use cl instead) in order to use mini.jump2d
 map({ "n", "x" }, "s", [[<Nop>]])
 
 -- paste above/below linewise

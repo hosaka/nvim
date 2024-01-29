@@ -64,6 +64,7 @@ nmap_leader("cq", [[<cmd>lua hosaka.toggle_quickfix()<cr>]], "Quickfix list")
 -- e is for edit
 nmap_leader("en", [[<cmd>enew<cr>]], "New file")
 nmap_leader("ed", [[<cmd>lua MiniFiles.open()<cr>]], "Directory")
+nmap_leader("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], "Config")
 nmap_leader("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], "File directory")
 nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
 nmap_leader("ew", function()
