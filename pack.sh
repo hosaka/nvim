@@ -135,7 +135,7 @@ while [ "$1" != "" ]; do
     shift
     sm_path="$1"
     ;;
-  --hep)
+  --help)
     usage
     exit 0
     ;;

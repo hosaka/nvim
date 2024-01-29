@@ -331,13 +331,13 @@ later(function()
 end)
 
 later(function()
-  require("mini.pairs").setup({
-    modes = {
-      insert = true,
-      command = false,
-      terminal = false,
-    },
-  })
+  -- require("mini.pairs").setup({
+  --   modes = {
+  --     insert = true,
+  --     command = false,
+  --     terminal = false,
+  --   },
+  -- })
 end)
 
 later(function()
