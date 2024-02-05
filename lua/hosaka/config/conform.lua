@@ -3,6 +3,10 @@ require("conform").setup({
     if vim.g.autoformat_disable or vim.b[buffer].autoformat_disable then
       return
     end
+    local bufname = vim.api.nvim_buf_get_name(buffer)
+    if bufname:match("/node_modules/") then
+      return
+    end
     return {
       async = true,
       timeout_ms = 10000,
