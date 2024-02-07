@@ -151,3 +151,26 @@ end
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
+-- Disable runtime plugins
+vim.g.editorconfig = false -- Support for .editorconfig
+vim.g.loaded_man = 1 -- View manpages in Nvim
+vim.g.loaded_matchit = 1 -- Extended matching with %
+vim.g.loaded_matchparen = 1 -- Highlight matching parens
+vim.g.loaded_netrw = 1 -- Netrw (aka Explore)
+vim.g.loaded_netrwPlugin = 1 -- Netrw plugin
+vim.g.loaded_remote_plugins = 1 -- Support for remote plugins
+-- vim.g.loaded_shada_plugin = 1 -- Shared Data file
+vim.g.loaded_spellfile_plugin = 1 -- Support for downloading spell files
+vim.g.loaded_gzip = 1 -- Support for editing gzip archives
+vim.g.loaded_tar = 1 -- Support for editing tar archives
+vim.g.loaded_tarPlugin = 1 -- Plugin for tar archives
+vim.g.loaded_zip = 1 -- Support for editing zip archives
+vim.g.loaded_zipPlugin = 1 -- Plugin for zip archives
+vim.g.loaded_2html_plugin = 1 -- Convert window into HTML
+vim.g.loaded_tutor_mode_plugin = 1 -- Interactive tutorials
+
+vim.g.loaded_python3_provider = 0 -- Python3 plugin provider
+vim.g.loaded_ruby_provider = 0 -- Ruby plugin provider
+vim.g.loaded_perl_provider = 0 -- Perl plugin provider
+vim.g.loaded_node_provider = 0 -- Node plugin provider
