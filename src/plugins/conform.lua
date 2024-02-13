@@ -41,6 +41,13 @@ require("conform").setup({
 vim.g.autoformat_disable = false
 vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 
+vim.keymap.set(
+  { "n", "x" },
+  "<Leader>cf",
+  [[<cmd>lua require("conform").format({ lsp_fallback = true })<cr>]],
+  { desc = "Format code" }
+)
+
 vim.api.nvim_create_user_command("Format", function(args)
   local range = nil
   if args.count ~= -1 then

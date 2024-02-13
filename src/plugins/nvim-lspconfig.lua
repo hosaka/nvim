@@ -48,10 +48,6 @@ local default_on_attach = function(client, buffer)
   mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
   mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
 
-  local format_cmd = [[<cmd>lua require("conform").format({ lsp_fallback = true })<cr>]]
-  mapl("n", "cf", format_cmd, "Format buffer")
-  mapl("x", "cf", format_cmd, "Format selection")
-
   if vim.lsp.inlay_hint then
     mapl("n", "ch", function()
       vim.lsp.inlay_hint.enable(buffer, not vim.lsp.inlay_hint.is_enabled(buffer))
