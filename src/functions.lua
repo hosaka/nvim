@@ -11,10 +11,3 @@ Hosaka.toggle_quickfix = function()
   local command = #quickfix == 0 and "copen" or "cclose"
   vim.cmd(command)
 end
-
-Hosaka.toggle_lazygit = function()
-  -- FIXME: terminal is created every time, should have this persisted
-  local Terminal = require("toggleterm.terminal").Terminal
-  local lazygit = Terminal:new({ cmd = "lazygit", direction = "float", hidden = true })
-  lazygit:toggle()
-end

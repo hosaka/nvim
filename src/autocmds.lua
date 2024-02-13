@@ -34,7 +34,6 @@ vim.api.nvim_create_autocmd("FileType", {
     "notify",
     "qf",
     "query",
-    "spectre_panel",
     "startuptime",
   },
   callback = function(event)
@@ -69,3 +68,25 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.conceallevel = 0
   end,
 })
+
+-- terminal navigation
+-- vim.api.nvim_create_autocmd("TermOpen", {
+--   group = augroup("set_terminal_keymaps"),
+--   pattern = { "term://*" },
+--   callback = function(event)
+--     local map = function(mode, key, cmd, opts)
+--       opts = opts or {}
+--       if opts.silent == nil then
+--         opts.silent = true
+--       end
+--       opts.buffer = event.buf
+--       vim.keymap.set(mode, key, cmd, opts)
+--     end
+--     map("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Normal mode" })
+--     map("t", "<C-w>", [[<C-\><C-n><C-w>]], { desc = "Normal mode window" })
+--     map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to left window" })
+--     map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to lower window" })
+--     map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to upper window" })
+--     map("t", "<C-l>", [[<cmd>wincmd l<cr>]], { desc = "Go to right window" })
+--   end,
+-- })

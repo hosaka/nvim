@@ -139,7 +139,7 @@ nmap_leader("fV", [[<cmd>Pick visit_paths<cr>]], "Visit paths")
 
 -- g is for git
 nmap_leader("gg", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
-nmap_leader("gG", [[<cmd>lua hosaka.toggle_lazygit()<cr>]], "Lazygit")
+nmap_leader("gG", [[<cmd>lua Hosaka.toggle_lazygit()<cr>]], "Lazygit")
 nmap_leader("gc", [[<cmd>lua require('neogit').open({'commit'})<cr>]], "Commit")
 nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
 
@@ -170,6 +170,8 @@ nmap_leader("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], "Terminal 
 nmap_leader("ts", [[<cmd>TermSelect<cr>]], "Terminal select")
 nmap_leader("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], "Terminal send line")
 xmap_leader("tl", [[<cmd>ToggleTermSendVisualSelection<cr><esc>]], "Terminal send selection")
+nmap_leader("tp", [[<cmd>lua Hosaka.toggle_python()<cr>]], "Python REPL")
+nmap_leader("tn", [[<cmd>lua Hosaka.toggle_node()<cr>]], "Node REPL")
 
 -- v is for visits
 nmap_leader("vv", [[<cmd>lua MiniVisits.add_label("core")<cr>]], "Add core label")
