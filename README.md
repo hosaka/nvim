@@ -2,11 +2,10 @@
 
 ## Install
 
-Use git to install and pull all submodules:
+Clone the repo to a location where it can be loaded by neovim:
 
 ```
-git clone --recursive https://github.com/hosaka/nvim
-git submodules update --init --recursive
+git clone --filter=blob:none https://code.hosaka.cc/hosaka/nvim.git ~/.config/nvim
 ```
 
 ## Dependencies
@@ -23,14 +22,7 @@ git submodules update --init --recursive
 
 ## Package management
 
-Plugins are added as git submodules to `pack/plugins/opt` and loaded with [packadd](https://neovim.io/doc/user/repeat.html#%3Apackadd).
-Use `pack.sh` script (essentially a wrapper over some git commands) to date packages:
-
-```
-./pack.sh add --name <name> --url <url> --branch <branch>
-./pack.sh remove --name <name>
-./pack.sh update
-```
+Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-deps.md) package manager. See `:h MiniDeps` for more details and `init.lua` for a list of installed plugins. Version hashes are stored in `mini-deps-snap` snapshot file.
 
 ## Todo
 
@@ -39,12 +31,7 @@ Use `pack.sh` script (essentially a wrapper over some git commands) to date pack
 - [ ] Keep quickfix in focus when navigating items, until closed with `q`
 - [ ] Try setting up [nvim-dap](https://github.com/mfussenegger/nvim-dap) for some LSPs
 - [ ] Make use of some opensource code assistance ([ollama](https://ollama.ai))
-- [ ] Get mini.pairs to work nicely with nvim-cmp, perhaps needs a <CR> remap
 - [ ] Replace tokyonight colorscheme with a base16 generated one
-
-### Pack
-
-- [ ] Rewrite `pack.sh` in lua, something lightweight like [paq](https://github.com/savq/paq-nvim)
 
 ### Repo
 
