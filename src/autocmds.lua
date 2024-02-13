@@ -69,24 +69,44 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- terminal navigation
--- vim.api.nvim_create_autocmd("TermOpen", {
---   group = augroup("set_terminal_keymaps"),
---   pattern = { "term://*" },
---   callback = function(event)
---     local map = function(mode, key, cmd, opts)
---       opts = opts or {}
---       if opts.silent == nil then
---         opts.silent = true
---       end
---       opts.buffer = event.buf
---       vim.keymap.set(mode, key, cmd, opts)
---     end
---     map("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Normal mode" })
---     map("t", "<C-w>", [[<C-\><C-n><C-w>]], { desc = "Normal mode window" })
---     map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to left window" })
---     map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to lower window" })
---     map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to upper window" })
---     map("t", "<C-l>", [[<cmd>wincmd l<cr>]], { desc = "Go to right window" })
---   end,
--- })
+-- terminal statusline
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = augroup("terminal_statusline"),
+  pattern = { "term://*" },
+  callback = function(event)
+    local ministatus = require("mini.statusline")
+    vim.b.ministatusline_config = {
+      content = {
+        active = function()
+          local mode, mode_hl = ministatus.section_mode({ trunc_width = 120 })
+          local term_title = tostring(vim.api.nvim_buf_get_var(event.buf, "term_title"))
+          local term_number = tostring(vim.api.nvim_buf_get_var(event.buf, "toggle_number"))
+
+          local term_proc = vim.split(vim.split(term_title, ";")[1], ":")
+
+          return ministatus.combine_groups({
+            { hl = mode_hl, strings = { mode } },
+            { hl = "MiniStatuslineDevinfo", strings = { term_number } },
+            "%<", -- truncate point
+            { hl = "MiniStatuslineFilename", strings = { term_proc[#term_proc] } },
+            "%=", -- left alignment
+          })
+        end,
+      },
+    }
+    -- local map = function(mode, key, cmd, opts)
+    --   opts = opts or {}
+    --   if opts.silent == nil then
+    --     opts.silent = true
+    --   end
+    --   opts.buffer = event.buf
+    --   vim.keymap.set(mode, key, cmd, opts)
+    -- end
+    -- map("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Normal mode" })
+    -- map("t", "<C-w>", [[<C-\><C-n><C-w>]], { desc = "Normal mode window" })
+    -- map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to left window" })
+    -- map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to lower window" })
+    -- map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to upper window" })
+    -- map("t", "<C-l>", [[<cmd>wincmd l<cr>]], { desc = "Go to right window" })
+  end,
+})
