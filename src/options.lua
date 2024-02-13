@@ -142,13 +142,7 @@ if vim.fn.has("wsl") then
   }
 end
 
--- Neovide
-if vim.g.neovide then
-  opt.guifont = "FiraCode Nerd Font:h11"
-  opt.winblend = 30
-  opt.pumblend = 30
-end
-
+-- Netrw
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25

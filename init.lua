@@ -36,8 +36,8 @@ now(function() source("autocmds.lua") end)
 now(function() source("functions.lua") end)
 now(function() source("keymaps.lua") end)
 now(function() source("leadermaps.lua") end)
--- if vim.g.vscode then now(function() source("vscode.lua") end) end
--- if vim.g.neovide then now(function() source("neovide.lua") end) end
+if vim.g.vscode then now(function() source("vscode.lua") end) end
+if vim.g.neovide then now(function() source("neovide.lua") end) end
 -- stylua: ignore end
 
 add({ name = "mini.nvim", checkout = "main" })
