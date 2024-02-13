@@ -7,6 +7,7 @@ gs.setup({
     topdelete = { text = "?" },
     changedelete = { text = "~" },
   },
+  preview_config = { border = "rounded" },
   on_attach = function(buffer)
     local map = function(mode, lhs, rhs, desc)
       local opts = {}
@@ -51,7 +52,8 @@ gs.setup({
     )
     mapl("n", "gA", [[<cmd>lua require("gitsigns").stage_buffer()<cr>]], "Add buffer")
     mapl("n", "gb", [[<cmd>lua require("gitsigns").blame_line()<cr>]], "Blame line")
-    mapl("n", "gp", [[<cmd>lua require("gitsigns").preview_hunk_inline()<cr>]], "Preview hunk")
+    mapl("n", "gp", [[<cmd>lua require("gitsigns").preview_hunk()<cr>]], "Preview hunk")
+    mapl("n", "gP", [[<cmd>lua require("gitsigns").preview_hunk_inline()<cr>]], "Preview hunk inline")
     mapl("n", "gr", [[<cmd>lua require("gitsigns").reset_hunk()<cr>]], "Reset hunk")
     mapl(
       "v",
