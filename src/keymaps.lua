@@ -8,9 +8,6 @@ local map = function(mode, key, cmd, opts)
   vim.keymap.set(mode, key, cmd, opts)
 end
 
--- disable s shortcut (use cl instead) in order to use mini.jump2d
-map({ "n", "x" }, "s", [[<Nop>]])
-
 -- paste above/below linewise
 map({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above" })
 map({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc = "Paste below" })
@@ -28,7 +25,3 @@ map("t", "<C-h>", [[<cmd>wincmd h<cr>]], { desc = "Go to Left Window" })
 map("t", "<C-j>", [[<cmd>wincmd j<cr>]], { desc = "Go to Lower Window" })
 map("t", "<C-k>", [[<cmd>wincmd k<cr>]], { desc = "Go to Upper Window" })
 map("t", "<C-l>", [[<cmd>wincmd l<cr>]], { desc = "Go to Right Window" })
-
--- faster navigation
-map("n", ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
-map({ "n", "x", "o" }, "s", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])

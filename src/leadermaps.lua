@@ -1,5 +1,5 @@
 -- global table for mini.clue groups
-hosaka.leader_group_clues = {
+Hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
   { mode = "n", keys = "<Leader>e", desc = "+Edit" },

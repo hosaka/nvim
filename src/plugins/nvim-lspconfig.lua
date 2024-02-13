@@ -78,14 +78,6 @@ local default_setup = function(server)
   })
 end
 
-require("mason").setup({
-  -- prefer existing binaries over the ones installed by mason
-  -- PATH = "append",
-  ui = {
-    border = "rounded",
-  },
-})
-
 require("mason-lspconfig").setup({
   ensure_installed = {
     "lua_ls",
