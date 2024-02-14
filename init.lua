@@ -2,6 +2,7 @@
 _G.Hosaka = {
   path_package = vim.fn.stdpath("data") .. "/site/",
   path_source = vim.fn.stdpath("config") .. "/src/",
+  path_snapshot = vim.fn.stdpath("config") .. "/snapshot",
 }
 
 -- bootstrap 'mini.nvim'
@@ -21,7 +22,12 @@ if not vim.uv.fs_stat(mini_path) then
 end
 
 local deps = require("mini.deps")
-deps.setup({ path = { package = Hosaka.path_package } })
+deps.setup({
+  path = {
+    package = Hosaka.path_package,
+    snapshot = Hosaka.path_snapshot,
+  },
+})
 
 local add, now, later = deps.add, deps.now, deps.later
 
