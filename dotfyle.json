@@ -1,4 +1,5 @@
 {
+  "distribution": "custom",
   "masonTools": [
     "bash-language-server",
     "goimports",
@@ -16,7 +17,35 @@
     "typescript-language-server",
     "vscode-eslint-language-server"
   ],
-  "pluginManager": "mini.deps",
+  "plugins": [
+    "NeogitOrg/neogit",
+    "akinsho/toggleterm.nvim",
+    "b0o/SchemaStore.nvim",
+    "echasnovski/mini.nvim",
+    "folke/tokyonight.nvim",
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
+    "hrsh7th/nvim-cmp",
+    "lewis6991/gitsigns.nvim",
+    "lukas-reineke/indent-blankline.nvim",
+    "mfussenegger/nvim-lint",
+    "mrcjkb/rustaceanvim",
+    "neovim/nvim-lspconfig",
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter-context",
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    "sindrets/diffview.nvim",
+    "stevearc/conform.nvim",
+    "stevearc/dressing.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "williamboman/mason.nvim",
+    "windwp/nvim-ts-autotag"
+  ],
+  "pluginManager": "packages",
   "treesitterParsers": [
     "bash",
     "c",
@@ -45,14 +74,15 @@
     "yaml"
   ],
   "lspServers": [
-    "marksman",
-    "eslint",
     "bashls",
-    "tsserver",
-    "ruff_lsp",
+    "eslint",
     "gopls",
     "lua_ls",
-    "pyright"
+    "marksman",
+    "pyright",
+    "ruff_lsp",
+    "tsserver"
   ],
   "leaderKey": "<Space>"
 }
+
