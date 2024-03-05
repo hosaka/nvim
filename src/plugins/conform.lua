@@ -27,6 +27,7 @@ require("conform").setup({
     python = { "isort", "black" },
     sh = { "shfmt" },
     typescript = { "prettier" },
+    typescriptreact = { "prettier" },
     vue = { "prettier" },
     yaml = { "prettier" },
   },

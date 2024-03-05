@@ -4,6 +4,11 @@ require("neogit").setup({
   disable_hint = true,
   disable_commit_confirmation = true,
   integrations = {
-    diffview = true
+    diffview = true,
+  },
+  sections = {
+    recent = {
+      folded = false,
+    },
   },
 })
