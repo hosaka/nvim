@@ -1,3 +1,8 @@
+pcall(function()
+  -- experimental loader
+  vim.loader.enable()
+end)
+
 -- main config table
 _G.Hosaka = {
   path_package = vim.fn.stdpath("data") .. "/site/",
