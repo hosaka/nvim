@@ -7,18 +7,15 @@ local o, opt = vim.o, vim.opt
 -- General
 opt.autowrite = true -- Enable auto write
 opt.backup = false -- Don't store backups
-opt.mouse = "a" -- Enable mouse for all available modes
-opt.switchbuf = "usetab" -- Use already opened buffers when switching
-opt.writebackup = false -- Don't store backups while overwriting the file
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
-opt.wildmode = "longest:full,full" -- Command-line completion mode
-vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
-
--- Defines what needs to be saved in a session
-opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" }
-
--- Undo
+opt.mouse = "a" -- Enable mouse for all available modes
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } -- Defines what needs to be saved in a session
+opt.switchbuf = "usetab" -- Use already opened buffers when switching
 opt.undofile = true -- Enable persistent undo
+opt.wildmode = "longest:full,full" -- Command-line completion mode
+opt.writebackup = false -- Don't store backups while overwriting the file
+opt.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit stored shared data
+vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
 -- Appearance
 opt.breakindent = true -- Indent wrapped lines to match line start
@@ -115,12 +112,11 @@ opt.spelloptions = "camel" -- Treat parts of calemCase words as separate words
 -- Folding
 opt.foldenable = true -- Enable folding
 opt.foldlevel = 99 -- Higher fold level
+opt.foldmethod = "indent" -- Set indent folding method
 
 if vim.treesitter.foldexpr then
   opt.foldmethod = "expr" -- Set expr folding methond
   opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use tresitter as folding expr
-else
-  opt.foldmethod = "indent"
 end
 if vim.treesitter.foldtext then
   opt.foldtext = "v:lua.vim.treesitter.foldtext()"

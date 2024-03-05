@@ -34,7 +34,7 @@ NVIM_APPNAME=hosaka/nvim/ nvim
 
 ## Plugins
 
-Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-deps.md) package manager. See `:h MiniDeps` for more details and `init.lua` for a list of installed plugins. Version hashes are stored in `mini-deps-snap` snapshot file.
+Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-deps.md) package manager. See `:h MiniDeps` for more details and `init.lua` for a list of installed plugins. Version hashes are stored in the `snapshot` file.
 
 ### colorscheme
 

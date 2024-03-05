@@ -8,6 +8,9 @@ gs.setup({
     changedelete = { text = "~" },
   },
   preview_config = { border = "rounded" },
+  diff_opts = {
+    linematch = 60,
+  },
   on_attach = function(buffer)
     local map = function(mode, lhs, rhs, desc)
       local opts = {}
