@@ -105,6 +105,8 @@ now(function()
         local spell = vim.wo.spell and (ministatus.is_truncated(120) and "S" or "SPELL") or ""
         local wrap = vim.wo.wrap and (ministatus.is_truncated(120) and "W" or "WRAP") or ""
         local git = ministatus.section_git({ trunc_width = 75 })
+        local diff_summary = vim.b.minidiff_summary_string
+        local diff = diff_summary ~= nil and string.format(" %s", diff_summary == "" and "-" or diff_summary) or ""
         local diagnostics = ministatus.section_diagnostics({ trunc_width = 75 })
         local filename = ministatus.section_filename({ trunc_width = 140 })
         local fileinfo = ministatus.section_fileinfo({ trunc_width = 120 })
@@ -113,7 +115,7 @@ now(function()
 
         return ministatus.combine_groups({
           { hl = mode_hl, strings = { mode, spell, wrap } },
-          { hl = "MiniStatuslineDevinfo", strings = { git, diagnostics } },
+          { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
           "%<", -- truncate point
           { hl = "MiniStatuslineFilename", strings = { filename } },
           "%=", -- left alignment
@@ -253,6 +255,14 @@ end)
 
 later(function()
   require("mini.cursorword").setup()
+end)
+
+later(function()
+  require("mini.diff").setup({
+    view = {
+      style = "sign",
+    },
+  })
 end)
 
 later(function()
@@ -518,10 +528,10 @@ later(function()
   source("plugins/nvim-lspconfig.lua")
 end)
 
-later(function()
-  add("lewis6991/gitsigns.nvim")
-  source("plugins/gitsigns.lua")
-end)
+-- later(function()
+--   add("lewis6991/gitsigns.nvim")
+--   source("plugins/gitsigns.lua")
+-- end)
 
 later(function()
   add({ source = "NeogitOrg/neogit", depends = { "nvim-lua/plenary.nvim" } })
