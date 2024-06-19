@@ -97,34 +97,7 @@ now(function()
 end)
 
 now(function()
-  local ministatus = require("mini.statusline")
-  ministatus.setup({
-    content = {
-      active = function()
-        local mode, mode_hl = ministatus.section_mode({ trunc_width = 120 })
-        local spell = vim.wo.spell and (ministatus.is_truncated(120) and "S" or "SPELL") or ""
-        local wrap = vim.wo.wrap and (ministatus.is_truncated(120) and "W" or "WRAP") or ""
-        local git = ministatus.section_git({ trunc_width = 75 })
-        local diff_summary = vim.b.minidiff_summary_string
-        local diff = diff_summary ~= nil and string.format(" %s", diff_summary == "" and "-" or diff_summary) or ""
-        local diagnostics = ministatus.section_diagnostics({ trunc_width = 75 })
-        local filename = ministatus.section_filename({ trunc_width = 140 })
-        local fileinfo = ministatus.section_fileinfo({ trunc_width = 120 })
-        local searchcount = ministatus.section_searchcount({ trunc_width = 75 })
-        local location = ministatus.section_location({ trunc_width = 75 })
-
-        return ministatus.combine_groups({
-          { hl = mode_hl, strings = { mode, spell, wrap } },
-          { hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics } },
-          "%<", -- truncate point
-          { hl = "MiniStatuslineFilename", strings = { filename } },
-          "%=", -- left alignment
-          { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
-          { hl = mode_hl, strings = { searchcount, location } },
-        })
-      end,
-    },
-  })
+  require("mini.statusline").setup()
 end)
 
 now(function()
@@ -325,11 +298,19 @@ later(function()
       preview = true,
       width_preview = 50,
     },
+    options = {
+      -- replacing netrw breaks nvim scp://user@host//path/to/file
+      -- use_as_default_explorer = false,
+    },
     mappings = {
       go_in = "L",
       go_in_plus = "l",
     },
   })
+end)
+
+later(function()
+  require("mini.git").setup()
 end)
 
 later(function()
@@ -527,11 +508,6 @@ later(function()
   add({ source = "neovim/nvim-lspconfig", depends = { "williamboman/mason-lspconfig.nvim" } })
   source("plugins/nvim-lspconfig.lua")
 end)
-
--- later(function()
---   add("lewis6991/gitsigns.nvim")
---   source("plugins/gitsigns.lua")
--- end)
 
 later(function()
   add({ source = "NeogitOrg/neogit", depends = { "nvim-lua/plenary.nvim" } })

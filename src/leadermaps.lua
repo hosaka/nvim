@@ -142,7 +142,11 @@ nmap_leader("gg", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
 nmap_leader("gG", [[<cmd>lua Hosaka.toggle_lazygit()<cr>]], "Lazygit")
 nmap_leader("gc", [[<cmd>lua require('neogit').open({'commit'})<cr>]], "Commit")
 nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
-nmap_leader("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Toggle overlay")
+nmap_leader("gl", [[<cmd>Git log --oneline<cr>]], "Log")
+nmap_leader("gL", [[<cmd>Git log --oneline --follow -- %<cr>]], "Log buffer")
+nmap_leader("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Overlay diff")
+nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
+xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")
 
 -- o is for option
 nmap_leader("ot", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")

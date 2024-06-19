@@ -57,6 +57,8 @@ o.fillchars = table.concat({
   "vertright:╠",
 }, ",")
 o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",")
+o.cursorlineopt = table.concat({ "screenline", "number" }, ",") -- Do not show screen line when wrap is on
+o.breakindentopt = "list:-1" -- Add padding for lists when wrap is on
 
 if vim.fn.has("nvim-0.9") == 1 then
   opt.splitkeep = "screen" -- Reduce scroll during window split
@@ -122,6 +124,10 @@ if vim.treesitter.foldtext then
   opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 end
 
+if vim.fn.has("nvim-0.11") == 1 then
+  opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
+end
+
 -- Clipboard
 if vim.fn.has("wsl") then
   vim.g.clipboard = {
@@ -148,8 +154,8 @@ vim.g.editorconfig = false -- Support for .editorconfig
 vim.g.loaded_man = 1 -- View manpages in Nvim
 vim.g.loaded_matchit = 1 -- Extended matching with %
 vim.g.loaded_matchparen = 1 -- Highlight matching parens
-vim.g.loaded_netrw = 1 -- Netrw (aka Explore)
-vim.g.loaded_netrwPlugin = 1 -- Netrw plugin
+-- vim.g.loaded_netrw = 1 -- Netrw (aka Explore)
+-- vim.g.loaded_netrwPlugin = 1 -- Netrw plugin
 vim.g.loaded_remote_plugins = 1 -- Support for remote plugins
 -- vim.g.loaded_shada_plugin = 1 -- Shared Data file
 vim.g.loaded_spellfile_plugin = 1 -- Support for downloading spell files
