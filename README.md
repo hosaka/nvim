@@ -24,7 +24,7 @@ NVIM_APPNAME=hosaka/nvim/ nvim
 
 - **Required**:
 
-  - neovim>=0.10 (nightly), git, [ripgrep](https://github.com/BurntSushi/ripgrep), [lazygit](https://github.com/jesseduffield/lazygit) (optional)
+  - neovim>=0.10, git, [ripgrep](https://github.com/BurntSushi/ripgrep), [lazygit](https://github.com/jesseduffield/lazygit) (optional)
 
 - **Optional**:
   - **Fonts**: A [Nerd Font](https://www.nerdfonts.com/).
@@ -55,7 +55,6 @@ Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/
 
 ### git
 
-- [lewis6991/gitsigns.nvim](https://dotfyle.com/plugins/lewis6991/gitsigns.nvim)
 - [sindrets/diffview.nvim](https://dotfyle.com/plugins/sindrets/diffview.nvim)
 - [NeogitOrg/neogit](https://dotfyle.com/plugins/NeogitOrg/neogit)
 
