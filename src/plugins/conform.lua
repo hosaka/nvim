@@ -8,9 +8,7 @@ require("conform").setup({
       return
     end
     return {
-      async = true,
-      timeout_ms = 10000,
-      lsp_fallback = true,
+      timeout_ms = 3000,
     }
   end,
   formatters_by_ft = {
@@ -42,12 +40,7 @@ require("conform").setup({
 vim.g.autoformat_disable = false
 vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 
-vim.keymap.set(
-  { "n", "x" },
-  "<Leader>cf",
-  [[<cmd>lua require("conform").format({ lsp_fallback = true })<cr>]],
-  { desc = "Format code" }
-)
+vim.keymap.set({ "n", "x" }, "<Leader>cf", [[<cmd>lua require("conform").format()<cr>]], { desc = "Format code" })
 
 vim.api.nvim_create_user_command("Format", function(args)
   local range = nil
@@ -58,5 +51,5 @@ vim.api.nvim_create_user_command("Format", function(args)
       ["end"] = { args.line2, end_line:len() },
     }
   end
-  require("conform").format({ async = true, lsp_fallback = true, range = range })
+  require("conform").format({ range = range })
 end, { range = true })
