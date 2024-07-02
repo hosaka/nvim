@@ -50,8 +50,13 @@ require("nvim-treesitter.configs").setup({
   -- nvim-treesitter-textobjects
   textobjects = {
     select = {
-      enable = false,
+      enable = true,
       lookahead = true,
+      keymaps = {
+        -- most keymaps are already handled by mini.ai
+        ["l="] = { query = "@assignment.lhs", desc = "Left hand side of an assignment" },
+        ["r="] = { query = "@assignment.rhs", desc = "Right hand side of an assignment" },
+      },
     },
     move = {
       enable = true,

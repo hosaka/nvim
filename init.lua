@@ -115,15 +115,12 @@ later(function()
   local ai = require("mini.ai")
   ai.setup({
     custom_textobjects = {
-      a = ai.gen_spec.treesitter({ a = "@parameter.outer", i = "@parameter.inner" }),
       c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
-      F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+      m = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
       o = ai.gen_spec.treesitter({
         a = { "@block.outer", "@conditional.outer", "@loop.outer" },
         i = { "@block.inner", "@conditional.inner", "@loop.inner" },
       }),
-      -- html-like tags
-      t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
     },
   })
 end)
