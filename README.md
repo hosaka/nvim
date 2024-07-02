@@ -24,13 +24,17 @@ NVIM_APPNAME=hosaka/nvim/ nvim
 
 - **Required**:
 
-  - neovim>=0.10, git, [ripgrep](https://github.com/BurntSushi/ripgrep), [lazygit](https://github.com/jesseduffield/lazygit) (optional)
+  - neovim>=0.9.4, git
+  - C compiler (gcc, clang, zig) as required by the tree-sitter plugin. On Alpine Lunux `musl-dev` is needed for header files.
 
 - **Optional**:
   - **Fonts**: A [Nerd Font](https://www.nerdfonts.com/).
   - **LSPs**: Language servers are not automatically installed, but can be with `:Mason`. See `nvim-lspconfig.lua` for a list of included settings.
   - **Linters**: When an LSP does not provide a linter, one can be installed with `:Mason`. See `nvim-lint.lua` for a list of included settings.
   - **Formatters**: When an LSP does not provide a formatter, one can be installed with `:Mason`. See `conform.lua` for a list of included settings.
+  - **Tools**:
+    - [ripgrep](https://github.com/BurntSushi/ripgrep)
+    - [lazygit](https://github.com/jesseduffield/lazygit)
 
 ## Plugins
 

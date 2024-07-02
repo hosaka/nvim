@@ -12,7 +12,7 @@ _G.Hosaka = {
 
 -- bootstrap 'mini.nvim'
 local mini_path = Hosaka.path_package .. "pack/deps/start/mini.nvim"
-if not vim.uv.fs_stat(mini_path) then
+if not vim.loop.fs_stat(mini_path) then
   vim.cmd([[echo "Installing 'mini.nvim'" | redraw]])
   local clone_cmd = {
     "git",

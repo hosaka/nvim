@@ -3,7 +3,7 @@ require("lint").linters_by_ft = {
 }
 
 local debounce = function(ms, fn)
-  local timer = vim.uv.new_timer()
+  local timer = vim.loop.new_timer()
   return function(...)
     local argv = { ... }
     timer:start(ms, 0, function()
