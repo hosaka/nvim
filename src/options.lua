@@ -90,6 +90,7 @@ opt.inccommand = "nosplit" -- Preview incremental substitute
 opt.incsearch = true -- Show search results while typing
 opt.infercase = true -- Infer letter cases
 opt.iskeyword:append("-") -- Treat dash-separated-words as a word text object
+opt.jumpoptions = "stack" -- Jump list behaves like a stack
 opt.shiftround = true -- Round indent
 opt.shiftwidth = 2 -- Size of an indent
 opt.smartcase = true -- Don't ignore case with capitals
@@ -97,7 +98,6 @@ opt.smartindent = true -- Insert indents automatically
 opt.tabstop = 2 -- Number of spaces tabs count for
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = "block" -- Allow going past the end line in visual block mode
-opt.jumpoptions = "stack" -- Jump list behaves like a stack
 
 -- Pattern for a start of 'numbered' list.
 -- At least one special character (0-9, -, +, *) optionally followed by some

@@ -522,6 +522,11 @@ later(function()
 end)
 
 later(function()
+  add("kevinhwang91/nvim-bqf")
+  source("plugins/nvim-bqf.lua")
+end)
+
+later(function()
   add("lukas-reineke/indent-blankline.nvim")
   source("plugins/indent-blankline.lua")
 end)

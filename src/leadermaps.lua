@@ -46,7 +46,7 @@ xmap_leader("d", [["_d]], "Delete to blackhole")
 nmap_leader("bb", [[<cmd>b#<cr>]], "Other")
 nmap_leader("bn", [[<cmd>bnext<cr>]], "Next")
 nmap_leader("bp", [[<cmd>bprevious<cr>]], "Prev")
-nmap_leader("bs", [[<cmd>lua hosaka.new_scratch_buffer()<cr>]], "Scratch")
+nmap_leader("bs", [[<cmd>lua Hosaka.new_scratch_buffer()<cr>]], "Scratch")
 nmap_leader("bd", [[<cmd>lua require("mini.bufremove").delete()<cr>]], "Delete")
 nmap_leader("bD", [[<cmd>lua require("mini.bufremove").delete(0, true)<cr>]], "Delete!")
 nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout")
@@ -55,11 +55,13 @@ nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "
 -- c is for code
 -- see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
-nmap_leader("cD", [[<cmd>lua vim.diagnostic.setloclist()<cr>]], "Diagnostic list")
-nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
-nmap_leader("ck", [[<cmd>lua vim.diagnostic.goto_prev()<cr>]], "Prev diagnostic")
+nmap_leader("cD", [[<cmd>lua vim.diagnostic.setqflist()<cr>]], "Diagnostic quickfix")
+-- nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
+-- nmap_leader("ck", [[<cmd>lua vim.diagnostic.goto_prev()<cr>]], "Prev diagnostic")
+nmap_leader("cj", [[<cmd>cnext<cr>]], "Next quickfix")
+nmap_leader("ck", [[<cmd>cprev<cr>]], "Prev quickfix")
 nmap_leader("cl", [[<cmd>lopen<cr>]], "Location list")
-nmap_leader("cq", [[<cmd>lua hosaka.toggle_quickfix()<cr>]], "Quickfix list")
+nmap_leader("cq", [[<cmd>lua Hosaka.toggle_quickfix()<cr>]], "Toggle quickfix")
 
 -- e is for edit
 nmap_leader("en", [[<cmd>enew<cr>]], "New file")
