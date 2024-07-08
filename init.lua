@@ -106,6 +106,12 @@ now(function()
   })
 end)
 
+now(function()
+  local miniicons = require("mini.icons")
+  miniicons.setup()
+  miniicons.mock_nvim_web_devicons()
+end)
+
 -- delayed config
 later(function()
   require("mini.extra").setup()
@@ -426,11 +432,6 @@ later(function()
 end)
 
 -- dependencies
-now(function()
-  add("nvim-tree/nvim-web-devicons")
-  source("plugins/nvim-web-devicons.lua")
-end)
-
 now(function()
   add("folke/tokyonight.nvim")
   source("plugins/tokyonight.lua")
