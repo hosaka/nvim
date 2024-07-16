@@ -56,8 +56,6 @@ nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "
 -- see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
 nmap_leader("cD", [[<cmd>lua vim.diagnostic.setqflist()<cr>]], "Diagnostic quickfix")
--- nmap_leader("cj", [[<cmd>lua vim.diagnostic.goto_next()<cr>]], "Next diagnostic")
--- nmap_leader("ck", [[<cmd>lua vim.diagnostic.goto_prev()<cr>]], "Prev diagnostic")
 nmap_leader("cj", [[<cmd>cnext<cr>]], "Next quickfix")
 nmap_leader("ck", [[<cmd>cprev<cr>]], "Prev quickfix")
 nmap_leader("cl", [[<cmd>lopen<cr>]], "Location list")
@@ -72,19 +70,20 @@ nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
 nmap_leader("ew", function()
   vim.ui.input({ prompt = "Session name:" }, function(input)
     if input then
-      MiniSessions.write(input)
+      require("mini.sessions").write(input)
     end
   end)
 end, "Write session")
 
 local pick_buffers
 pick_buffers = function()
-  MiniPick.builtin.buffers(nil, {
+  local minipick = require("mini.pick")
+  minipick.builtin.buffers(nil, {
     mappings = {
       delete_buffer = {
         char = "<C-d>",
         func = function()
-          local matches = MiniPick.get_picker_matches()
+          local matches = minipick.get_picker_matches()
           if matches then
             if next(matches.marked) then
               for _, buffer in ipairs(matches.marked) do
@@ -147,6 +146,16 @@ nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
 nmap_leader("gl", [[<cmd>Git log --oneline<cr>]], "Log")
 nmap_leader("gL", [[<cmd>Git log --oneline --follow -- %<cr>]], "Log buffer")
 nmap_leader("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Overlay diff")
+nmap_leader("gQ", function()
+  local minidiff = require("mini.diff")
+  vim.fn.setqflist(minidiff.export("qf", { scope = "current" }))
+  Hosaka.toggle_quickfix()
+end, "Hunk quickfix")
+nmap_leader("gq", function()
+  local minidiff = require("mini.diff")
+  vim.fn.setqflist(minidiff.export("qf", { scope = "all" }))
+  Hosaka.toggle_quickfix()
+end, "Hunk quickfix (all)")
 nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
 xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")
 
@@ -166,6 +175,7 @@ end, "Toggle autoformat (current)")
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
 nmap_leader("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
+nmap_leader("qs", [[<cmd>suspend<cr>]], "Suspend")
 
 -- r is for run and it is created when LSPs attach to buffers
 
@@ -188,8 +198,9 @@ nmap_leader("vr", [[<cmd>lua MiniVisits.remove_label()<cr>]], "Remove label")
 
 local map_pick_core = function(lhs, cwd, desc)
   local rhs = function()
-    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
-    MiniExtra.pickers.visit_paths({ cwd = cwd, filter = "core", sort = sort_latest }, { source = { name = desc } })
+    local minivisits = require("mini.visits")
+    local sort_latest = minivisits.gen_sort.default({ recency_weight = 1 })
+    minivisits.pickers.visit_paths({ cwd = cwd, filter = "core", sort = sort_latest }, { source = { name = desc } })
   end
   nmap_leader(lhs, rhs, desc)
 end
@@ -199,8 +210,9 @@ map_pick_core("vC", nil, "Core visits")
 
 local map_iterate_core = function(lhs, direction, desc)
   local rhs = function()
-    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
-    MiniVisits.iterate_paths(direction, vim.fn.getcwd(), { filter = "core", sort = sort_latest, wrap = true })
+    local minivisits = require("mini.visits")
+    local sort_latest = minivisits.gen_sort.default({ recency_weight = 1 })
+    minivisits.iterate_paths(direction, vim.fn.getcwd(), { filter = "core", sort = sort_latest, wrap = true })
   end
   vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
