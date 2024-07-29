@@ -50,7 +50,7 @@ local default_on_attach = function(client, buffer)
 
   if vim.lsp.inlay_hint then
     mapl("n", "ch", function()
-      vim.lsp.inlay_hint.enable(buffer, not vim.lsp.inlay_hint.is_enabled(buffer))
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(buffer), buffer)
     end, "Toggle inlay hints", "textDocument/inlayHint")
   end
 
