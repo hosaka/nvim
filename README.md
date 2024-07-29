@@ -90,6 +90,7 @@ Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/
 
 - [stevearc/dressing.nvim](https://dotfyle.com/plugins/stevearc/dressing.nvim)
 - [echasnovski/mini.nvim](https://dotfyle.com/plugins/echasnovski/mini.nvim)
+- [kevinhwang91/nvim-bqf](https://github.com/kevinhwang91/nvim-bqf)
 
 ## Language Servers
 
