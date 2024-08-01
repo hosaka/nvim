@@ -1,8 +1,20 @@
+-- format on save can be disabled with a global or buffer-local variable
+vim.g.autoformat_disable = false
+
+-- use conform as formatexpr, which allows formatting with `gq` operator
+vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+
 require("conform").setup({
   format_on_save = function(buffer)
     if vim.g.autoformat_disable or vim.b[buffer].autoformat_disable then
       return
     end
+    -- disable for certain filetypes
+    local ignore_filetypes = {}
+    if vim.tbl_contains(ignore_filetypes, vim.bo[buffer].filetype) then
+      return
+    end
+    -- disable for files in certain paths
     local bufname = vim.api.nvim_buf_get_name(buffer)
     if bufname:match("/node_modules/") then
       return
@@ -21,7 +33,7 @@ require("conform").setup({
     javascript = { "prettier" },
     json = { "prettier" },
     lua = { "stylua" },
-    markdown = { "prettier" },
+    markdown = { "prettier", "injected" },
     python = { "isort", "black" },
     sh = { "shfmt" },
     typescript = { "prettier" },
@@ -34,15 +46,13 @@ require("conform").setup({
     shfmt = {
       prepend_args = { "-i", "2" },
     },
+    injected = {
+      ignore_errors = false,
+    },
   },
 })
 
-vim.g.autoformat_disable = false
-vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
-
-vim.keymap.set({ "n", "x" }, "<Leader>cf", [[<cmd>lua require("conform").format()<cr>]], { desc = "Format code" })
-
-vim.api.nvim_create_user_command("Format", function(args)
+vim.api.nvim_create_user_command("Conform", function(args)
   local range = nil
   if args.count ~= -1 then
     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
@@ -53,3 +63,6 @@ vim.api.nvim_create_user_command("Format", function(args)
   end
   require("conform").format({ range = range })
 end, { range = true })
+
+-- <cmd> does not switch modes so : is used instead
+vim.keymap.set({ "n", "x" }, "<Leader>cf", [[:Conform<cr>]], { desc = "Format code" })
