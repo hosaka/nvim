@@ -50,6 +50,9 @@ require("conform").setup({
       ignore_errors = false,
     },
   },
+  default_format_opts = {
+    lsp_format = "fallback",
+  },
 })
 
 vim.api.nvim_create_user_command("Conform", function(args)

@@ -343,6 +343,14 @@ require("mason-lspconfig").setup({
       }
     end,
 
+    -- zig
+    zls = function()
+      require("lspconfig").zls.setup({
+        on_attach = default_on_attach,
+        capabilities = default_capabilities,
+      })
+    end,
+
     -- tailwind
     tailwindcss = function()
       require("lspconfig").tailwindcss.setup({
