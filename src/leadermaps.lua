@@ -16,19 +16,8 @@ Hosaka.leader_group_clues = {
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
 }
 
-local map_leader = function(mode, suffix, rhs, desc, opts)
-  opts = opts or {}
-  opts.desc = desc
-  vim.keymap.set(mode, "<Leader>" .. suffix, rhs, opts)
-end
-
-local nmap_leader = function(suffix, rhs, desc, opts)
-  map_leader("n", suffix, rhs, desc, opts)
-end
-
-local xmap_leader = function(suffix, rhs, desc, opts)
-  map_leader("x", suffix, rhs, desc, opts)
-end
+local xmap_leader = Hosaka.xmap_leader
+local nmap_leader = Hosaka.nmap_leader
 
 -- registers
 xmap_leader("p", [["_dP]], "Paste to blackhole")
@@ -53,7 +42,7 @@ nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout
 nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
 
 -- c is for code
--- see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
+-- see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
 nmap_leader("cD", [[<cmd>lua vim.diagnostic.setqflist()<cr>]], "Diagnostic quickfix")
 nmap_leader("cj", [[<cmd>cnext<cr>]], "Next quickfix")
@@ -147,30 +136,29 @@ nmap_leader("gl", [[<cmd>Git log --oneline<cr>]], "Log")
 nmap_leader("gL", [[<cmd>Git log --oneline --follow -- %<cr>]], "Log buffer")
 nmap_leader("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Overlay diff")
 nmap_leader("gQ", function()
-  local minidiff = require("mini.diff")
-  vim.fn.setqflist(minidiff.export("qf", { scope = "current" }))
+  vim.fn.setqflist(require("mini.diff").export("qf", { scope = "current" }))
   Hosaka.toggle_quickfix()
 end, "Hunk quickfix")
 nmap_leader("gq", function()
-  local minidiff = require("mini.diff")
-  vim.fn.setqflist(minidiff.export("qf", { scope = "all" }))
+  vim.fn.setqflist(require("mini.diff").export("qf", { scope = "all" }))
   Hosaka.toggle_quickfix()
 end, "Hunk quickfix (all)")
 nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
 xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")
 
 -- o is for option
-nmap_leader("ot", [[<cmd>TSContextToggle<cr>]], "Toggle treesitter context")
+-- also see `plugins/nvim-treesitter-context.lua`
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
-nmap_leader("op", function()
-  vim.g.minipairs_disable = not vim.g.minipairs_disable
-end, "Toggle autopairs")
-nmap_leader("of", function()
-  vim.g.autoformat_disable = not vim.g.autoformat_disable
-end, "Toggle autoformat (all)")
-nmap_leader("oF", function()
-  vim.b.autoformat_disable = not vim.b.autoformat_disable
-end, "Toggle autoformat (current)")
+Hosaka.nmap_toggle_diagnostic("od", "Toggle diagnostic")
+Hosaka.nmap_toggle_global("of", "autoformat_disable", "Toggle autoformat")
+Hosaka.nmap_toggle_global("op", "minipairs_disable", "Toggle autopairs")
+Hosaka.nmap_toggle_option("oC", "cursorcolumn", "Toggle 'cursorcolumn'")
+Hosaka.nmap_toggle_option("oc", "cursorline", "Toggle 'cursorline'")
+Hosaka.nmap_toggle_option("on", "number", "Toggle 'number'")
+Hosaka.nmap_toggle_option("or", "relativenumber", "Toggle 'relativenumber'")
+Hosaka.nmap_toggle_option("os", "spell", "Toggle 'spell'")
+Hosaka.nmap_toggle_option("ow", "wrap", "Toggle 'wrap'")
+Hosaka.nmap_toggle_states("ob", "bg", "dark", "light", "Toggle background")
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
