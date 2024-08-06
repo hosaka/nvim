@@ -171,3 +171,7 @@ vim.g.loaded_python3_provider = 0 -- Python3 plugin provider
 vim.g.loaded_ruby_provider = 0 -- Ruby plugin provider
 vim.g.loaded_perl_provider = 0 -- Perl plugin provider
 vim.g.loaded_node_provider = 0 -- Node plugin provider
+
+-- Plugins
+vim.g.minipairs_disable = true
+vim.g.autoformat_disable = false

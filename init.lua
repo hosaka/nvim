@@ -377,13 +377,14 @@ later(function()
 end)
 
 later(function()
-  -- require("mini.pairs").setup({
-  --   modes = {
-  --     insert = true,
-  --     command = false,
-  --     terminal = false,
-  --   },
-  -- })
+  -- disabled in options.lua, can be toggled with <Leader>op
+  require("mini.pairs").setup({
+    modes = {
+      insert = true,
+      command = false,
+      terminal = false,
+    },
+  })
 end)
 
 later(function()

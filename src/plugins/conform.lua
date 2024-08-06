@@ -1,5 +1,6 @@
 -- format on save can be disabled with a global or buffer-local variable
-vim.g.autoformat_disable = false
+-- vim.g.autoformat_disable = true
+-- vim.b[buffer].autoformat_disable = true
 
 -- use conform as formatexpr, which allows formatting with `gq` operator
 vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
