@@ -152,6 +152,7 @@ nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 Hosaka.nmap_toggle_diagnostic("od", "Toggle diagnostic")
 Hosaka.nmap_toggle_global("of", "autoformat_disable", "Toggle autoformat")
 Hosaka.nmap_toggle_global("op", "minipairs_disable", "Toggle autopairs")
+Hosaka.nmap_toggle_local("oT", "minitrailspace_disable", "Toggle trailspace")
 Hosaka.nmap_toggle_option("oC", "cursorcolumn", "Toggle 'cursorcolumn'")
 Hosaka.nmap_toggle_option("oc", "cursorline", "Toggle 'cursorline'")
 Hosaka.nmap_toggle_option("on", "number", "Toggle 'number'")
@@ -166,6 +167,12 @@ nmap_leader("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
 nmap_leader("qs", [[<cmd>suspend<cr>]], "Suspend")
 
 -- r is for run and it is created when LSPs attach to buffers
+nmap_leader("rc", function()
+  local config_path = vim.fn.stdpath("config") .. "/init.lua"
+  if vim.loop.fs_stat(config_path) then
+    vim.cmd("source" .. config_path)
+  end
+end, "Config reload")
 
 -- t is for terminal
 nmap_leader("tt", [[<cmd>ToggleTerm<cr>]], "Terminal toggle")
@@ -194,7 +201,7 @@ local map_pick_core = function(lhs, cwd, desc)
 end
 
 map_pick_core("vc", "", "Core visits (all)")
-map_pick_core("vC", nil, "Core visits")
+map_pick_core("vC", nil, "Core visits (cwd)")
 
 local map_iterate_core = function(lhs, direction, desc)
   local rhs = function()

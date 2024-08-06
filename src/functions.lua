@@ -72,6 +72,15 @@ Hosaka.nmap_toggle_global = function(suffix, option, desc)
   end, desc .. " " .. (vim.g[option] and "on" or "off"))
 end
 
+Hosaka.nmap_toggle_local = function(suffix, option, desc)
+  Hosaka.nmap_leader(suffix, function()
+    vim.b[option] = not vim.b[option]
+    local state = vim.b[option]
+    vim.notify(desc .. " " .. (state and "off" or "on"))
+    Hosaka.nmap_leader_desc(suffix, desc .. " " .. (state and "on" or "off"))
+  end, desc .. " " .. (vim.b[option] and "on" or "off"))
+end
+
 Hosaka.nmap_toggle_states = function(suffix, option, on_state, off_state, desc)
   local next = on_state
   if vim.o[option] == on_state then
