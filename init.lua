@@ -246,6 +246,7 @@ end)
 later(function()
   -- defaults
   local show_dotfiles = false
+  local minifiles = require("mini.files")
 
   local content_filter = function(fs_entry)
     local show = true
@@ -257,7 +258,7 @@ later(function()
 
   local toggle_dotfiles = function()
     show_dotfiles = not show_dotfiles
-    MiniFiles.refresh({
+    minifiles.refresh({
       content = { filter = content_filter },
     })
   end
@@ -265,16 +266,17 @@ later(function()
   local map_split = function(buf_id, lhs, direction)
     local rhs = function()
       local new_target_window
-      vim.api.nvim_win_call(MiniFiles.get_target_window(), function()
-        vim.cmd("belowright " .. direction)
+      vim.api.nvim_win_call(minifiles.get_target_window(), function()
+        vim.cmd("belowright " .. direction .. " split")
         new_target_window = vim.api.nvim_get_current_win()
       end)
 
       -- setting window as a target keeps mini.files open
-      MiniFiles.set_target_window(new_target_window)
+      minifiles.set_target_window(new_target_window)
+      minifiles.go_in()
     end
 
-    local desc = "Open in " .. direction
+    local desc = "Open in " .. direction .. " split"
     vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
   end
 
@@ -284,8 +286,8 @@ later(function()
       local buf_id = args.data.buf_id
       -- adding `desc` will show keymaps in the help popup (g.)
       vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
-      map_split(buf_id, "<C-s>", "split")
-      map_split(buf_id, "<C-v>", "vsplit")
+      map_split(buf_id, "<C-s>", "horizontal")
+      map_split(buf_id, "<C-v>", "vertical")
       vim.keymap.set(
         "n",
         "<CR>",
@@ -295,13 +297,24 @@ later(function()
     end,
   })
 
-  require("mini.files").setup({
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesWindowUpdate",
+    callback = function(args)
+      local config = vim.api.nvim_win_get_config(args.data.win_id)
+      -- ensure fixed height
+      local height = math.floor(0.309 * vim.o.lines)
+      config.height = height
+      vim.api.nvim_win_set_config(args.data.win_id, config)
+    end,
+  })
+
+  minifiles.setup({
     content = {
       filter = content_filter,
     },
     windows = {
       preview = true,
-      width_preview = 50,
+      width_preview = 100,
     },
     options = {
       -- replacing netrw breaks nvim scp://user@host//path/to/file
