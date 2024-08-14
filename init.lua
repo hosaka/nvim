@@ -438,7 +438,7 @@ end)
 now(function()
   add("folke/tokyonight.nvim")
   source("plugins/tokyonight.lua")
-  vim.cmd([[colorscheme tokyonight-moon]])
+  vim.cmd([[colorscheme tokyonight]])
 end)
 
 later(function()
