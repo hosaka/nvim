@@ -308,17 +308,6 @@ later(function()
     end,
   })
 
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "MiniFilesWindowUpdate",
-    callback = function(args)
-      local config = vim.api.nvim_win_get_config(args.data.win_id)
-      -- ensure fixed height
-      local height = math.floor(0.309 * vim.o.lines)
-      config.height = height
-      vim.api.nvim_win_set_config(args.data.win_id, config)
-    end,
-  })
-
   minifiles.setup({
     content = {
       filter = content_filter,

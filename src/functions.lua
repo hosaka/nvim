@@ -12,6 +12,12 @@ Hosaka.toggle_quickfix = function()
   vim.cmd(command)
 end
 
+Hosaka.nmap = function(lhs, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set("n", lhs, rhs, opts)
+end
+
 Hosaka.map_leader = function(mode, suffix, rhs, desc, opts)
   opts = opts or {}
   opts.desc = desc

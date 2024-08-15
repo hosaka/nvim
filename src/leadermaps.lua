@@ -16,8 +16,9 @@ Hosaka.leader_group_clues = {
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
 }
 
-local xmap_leader = Hosaka.xmap_leader
+local nmap = Hosaka.nmap
 local nmap_leader = Hosaka.nmap_leader
+local xmap_leader = Hosaka.xmap_leader
 
 -- registers
 xmap_leader("p", [["_dP]], "Paste to blackhole")
@@ -57,7 +58,7 @@ nmap_leader("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], "Co
 nmap_leader("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], "File directory")
 nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
 nmap_leader("ew", function()
-  vim.ui.input({ prompt = "Session name:" }, function(input)
+  vim.ui.input({ prompt = "Session name" }, function(input)
     if input then
       require("mini.sessions").write(input)
     end
@@ -118,14 +119,11 @@ nmap_leader("fL", [[<cmd>Pick buf_lines scope='current'<cr>]], "Lines (current)"
 nmap_leader("fm", [[<cmd>Pick git_hunks<cr>]], "Modified hunks (all)")
 nmap_leader("fM", [[<cmd>Pick git_hunks path='%'<cr>]], "Modified hunks (current)")
 nmap_leader("fk", [[<cmd>Pick keymaps<cr>]], "Keymaps")
-nmap_leader("fo", [[<cmd>Pick oldfiles<cr>]], "Old files")
-nmap_leader("fO", [[<cmd>Pick options<cr>]], "Options")
+nmap_leader("fo", [[<cmd>Pick options<cr>]], "Options")
 nmap_leader("fr", [[<cmd>Pick resume<cr>]], "Resume")
 nmap_leader("fR", [[<cmd>Pick lsp scope='references'<cr>]], "References (LSP)")
 nmap_leader("fs", [[<cmd>Pick lsp scope="workspace_symbol"<cr>]], "Symbol workspace (LSP)")
 nmap_leader("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], "Symbol buffer (LSP)")
-nmap_leader("fv", [[<cmd>Pick visit_paths cwd=''<cr>]], "Visit paths (all)")
-nmap_leader("fV", [[<cmd>Pick visit_paths<cr>]], "Visit paths")
 
 -- g is for git
 nmap_leader("gg", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
@@ -146,7 +144,7 @@ end, "Hunk quickfix (all)")
 nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
 xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")
 
--- o is for option
+-- o is for options
 -- also see `plugins/nvim-treesitter-context.lua`
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 Hosaka.nmap_toggle_diagnostic("od", "Toggle diagnostic")
@@ -186,31 +184,61 @@ nmap_leader("tp", [[<cmd>lua Hosaka.toggle_python()<cr>]], "Python REPL")
 nmap_leader("tn", [[<cmd>lua Hosaka.toggle_node()<cr>]], "Node REPL")
 
 -- v is for visits
+nmap_leader("vp", [[<cmd>Pick visit_paths cwd=''<cr>]], "Path visits (all)")
+nmap_leader("vP", [[<cmd>Pick visit_paths<cr>]], "Path visits (cwd)")
 nmap_leader("vv", [[<cmd>lua MiniVisits.add_label("core")<cr>]], "Add core label")
 nmap_leader("vV", [[<cmd>lua MiniVisits.remove_label("core")<cr>]], "Remove core label")
-nmap_leader("va", [[<cmd>lua MiniVisits.add_label()<cr>]], "Add label")
-nmap_leader("vr", [[<cmd>lua MiniVisits.remove_label()<cr>]], "Remove label")
+nmap_leader("va", function()
+  vim.ui.input({ prompt = "Add label" }, function(input)
+    if input then
+      require("mini.visits").add_label(input)
+    end
+  end)
+end, "Add label")
+nmap_leader("vr", function()
+  vim.ui.input({ prompt = "Remove label" }, function(input)
+    if input then
+      require("mini.visits").remove_label(input)
+    end
+  end)
+end, "Remove label")
 
-local map_pick_core = function(lhs, cwd, desc)
-  local rhs = function()
-    local minivisits = require("mini.visits")
-    local sort_latest = minivisits.gen_sort.default({ recency_weight = 1 })
-    minivisits.pickers.visit_paths({ cwd = cwd, filter = "core", sort = sort_latest }, { source = { name = desc } })
+local pick_visits
+pick_visits = function(label, cwd)
+  return function()
+    local miniextra = require("mini.extra")
+    miniextra.pickers.visit_paths({
+      cwd = cwd,
+      filter = label,
+      recency_weight = 0,
+    }, {
+      source = { name = string.format("%s visits (%s)", label, cwd ~= "" and "cwd" or "all") },
+      mappings = {
+        delete_visit = {
+          char = "<C-d>",
+          func = function()
+            local minipick = require("mini.pick")
+            local minivisits = require("mini.visits")
+            local matches = minipick.get_picker_matches()
+            if matches.current then
+              minivisits.remove_label(label, matches.current, cwd)
+            end
+            pick_visits(label, cwd)()
+          end,
+        },
+      },
+    })
   end
-  nmap_leader(lhs, rhs, desc)
 end
 
-map_pick_core("vc", "", "Core visits (all)")
-map_pick_core("vC", nil, "Core visits (cwd)")
-
-local map_iterate_core = function(lhs, direction, desc)
-  local rhs = function()
+local iterate_visits = function(label, direction)
+  return function()
     local minivisits = require("mini.visits")
-    local sort_latest = minivisits.gen_sort.default({ recency_weight = 1 })
-    minivisits.iterate_paths(direction, vim.fn.getcwd(), { filter = "core", sort = sort_latest, wrap = true })
+    minivisits.iterate_paths(direction, vim.fn.getcwd(), { filter = label, recency_weight = 0, wrap = true })
   end
-  vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
 
-map_iterate_core("[[", "forward", "Core forward")
-map_iterate_core("]]", "backward", "Core backward")
+nmap_leader("vc", pick_visits("core", ""), "Core visits (all)")
+nmap_leader("vC", pick_visits("core", nil), "Core visits (cwd)")
+nmap("]]", iterate_visits("core", "forward"), "Core forward")
+nmap("[[", iterate_visits("core", "backward"), "Core backward")
