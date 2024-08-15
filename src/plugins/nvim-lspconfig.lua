@@ -31,6 +31,9 @@ vim.diagnostic.config({
 
 -- default attach for all lsp servers
 local default_on_attach = function(client, buffer)
+  -- use mini.completion
+  -- vim.bo[buffer].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
+
   local map = function(mode, lhs, rhs, desc, has)
     -- skips the keymap if lsp method is not supported
     if has ~= nil then

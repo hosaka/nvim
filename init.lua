@@ -110,6 +110,8 @@ now(function()
   local miniicons = require("mini.icons")
   miniicons.setup()
   miniicons.mock_nvim_web_devicons()
+  -- note: enable if using mini.completion
+  -- later(miniicons.tweak_lsp_kind)
 end)
 
 -- delayed config
@@ -218,18 +220,27 @@ later(function()
   require("mini.comment").setup()
 end)
 
-later(function()
-  -- local minicomplete = require("mini.completion")
-  -- minicomplete.setup({
-  --   -- lsp_completion = {
-  --   --   source_func = "omnifunc",
-  --   -- },
-  --   window = {
-  --     info = { border = "single" },
-  --     signature = { border = "single" },
-  --   },
-  -- })
-end)
+-- later(function()
+--   local minicomplete = require("mini.completion")
+--   minicomplete.setup({
+--     lsp_completion = {
+--       source_func = "omnifunc",
+--       -- omnifunc is set per buffer in LSP on_attach
+--       auto_setup = false,
+--       process_items = function(items, base)
+--         -- don't show Text suggestions
+--         items = vim.tbl_filter(function(item)
+--           return item.kind ~= 1
+--         end, items)
+--         return minicomplete.default_process_items(items, base)
+--       end,
+--     },
+--     window = {
+--       info = { border = "rounded" },
+--       signature = { border = "rounded" },
+--     },
+--   })
+-- end)
 
 later(function()
   require("mini.cursorword").setup()
