@@ -1,7 +1,5 @@
 local cmp = require("cmp")
 
--- vim.api.nvim_set_hl(0, "GhostText", { link = "Comment", default = true })
-
 cmp.setup({
   sources = {
     { name = "nvim_lsp" },
@@ -54,6 +52,7 @@ cmp.setup({
     fields = { "abbr", "menu", "kind" },
     format = function(entry, item)
       local short_name = {
+        cmdline = "cmd",
         nvim_lsp = "lsp",
         nvim_lsp_signature_help = "sig",
         nvim_lua = "nvim",
@@ -61,13 +60,13 @@ cmp.setup({
 
       local menu_name = short_name[entry.source.name] or entry.source.name
       item.menu = string.format("[%s]", menu_name)
+
+      if menu_name == "lsp" then
+        item.kind = require("mini.icons").get("lsp", item.kind)
+      end
+
       return item
     end,
-  },
-  experimental = {
-    -- ghost_text = {
-    --   hl_group = "GhostText",
-    -- },
   },
   window = {
     completion = cmp.config.window.bordered(),

@@ -6,6 +6,20 @@ vim.diagnostic.config({
   severity_sort = true,
   -- don't update diagnostics when typing
   update_in_insert = false,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.HINT] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+    },
+    numhl = {
+      [vim.diagnostic.severity.WARN] = "WarningMsg",
+    },
+  },
 })
 
 -- vim.api.nvim_create_autocmd("LspAttach", {
@@ -28,7 +42,6 @@ local default_on_attach = function(client, buffer)
     local opts = {}
     opts.desc = desc
     opts.buffer = buffer
-
     vim.keymap.set(mode, lhs, rhs, opts)
   end
 
@@ -43,7 +56,6 @@ local default_on_attach = function(client, buffer)
   map("n", "gY", [[<cmd>lua vim.lsp.buf.type_definition()<cr>]], "Go to type definition", "textDocument/typeDefinition")
   map("n", "gK", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
   map("i", "<C-k>", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
-
   mapl({ "n", "x" }, "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
   mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
   mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
