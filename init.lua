@@ -4,14 +4,14 @@ pcall(function()
 end)
 
 -- main config table
-_G.Hosaka = {
+_G.Config = {
   path_package = vim.fn.stdpath("data") .. "/site/",
   path_source = vim.fn.stdpath("config") .. "/src/",
   path_snapshot = vim.fn.stdpath("config") .. "/snapshot",
 }
 
 -- bootstrap 'mini.nvim'
-local mini_path = Hosaka.path_package .. "pack/deps/start/mini.nvim"
+local mini_path = Config.path_package .. "pack/deps/start/mini.nvim"
 if not vim.loop.fs_stat(mini_path) then
   vim.cmd([[echo "Installing 'mini.nvim'" | redraw]])
   local clone_cmd = {
@@ -29,15 +29,15 @@ end
 local deps = require("mini.deps")
 deps.setup({
   path = {
-    package = Hosaka.path_package,
-    snapshot = Hosaka.path_snapshot,
+    package = Config.path_package,
+    snapshot = Config.path_snapshot,
   },
 })
 
 local add, now, later = deps.add, deps.now, deps.later
 
 local source = function(path)
-  dofile(Hosaka.path_source .. path)
+  dofile(Config.path_source .. path)
 end
 
 -- settings and mappings
@@ -277,10 +277,13 @@ later(function()
   local map_split = function(buf_id, lhs, direction)
     local rhs = function()
       local new_target_window
-      vim.api.nvim_win_call(minifiles.get_target_window(), function()
-        vim.cmd("belowright " .. direction .. " split")
-        new_target_window = vim.api.nvim_get_current_win()
-      end)
+      local cur_target_window = minifiles.get_target_window()
+      if cur_target_window ~= nil then
+        vim.api.nvim_win_call(cur_target_window, function()
+          vim.cmd("belowright " .. direction .. " split")
+          new_target_window = vim.api.nvim_get_current_win()
+        end)
+      end
 
       -- setting window as a target keeps mini.files open
       minifiles.set_target_window(new_target_window)
@@ -291,20 +294,36 @@ later(function()
     vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
   end
 
+  local set_cwd = function()
+    local cur_entry_path = minifiles.get_fs_entry().path
+    local cur_directory = vim.fs.dirname(cur_entry_path)
+    if cur_directory ~= nil then
+      vim.fn.chdir(cur_directory)
+    end
+  end
+
   vim.api.nvim_create_autocmd("User", {
     pattern = "MiniFilesBufferCreate",
     callback = function(args)
       local buf_id = args.data.buf_id
       -- adding `desc` will show keymaps in the help popup (g.)
-      vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
-      map_split(buf_id, "<C-s>", "horizontal")
-      map_split(buf_id, "<C-v>", "vertical")
       vim.keymap.set(
         "n",
         "<CR>",
         [[<cmd>lua MiniFiles.go_in({ close_on_file = true})<cr>]],
         { buffer = buf_id, desc = "Open" }
       )
+      vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
+      vim.keymap.set("n", "gc", set_cwd, { buffer = buf_id, desc = "Set cwd" })
+      map_split(buf_id, "<C-s>", "horizontal")
+      map_split(buf_id, "<C-v>", "vertical")
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesActionRename",
+    callback = function(args)
+      Hosaka.lsp.rename(args.data.from, args.data.to)
     end,
   })
 
@@ -314,15 +333,20 @@ later(function()
     },
     windows = {
       preview = true,
+      width_focus = 30,
+      width_nofocus = 15,
       width_preview = 100,
     },
     options = {
       -- replacing netrw breaks nvim scp://user@host//path/to/file
-      -- use_as_default_explorer = false,
+      use_as_default_explorer = false,
     },
     mappings = {
       go_in = "L",
       go_in_plus = "l",
+      go_out = "H",
+      go_out_plus = "h",
+      synchronize = "s",
     },
   })
 end)

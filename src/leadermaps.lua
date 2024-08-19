@@ -19,6 +19,8 @@ Hosaka.leader_group_clues = {
 local nmap = Hosaka.nmap
 local nmap_leader = Hosaka.nmap_leader
 local xmap_leader = Hosaka.xmap_leader
+local nmap_toggle = Hosaka.toggle.map
+local nmap_option = Hosaka.toggle.map_option
 
 -- registers
 xmap_leader("p", [["_dP]], "Paste to blackhole")
@@ -147,17 +149,50 @@ xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection"
 -- o is for options
 -- also see `plugins/nvim-treesitter-context.lua`
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
-Hosaka.nmap_toggle_diagnostic("od", "Toggle diagnostic")
-Hosaka.nmap_toggle_global("of", "autoformat_disable", "Toggle autoformat")
-Hosaka.nmap_toggle_global("op", "minipairs_disable", "Toggle autopairs")
-Hosaka.nmap_toggle_local("oT", "minitrailspace_disable", "Toggle trailspace")
-Hosaka.nmap_toggle_option("oC", "cursorcolumn", "Toggle 'cursorcolumn'")
-Hosaka.nmap_toggle_option("oc", "cursorline", "Toggle 'cursorline'")
-Hosaka.nmap_toggle_option("on", "number", "Toggle 'number'")
-Hosaka.nmap_toggle_option("or", "relativenumber", "Toggle 'relativenumber'")
-Hosaka.nmap_toggle_option("os", "spell", "Toggle 'spell'")
-Hosaka.nmap_toggle_option("ow", "wrap", "Toggle 'wrap'")
-Hosaka.nmap_toggle_states("ob", "bg", "dark", "light", "Toggle background")
+nmap_toggle("od", {
+  name = "diagnostics",
+  get = function()
+    return vim.diagnostic.is_enabled()
+  end,
+  set = function()
+    require("mini.basics").toggle_diagnostic()
+  end,
+})
+nmap_toggle("of", {
+  name = "autoformat",
+  get = function()
+    return not vim.g.autoformat_disable
+  end,
+  set = function(value)
+    vim.g.autoformat_disable = not value
+  end,
+})
+nmap_toggle("op", {
+  name = "autopairs",
+  get = function()
+    return not vim.g.minipairs_disable
+  end,
+  set = function(value)
+    vim.g.minipairs_disable = not value
+  end,
+})
+nmap_toggle("oT", {
+  name = "trailspace",
+  get = function()
+    return not vim.g.minitrailspace_disable
+  end,
+  set = function(value)
+    vim.g.minitrailspace_disable = not value
+  end,
+})
+nmap_option("oC", "cursorcolumn", { name = "'cursorcolumn'" })
+nmap_option("oc", "cursorline", { name = "'cursorline'" })
+nmap_option("on", "number", { name = "'number'" })
+nmap_option("or", "relativenumber", { name = "'relativenumber'" })
+nmap_option("os", "spell", { name = "'spell'" })
+nmap_option("ow", "wrap", { name = "'wrap'" })
+-- todo: this should be an vim.opt, not vim.opt_local
+-- nmap_option("ob", "bg", "dark", "light", "Toggle background")
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
@@ -196,6 +231,9 @@ nmap_leader("va", function()
   end)
 end, "Add label")
 nmap_leader("vr", function()
+  -- todo: use mini.pick populated from mini.visits.list_labels
+  -- to only list labels applicable to the current buffer, remove
+  -- upon selecting one
   vim.ui.input({ prompt = "Remove label" }, function(input)
     if input then
       require("mini.visits").remove_label(input)
