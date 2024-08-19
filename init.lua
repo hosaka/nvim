@@ -539,6 +539,11 @@ later(function()
 end)
 
 later(function()
+  add("stevearc/quicker.nvim")
+  source("plugins/quicker.lua")
+end)
+
+later(function()
   add("kevinhwang91/nvim-bqf")
   source("plugins/nvim-bqf.lua")
 end)
