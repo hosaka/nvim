@@ -38,6 +38,8 @@ Hosaka.toggle = {}
 
 ---@class Toggle
 ---@field name string
+---@field on_name? string
+---@field off_name? string
 ---@field get fun():boolean
 ---@field set fun(state:boolean)
 
@@ -50,10 +52,12 @@ H.wrap = function(toggle)
     __call = function()
       toggle.set(not toggle.get())
       local state = toggle.get()
+      local on_name = toggle.on_name or "on"
+      local off_name = toggle.off_name or "off"
       if state then
-        vim.notify("Toggle " .. toggle.name .. " on")
+        vim.notify("Toggle " .. toggle.name .. " " .. on_name)
       else
-        vim.notify("Toggle " .. toggle.name .. " off")
+        vim.notify("Toggle " .. toggle.name .. " " .. off_name)
       end
       return state
     end,
@@ -62,54 +66,65 @@ end
 
 ---@param lhs string
 ---@param toggle Toggle
-H.clue = function(lhs, toggle)
-  -- todo: check if has("mini.clue")
+H.set_toggle_desc = function(lhs, toggle)
+  local on_name = toggle.on_name or "on"
+  local off_name = toggle.off_name or "off"
   require("mini.clue").set_mapping_desc(
     "n",
     "<Leader>" .. lhs,
-    "Toggle " .. toggle.name .. (toggle.get() and " off" or " on")
+    "Toggle " .. toggle.name .. " " .. (toggle.get() and off_name or on_name)
   )
+end
+
+---@param lhs string
+---@param toggle ToggleWrap
+H.nmap_toggle = function(lhs, toggle)
+  Hosaka.nmap_leader(lhs, function()
+    toggle()
+    H.set_toggle_desc(lhs, toggle)
+  end, "Toggle " .. toggle.name)
+  H.set_toggle_desc(lhs, toggle)
 end
 
 ---@param lhs string
 ---@param toggle Toggle
 Hosaka.toggle.map = function(lhs, toggle)
-  local t = H.wrap(toggle)
-  Hosaka.nmap_leader(lhs, function()
-    t()
-    H.clue(lhs, t)
-  end, "Toggle " .. toggle.name)
-  H.clue(lhs, t)
-end
-
----@param option string
----@param opts? {values?: {[1]:any, [2]:any}, name?: string}
-H.option = function(option, opts)
-  opts = opts or {}
-  local name = opts.name or option
-  local on = opts.values and opts.values[2] or true
-  local off = opts.values and opts.values[1] or false
-  return H.wrap({
-    name = name,
-    get = function()
-      return vim.opt_local[option]:get() == on
-    end,
-    set = function(state)
-      vim.opt_local[option] = state and on or off
-    end,
-  })
+  local wrapped = H.wrap(toggle)
+  H.nmap_toggle(lhs, wrapped)
 end
 
 ---@param lhs string
 ---@param option string
----@param opts? {values?: {[1]:any, [2]:any}, name?: string}
-Hosaka.toggle.map_option = function(lhs, option, opts)
-  local o = H.option(option, opts)
-  Hosaka.nmap_leader(lhs, function()
-    o()
-    H.clue(lhs, o)
-  end, "Toggle " .. option)
-  H.clue(lhs, o)
+---@param opts? {name?: string, values?: {[1]:any, [2]:any}, is_global: boolean}
+Hosaka.toggle.option = function(lhs, option, opts)
+  opts = opts or {}
+  local name = opts.name or option
+  local on = opts.values and opts.values[1] or true
+  local off = opts.values and opts.values[2] or false
+  local is_global = opts.is_global or false
+  local wrapped = H.wrap({
+    name = name,
+    get = function()
+      if is_global then
+        return vim.opt[option]:get() == on
+      else
+        return vim.opt_local[option]:get() == on
+      end
+    end,
+    set = function(state)
+      if is_global then
+        vim.opt[option] = state and on or off
+      else
+        vim.opt_local[option] = state and on or off
+      end
+    end,
+  })
+
+  if opts.values then
+    wrapped.on_name = opts.values[1]
+    wrapped.off_name = opts.values[2]
+  end
+  H.nmap_toggle(lhs, wrapped)
 end
 
 ---@class HosakaLsp

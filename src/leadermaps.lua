@@ -20,7 +20,7 @@ local nmap = Hosaka.nmap
 local nmap_leader = Hosaka.nmap_leader
 local xmap_leader = Hosaka.xmap_leader
 local nmap_toggle = Hosaka.toggle.map
-local nmap_option = Hosaka.toggle.map_option
+local nmap_option = Hosaka.toggle.option
 
 -- registers
 xmap_leader("p", [["_dP]], "Paste to blackhole")
@@ -147,6 +147,7 @@ nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
 xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")
 
 -- o is for options
+-- also see `plugins/nvim-lspconfig.lua`
 -- also see `plugins/nvim-treesitter-context.lua`
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 nmap_toggle("od", {
@@ -163,8 +164,8 @@ nmap_toggle("of", {
   get = function()
     return not vim.g.autoformat_disable
   end,
-  set = function(value)
-    vim.g.autoformat_disable = not value
+  set = function(state)
+    vim.g.autoformat_disable = not state
   end,
 })
 nmap_toggle("op", {
@@ -172,8 +173,8 @@ nmap_toggle("op", {
   get = function()
     return not vim.g.minipairs_disable
   end,
-  set = function(value)
-    vim.g.minipairs_disable = not value
+  set = function(state)
+    vim.g.minipairs_disable = not state
   end,
 })
 nmap_toggle("oT", {
@@ -181,8 +182,8 @@ nmap_toggle("oT", {
   get = function()
     return not vim.g.minitrailspace_disable
   end,
-  set = function(value)
-    vim.g.minitrailspace_disable = not value
+  set = function(state)
+    vim.g.minitrailspace_disable = not state
   end,
 })
 nmap_option("oC", "cursorcolumn", { name = "'cursorcolumn'" })
@@ -191,8 +192,7 @@ nmap_option("on", "number", { name = "'number'" })
 nmap_option("or", "relativenumber", { name = "'relativenumber'" })
 nmap_option("os", "spell", { name = "'spell'" })
 nmap_option("ow", "wrap", { name = "'wrap'" })
--- todo: this should be an vim.opt, not vim.opt_local
--- nmap_option("ob", "bg", "dark", "light", "Toggle background")
+nmap_option("ob", "bg", { name = "background", values = { "dark", "light" }, is_global = true })
 
 -- q is for quit
 nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")

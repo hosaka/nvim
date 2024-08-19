@@ -64,9 +64,17 @@ local default_on_attach = function(client, buffer)
   mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
 
   if vim.lsp.inlay_hint then
-    mapl("n", "ch", function()
-      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(buffer), buffer)
-    end, "Toggle inlay hints", "textDocument/inlayHint")
+    if client.supports_method("textDocument/inlayHint") then
+      Hosaka.toggle.map("oh", {
+        name = "inlay hints",
+        get = function()
+          return vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
+        end,
+        set = function(state)
+          vim.lsp.inlay_hint.enable(state, { bufnr = buffer })
+        end,
+      })
+    end
   end
 
   local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
