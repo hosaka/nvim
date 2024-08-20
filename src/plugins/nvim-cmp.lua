@@ -59,12 +59,11 @@ cmp.setup({
       }
 
       local menu_name = short_name[entry.source.name] or entry.source.name
+      local icon, hl = require("mini.icons").get("lsp", item.kind)
+
       item.menu = string.format("[%s]", menu_name)
-
-      if menu_name == "lsp" then
-        item.kind = require("mini.icons").get("lsp", item.kind)
-      end
-
+      item.kind = icon
+      item.kind_hl_group = hl
       return item
     end,
   },
