@@ -445,7 +445,46 @@ later(function()
   })
   -- use as a default selector
   vim.ui.select = minipick.ui_select
-  vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick buf_lines scope='current'<cr>]], { nowait = true })
+
+  local ns_buffer_lines_marks = vim.api.nvim_create_namespace("pick_buffer_lines_marks")
+  local pick_buffer_lines = function(buffer, items, query, opts)
+    if items == nil or #items == 0 then
+      return
+    end
+
+    minipick.default_show(buffer, items, query, opts)
+
+    -- move prefix line numbers into inline extmarks
+    local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+    local prefixes = {}
+    for i, l in ipairs(lines) do
+      local _, prefix_end, prefix = l:find("^(%d+│)")
+      if prefix_end ~= nil then
+        prefixes[i], lines[i] = prefix, l:sub(prefix_end + 1)
+      end
+    end
+    vim.api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
+    for i, pref in pairs(prefixes) do
+      local mark_opts = {
+        virt_text = { { string.format("%8.8s", pref), "MiniPickNormal" } },
+        virt_text_pos = "inline",
+      }
+      vim.api.nvim_buf_set_extmark(buffer, ns_buffer_lines_marks, i - 1, 0, mark_opts)
+    end
+    -- todo: set highlight per-line, based on the filetype
+    -- local filetype = vim.bo[items[1].bufnr].filetype
+    -- local has_lang, lang = pcall(vim.treesitter.language.get_lang, filetype)
+    -- local has_ts, _ = pcall(vim.treesitter.start, buffer, has_lang and lang or filetype)
+    -- if not has_ts and filetype then
+    --   vim.bo[buffer].syntax = filetype
+    -- end
+  end
+
+  minipick.registry.current_buffer_lines = function()
+    require("mini.extra").pickers.buf_lines({ scope = "current" }, { source = { show = pick_buffer_lines } })
+  end
+
+  vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick current_buffer_lines<cr>]], { nowait = true })
 end)
 
 later(function()
