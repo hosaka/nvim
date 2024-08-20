@@ -45,9 +45,7 @@ nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout
 nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
 
 -- c is for code
--- see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
-nmap_leader("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup")
-nmap_leader("cD", [[<cmd>lua vim.diagnostic.setqflist()<cr>]], "Diagnostic quickfix")
+-- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
 nmap_leader("cj", [[<cmd>cnext<cr>]], "Next quickfix")
 nmap_leader("ck", [[<cmd>cprev<cr>]], "Prev quickfix")
 nmap_leader("cl", [[<cmd>lua require("quicker").toggle({ loclist=true })<cr>]], "Toggle loclist")
@@ -137,11 +135,11 @@ nmap_leader("gL", [[<cmd>Git log --oneline --follow -- %<cr>]], "Log buffer")
 nmap_leader("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Overlay diff")
 nmap_leader("gQ", function()
   vim.fn.setqflist(require("mini.diff").export("qf", { scope = "current" }))
-  require("quicker").toggle()
+  require("quicker").open()
 end, "Hunk quickfix")
 nmap_leader("gq", function()
   vim.fn.setqflist(require("mini.diff").export("qf", { scope = "all" }))
-  require("quicker").toggle()
+  require("quicker").open()
 end, "Hunk quickfix (all)")
 nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
 xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")

@@ -62,6 +62,12 @@ local default_on_attach = function(client, buffer)
   mapl({ "n", "x" }, "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
   mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
   mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
+  mapl("n", "cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup", "textDocument/publishDiagnostics")
+  mapl("n", "cD", function()
+    vim.diagnostic.setqflist()
+    -- expand source lines in for quickfix items
+    require("quicker").refresh()
+  end, "Diagnostic quickfix", "textDocument/publishDiagnostics")
 
   if vim.lsp.inlay_hint then
     if client.supports_method("textDocument/inlayHint") then
@@ -414,6 +420,7 @@ require("mason-lspconfig").setup({
             vim.lsp.buf.code_action({
               apply = true,
               context = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
                 only = { "source.organizeImports.ts" },
                 diagnostics = {},
               },
@@ -423,6 +430,7 @@ require("mason-lspconfig").setup({
             vim.lsp.buf.code_action({
               apply = true,
               context = {
+                ---@diagnostic disable-next-line: assign-type-mismatch
                 only = { "source.removeUnused.ts" },
                 diagnostics = {},
               },
