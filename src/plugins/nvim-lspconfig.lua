@@ -479,6 +479,46 @@ require("mason-lspconfig").setup({
         },
       })
     end,
+
+    -- markdown-oxide
+    markdown_oxide = function()
+      require("lspconfig").markdown_oxide.setup({
+        on_attach = function(client, buffer)
+          default_on_attach(client, buffer)
+
+          -- code lens for ui reference counters
+          if client.server_capabilities.codeLensProvider then
+            vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave", "CursorHold", "BufEnter" }, {
+              buffer = buffer,
+              callback = function()
+                vim.lsp.codelens.refresh()
+              end,
+            })
+          end
+
+          -- open daily notes with `Daily today`, `Daily two days ago`, `Daily next monday`
+          vim.api.nvim_create_user_command("Daily", function(args)
+            -- use client id to execute a command, instead of vim.lsp.buf.execute_command()
+            local oxide_client = vim.lsp.get_client_by_id(client.id)
+            if oxide_client then
+              oxide_client.request("workspace/executeCommand", {
+                command = "jump",
+                arguments = { args.args },
+              })
+            end
+          end, { desc = "Open daily notes", nargs = "*" })
+        end,
+        capabilities = {
+          default_capabilities,
+          -- this allows creating unresolved files and resolving completions for unindexed code blocks
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            },
+          },
+        },
+      })
+    end,
   },
 })
 
