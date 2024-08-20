@@ -1,11 +1,10 @@
 -- global table for mini.clue groups
-Hosaka.leader_group_clues = {
+Config.leader_group_clues = {
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
   { mode = "n", keys = "<Leader>e", desc = "+Edit" },
   { mode = "n", keys = "<Leader>f", desc = "+Find" },
   { mode = "n", keys = "<Leader>g", desc = "+Git" },
-  { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
@@ -13,6 +12,7 @@ Hosaka.leader_group_clues = {
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
+  { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
 }
 

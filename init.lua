@@ -202,7 +202,7 @@ later(function()
       { mode = "x", keys = "z" },
     },
     clues = {
-      Hosaka.leader_group_clues,
+      Config.leader_group_clues,
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
