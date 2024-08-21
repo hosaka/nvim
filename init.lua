@@ -145,8 +145,6 @@ later(function()
     },
     mappings = {
       windows = true,
-      -- option_toggle_prefix = "<leader>o",
-
       option_toggle_prefix = "",
     },
   })

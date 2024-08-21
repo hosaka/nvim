@@ -1,16 +1,9 @@
--- NOTE: a lot of mappings are defined by mini.basics
-
-local map = function(mode, key, cmd, opts)
-  opts = opts or {}
-  if opts.silent == nil then
-    opts.silent = true
-  end
-  vim.keymap.set(mode, key, cmd, opts)
-end
+-- note: a lot of mappings are defined by mini.basics, see `init.lua`
+-- note: the rest off the <Leader> mappings are defined in `leadermaps.lua`
 
 -- paste above/below linewise
-map({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above" })
-map({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc = "Paste below" })
+vim.keymap.set({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above", silent = true })
+vim.keymap.set({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc = "Paste below", silent = true })
 
 -- cancel search highlight
-map({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]], { desc = "Cancel search highlight" })
+vim.keymap.set({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]], { desc = "Cancel search", silent = true })
