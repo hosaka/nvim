@@ -427,6 +427,10 @@ end)
 later(function()
   local minipick = require("mini.pick")
   minipick.setup({
+    mappings = {
+      -- choosing marked items will send them to quickfix list
+      choose_marked = "<C-q>",
+    },
     window = {
       config = function()
         -- centered on screen
