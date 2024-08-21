@@ -615,3 +615,8 @@ later(function()
   add("lukas-reineke/indent-blankline.nvim")
   source("plugins/indent-blankline.lua")
 end)
+
+later(function()
+  add({ source = "OXY2DEV/markview.nvim", depends = { "nvim-treesitter/nvim-treesitter" } })
+  source("plugins/markview.lua")
+end)
