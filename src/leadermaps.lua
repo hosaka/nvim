@@ -46,8 +46,6 @@ nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "
 
 -- c is for code
 -- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
-nmap_leader("cj", [[<cmd>cnext<cr>]], "Next quickfix")
-nmap_leader("ck", [[<cmd>cprev<cr>]], "Prev quickfix")
 nmap_leader("cl", [[<cmd>lua require("quicker").toggle({ loclist=true })<cr>]], "Toggle loclist")
 nmap_leader("cq", [[<cmd>lua require("quicker").toggle()<cr>]], "Toggle quickfix")
 
