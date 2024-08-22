@@ -47,6 +47,10 @@ require("nvim-treesitter.configs").setup({
   indent = {
     enable = false,
   },
+  -- andymass/vim-matchup
+  matchup = {
+    enable = true,
+  },
   -- nvim-treesitter-textobjects
   textobjects = {
     select = {

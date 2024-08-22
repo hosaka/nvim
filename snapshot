@@ -25,5 +25,6 @@ return {
   ["quicker.nvim"] = "349e0def74ddbfc47f64ca52202e84bedf064048",
   rustaceanvim = "7cba8e599deca98d4b44cac1bcbd720c62937d90",
   ["toggleterm.nvim"] = "137d06fb103952a0fb567882bb8527e2f92d327d",
-  ["tokyonight.nvim"] = "b0e7c7382a7e8f6456f2a95655983993ffda745e"
+  ["tokyonight.nvim"] = "b0e7c7382a7e8f6456f2a95655983993ffda745e",
+  ["vim-matchup"] = "1535a769d5dca851fe7d41b0be95f7c7203a4bef"
 }

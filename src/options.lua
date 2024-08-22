@@ -179,8 +179,8 @@ vim.g.netrw_winsize = 25
 -- Disable runtime plugins
 vim.g.editorconfig = false -- Support for .editorconfig
 vim.g.loaded_man = 1 -- View manpages in Nvim
-vim.g.loaded_matchit = 1 -- Extended matching with %
-vim.g.loaded_matchparen = 1 -- Highlight matching parens
+vim.g.loaded_matchit = 1 -- Extended matching with % (replaced with vim-matchup)
+vim.g.loaded_matchparen = 1 -- Highlight matching parens (replaced with vim-matchup)
 -- vim.g.loaded_netrw = 1 -- Netrw (aka Explore)
 -- vim.g.loaded_netrwPlugin = 1 -- Netrw plugin
 vim.g.loaded_remote_plugins = 1 -- Support for remote plugins

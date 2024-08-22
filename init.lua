@@ -304,7 +304,7 @@ later(function()
     pattern = "MiniFilesBufferCreate",
     callback = function(args)
       local buf_id = args.data.buf_id
-      -- adding `desc` will show keymaps in the help popup (g.)
+      -- adding `desc` will show keymaps in the help popup (g?)
       vim.keymap.set(
         "n",
         "<CR>",
@@ -536,13 +536,22 @@ later(function()
   add({ source = "nvim-treesitter/nvim-treesitter-textobjects", depends = { ts_spec } })
   add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { ts_spec } })
   add({ source = "windwp/nvim-ts-autotag", depends = { ts_spec } })
+  add({ source = "andymass/vim-matchup", depends = { ts_spec } })
+
+  -- matchup desc
+  local miniclue = require("mini.clue")
+  miniclue.set_mapping_desc("n", "%", "Go to next match")
+  miniclue.set_mapping_desc("n", "g%", "Go to previous match")
+  miniclue.set_mapping_desc("n", "[%", "Match first")
+  miniclue.set_mapping_desc("n", "]%", "Match last")
+  miniclue.set_mapping_desc("n", "z%", "Jump inside a match")
 
   source("plugins/nvim-treesitter.lua")
   source("plugins/nvim-treesitter-context.lua")
 end)
 
 later(function()
-  add({ source = "williamboman/mason.nvim", depens = { "williamboman/mason-lspconfig.nvim" } })
+  add({ source = "williamboman/mason.nvim", depends = { "williamboman/mason-lspconfig.nvim" } })
   require("mason").setup({
     -- prefer existing binaries over the ones installed by mason
     -- PATH = "append",
