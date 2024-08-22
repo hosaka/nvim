@@ -60,6 +60,14 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
+-- apply lsp rename after MiniFiles renamed a fiile
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MiniFilesActionRename",
+  callback = function(args)
+    Hosaka.lsp.rename(args.data.from, args.data.to)
+  end,
+})
+
 -- terminal statusline
 vim.api.nvim_create_autocmd("TermOpen", {
   group = augroup("terminal_statusline"),

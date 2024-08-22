@@ -318,13 +318,6 @@ later(function()
     end,
   })
 
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "MiniFilesActionRename",
-    callback = function(args)
-      Hosaka.lsp.rename(args.data.from, args.data.to)
-    end,
-  })
-
   minifiles.setup({
     content = {
       filter = content_filter,
@@ -399,7 +392,9 @@ later(function()
   minimisc.setup({
     make_global = { "put", "put_text" },
   })
-  minimisc.setup_auto_root()
+  -- chdir to root directory containing these files
+  minimisc.setup_auto_root({ ".git", "Makefile" })
+  -- restore cursor position on open files
   minimisc.setup_restore_cursor()
 end)
 
