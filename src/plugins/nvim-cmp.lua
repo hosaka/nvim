@@ -7,7 +7,6 @@ cmp.setup({
   },
   {
     { name = "buffer" },
-    -- { name = "path"},
   },
   mapping = cmp.mapping.preset.insert({
     ["<CR>"] = cmp.mapping.confirm({ select = false, behavior = cmp.ConfirmBehavior.Replace }),
@@ -41,6 +40,7 @@ cmp.setup({
   }),
   snippet = {
     expand = function(args)
+      -- native neovim snippets (v0.10+)
       vim.snippet.expand(args.body)
     end,
   },
@@ -73,7 +73,7 @@ cmp.setup({
   },
 })
 
-cmp.setup.cmdline("/", {
+cmp.setup.cmdline({ "/", "?" }, {
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = "buffer" },
@@ -87,9 +87,7 @@ cmp.setup.cmdline(":", {
   }, {
     {
       name = "cmdline",
-      options = {
-        ignore_cmds = { "man", "!" },
-      },
+      matching = { disallow_symbol_nonprefix_matching = false },
     },
   }),
 })
