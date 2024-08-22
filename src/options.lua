@@ -9,7 +9,16 @@ opt.autowrite = true -- Enable auto write
 opt.backup = false -- Don't store backups
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.mouse = "a" -- Enable mouse for all available modes
-opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } -- Defines what needs to be saved in a session
+opt.sessionoptions = {
+  "buffers",
+  "curdir",
+  "tabpages",
+  "winsize",
+  "help",
+  "globals",
+  "skiprtp",
+  "folds",
+} -- Defines what needs to be saved in a session
 opt.switchbuf = "usetab" -- Use already opened buffers when switching
 opt.undofile = true -- Enable persistent undo
 opt.wildmode = "longest:full,full" -- Command-line completion mode
@@ -99,6 +108,24 @@ opt.tabstop = 2 -- Number of spaces tabs count for
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = "block" -- Allow going past the end line in visual block mode
 
+-- `bigfile` filetype
+-- some plugins will be disabled for files larger than this size
+vim.g.bigfile_size = 1024 * 1024 * 1 -- 1MB
+vim.filetype.add({
+  pattern = {
+    [".*"] = {
+      function(path, buf)
+        return vim.bo[buf]
+            and vim.bo[buf].filetype ~= "bigfile"
+            and path
+            and vim.fn.getfsize(path) > vim.g.bigfile_size
+            and "bigfile"
+          or nil
+      end,
+    },
+  },
+})
+
 -- Pattern for a start of 'numbered' list.
 -- At least one special character (0-9, -, +, *) optionally followed by some
 -- punctuation (. or ')') followed by at least one space.
@@ -109,7 +136,7 @@ opt.complete:append("kspell") -- Add spellcheck options for autocomplete
 opt.complete:remove("t") -- Don't use tags for completion
 opt.dictionary = vim.fn.stdpath("config") .. "/misc/dict/english.txt"
 opt.spelllang = "en" -- Define spelling dictionaries
-opt.spelloptions = "camel" -- Treat parts of calemCase words as separate words
+opt.spelloptions = { "camel", "noplainbuffer" } -- Treat parts of calemCase words as separate words, only ffor buffers with syntax
 
 -- Folding
 opt.foldenable = true -- Enable folding

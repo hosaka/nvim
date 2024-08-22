@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd("FileType", {
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true, desc = "Quit buffer" })
   end,
 })
 
@@ -57,15 +57,6 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "MiniFilesWindowOpen",
   callback = function(args)
     vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
-  end,
-})
-
--- do not use conceal for json files
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("json_conceal"),
-  pattern = { "json" },
-  callback = function()
-    vim.opt_local.conceallevel = 0
   end,
 })
 
