@@ -477,11 +477,11 @@ later(function()
     -- end
   end
 
-  minipick.registry.current_buffer_lines = function()
+  minipick.registry.buf_lines_current = function()
     require("mini.extra").pickers.buf_lines({ scope = "current" }, { source = { show = pick_buffer_lines } })
   end
 
-  vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick current_buffer_lines<cr>]], { nowait = true })
+  vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick buf_lines_current<cr>]], { nowait = true })
 end)
 
 later(function()
