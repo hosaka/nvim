@@ -196,13 +196,16 @@ nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
 nmap_leader("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
 nmap_leader("qs", [[<cmd>suspend<cr>]], "Suspend")
 
--- r is for run and it is created when LSPs attach to buffers
+-- r is for run
+-- also see `plugins/nvim-lspconfig.lua`
 nmap_leader("rc", function()
   local config_path = vim.fn.stdpath("config") .. "/init.lua"
   if vim.loop.fs_stat(config_path) then
     vim.cmd("source" .. config_path)
   end
 end, "Config reload")
+nmap_leader("rd", [[<cmd>DepsUpdate<cr>]], "Deps update")
+nmap_leader("rD", [[<cmd>DepsSnapSave<cr>]], "Deps snapshot")
 
 -- t is for terminal
 nmap_leader("tt", [[<cmd>ToggleTerm<cr>]], "Terminal toggle")
