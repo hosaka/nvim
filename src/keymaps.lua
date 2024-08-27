@@ -7,3 +7,11 @@ vim.keymap.set({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc 
 
 -- cancel search highlight
 vim.keymap.set({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]], { desc = "Cancel search", silent = true })
+
+-- delete empty lines to blackhole
+vim.keymap.set("n", "dd", function()
+  if vim.fn.getline(".") == "" then
+    return '"_dd'
+  end
+  return "dd"
+end, { expr = true })
