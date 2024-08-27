@@ -514,6 +514,12 @@ now(function()
   vim.cmd([[colorscheme tokyonight]])
 end)
 
+if vim.g.neovide then
+  later(function()
+    require("hosaka.mise").setup()
+  end)
+end
+
 later(function()
   add("stevearc/dressing.nvim")
   source("plugins/dressing.lua")
