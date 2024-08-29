@@ -133,8 +133,7 @@ H.mise_reload_env = function()
     end)
   end
 
-  -- get mise env
-  process = vim.loop.spawn(Mise.config.cmd, spawn_opts, on_exit)
+  process = vim.loop.spawn(Mise.config.cmd, spawn_opts, vim.schedule_wrap(on_exit))
 
   stdout:read_start(function(err, data)
     if err then
