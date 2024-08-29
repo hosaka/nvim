@@ -63,8 +63,7 @@ nmap_leader("ew", function()
   end)
 end, "Write session")
 
-local pick_buffers
-pick_buffers = function()
+local function pick_buffers()
   local minipick = require("mini.pick")
   minipick.builtin.buffers(nil, {
     mappings = {
@@ -241,8 +240,7 @@ nmap_leader("vr", function()
   end)
 end, "Remove label")
 
-local pick_visits
-pick_visits = function(label, cwd)
+local function pick_visits(label, cwd)
   return function()
     local miniextra = require("mini.extra")
     miniextra.pickers.visit_paths({
