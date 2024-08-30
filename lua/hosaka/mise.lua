@@ -1,8 +1,9 @@
+---@class Mise
 local Mise = {}
 local H = {}
 
 --- Mise setup
----@param config MiseConfig|nil Config table. See |MiseConfig.config|.
+---@param config? MiseConfig Config table. See |MiseConfig.config|.
 ---
 ---@usage >lua
 ---   require("mise").setup() -- use default config
@@ -52,7 +53,7 @@ H.cache = {}
 
 H.has_mise = false
 
----@param config MiseConfig|nil
+---@param config? MiseConfig
 ---@return MiseConfig
 H.setup_config = function(config)
   -- combine user supplied config with default
@@ -98,9 +99,15 @@ H.mise_reload_env = function()
 
   local stdout = vim.loop.new_pipe()
   local spawn_opts = { args = Mise.config.args, cwd = vim.fn.getcwd(), stdio = { nil, stdout, nil } }
-  local process, stdout_data = nil, nil
+
+  ---@type uv_process_t?
+  local process = nil
+  local stdout_data = nil
 
   local on_exit = function(code)
+    if process == nil then
+      return
+    end
     process:close()
     if code ~= 0 or stdout_data == nil then
       H.error("oops")

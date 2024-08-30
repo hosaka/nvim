@@ -112,9 +112,6 @@ require("mason-lspconfig").setup({
   handlers = {
     default_setup,
     lua_ls = function()
-      local runtime_path = vim.split(package.path, ";")
-      table.insert(runtime_path, "lua/?.lua")
-      table.insert(runtime_path, "lua/?/init.lua")
       require("lspconfig").lua_ls.setup({
         handlers = {
           -- don't open quickfix list in case of multiple definitions
@@ -136,10 +133,6 @@ require("mason-lspconfig").setup({
             telemetry = {
               enable = false,
             },
-            runtime = {
-              version = "LuaJIT",
-              path = runtime_path,
-            },
             diagnostics = {
               -- common globals
               globals = { "vim" },
@@ -151,12 +144,6 @@ require("mason-lspconfig").setup({
             workspace = {
               checkThirdParty = false,
               ignoreSubmodules = false,
-              ignoreDir = { "./misc" },
-              library = {
-                -- make the server aware of neovim runtime files
-                vim.fn.expand("$VIMRUNTIME/lua"),
-                vim.fn.stdpath("config") .. "/lua",
-              },
             },
           },
         },

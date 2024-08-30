@@ -514,6 +514,20 @@ now(function()
   vim.cmd([[colorscheme tokyonight]])
 end)
 
+later(function()
+  add({ source = "folke/lazydev.nvim", depends = { "Bilal2453/luvit-meta" } })
+  require("lazydev").setup({
+    library = {
+      -- load luvit types when `vim.uv` or `vim.loop` word is found
+      { path = "luvit-meta/library", words = { "vim%.uv", "vim%.loop" } },
+    },
+    integrations = {
+      lspconfig = true,
+      cmp = true,
+    },
+  })
+end)
+
 if vim.g.neovide then
   later(function()
     require("hosaka.mise").setup()
