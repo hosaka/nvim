@@ -89,7 +89,7 @@ vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
 
 -- Editing
 opt.autoindent = true -- Use auto indent
-opt.completeopt = "menuone,noinsert,noselect" -- Customize completions
+opt.completeopt = { "menuone", "noinsert", "noselect" } -- Customize completions
 opt.expandtab = true -- Use spaces instead of tabs
 opt.formatoptions = "rnqjl1" -- Improve comment editing
 opt.grepformat = "%f:%l:%c:%m" -- Grep formatting

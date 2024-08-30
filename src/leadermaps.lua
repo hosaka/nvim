@@ -256,7 +256,7 @@ local function pick_visits(label, cwd)
             local minipick = require("mini.pick")
             local minivisits = require("mini.visits")
             local matches = minipick.get_picker_matches()
-            if matches.current then
+            if matches and matches.current then
               minivisits.remove_label(label, matches.current, cwd)
             end
             pick_visits(label, cwd)()

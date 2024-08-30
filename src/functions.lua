@@ -130,7 +130,7 @@ end
 ---@class HosakaLsp
 Hosaka.lsp = {}
 
----@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: lsp.Client):boolean}
+---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: vim.lsp.Client):boolean}
 
 ---@param opts? lsp.Client.filter
 function H.get_lsp_clients(opts)
