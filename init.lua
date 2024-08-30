@@ -528,12 +528,6 @@ later(function()
   })
 end)
 
-if vim.g.neovide then
-  later(function()
-    require("hosaka.mise").setup()
-  end)
-end
-
 later(function()
   add("stevearc/dressing.nvim")
   source("plugins/dressing.lua")

@@ -18,3 +18,9 @@ end)
 vim.keymap.set("n", "<C-->", function()
   change_scale_factor(1 / 1.25)
 end)
+
+-- read mise env and append it to vim.ENV
+-- can be done automatically or using Mise command
+require("hosaka.mise").setup({
+  autoload = true,
+})

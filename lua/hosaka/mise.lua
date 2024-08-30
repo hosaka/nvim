@@ -43,7 +43,7 @@ Mise.config = {
   -- arguments to pass to mise when reading environment
   args = { "env", "--json" },
   -- load mise environment when setup() is called
-  autoload = true,
+  autoload = false,
   restore_path = vim.env.PATH,
 }
 
