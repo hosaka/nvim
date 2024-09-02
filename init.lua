@@ -274,17 +274,14 @@ later(function()
 
   local map_split = function(buf_id, lhs, direction)
     local rhs = function()
-      local new_target_window
-      local cur_target_window = minifiles.get_target_window()
-      if cur_target_window ~= nil then
-        vim.api.nvim_win_call(cur_target_window, function()
-          vim.cmd("belowright " .. direction .. " split")
-          new_target_window = vim.api.nvim_get_current_win()
-        end)
-      end
+      local cur_target = MiniFiles.get_explorer_state().target_window
+      local new_target = vim.api.nvim_win_call(cur_target, function()
+        vim.cmd("belowright " .. direction .. " split")
+        return vim.api.nvim_get_current_win()
+      end)
 
       -- setting window as a target keeps mini.files open
-      minifiles.set_target_window(new_target_window)
+      minifiles.set_target_window(new_target)
       minifiles.go_in()
     end
 
