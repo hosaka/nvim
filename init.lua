@@ -656,3 +656,26 @@ later(function()
     end,
   })
 end)
+
+later(function()
+  add({
+    source = "yetone/avante.nvim",
+    depends = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      -- optional
+      "MeanderingProgrammer/render-markdown.nvim",
+    },
+  })
+  require("avante").setup({
+    provider = "openai",
+    behaviour = {
+      -- see `src/leadermaps.lua` for keymaps
+      auto_set_keymaps = false,
+    },
+    windows = {
+      width = 50,
+    },
+  })
+end)

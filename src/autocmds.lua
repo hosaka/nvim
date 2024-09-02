@@ -26,6 +26,8 @@ vim.api.nvim_create_autocmd("VimResized", {
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("close_with_q"),
   pattern = {
+    "Avante",
+    "AvanteInput",
     "PlenaryTestPopup",
     "checkhealh",
     "help",

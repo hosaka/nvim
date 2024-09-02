@@ -1,5 +1,6 @@
 -- global table for mini.clue groups
 Config.leader_group_clues = {
+  { mode = "n", keys = "<Leader>a", desc = "+Assist" },
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
   { mode = "n", keys = "<Leader>e", desc = "+Edit" },
@@ -11,6 +12,7 @@ Config.leader_group_clues = {
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
+  { mode = "x", keys = "<Leader>a", desc = "+Assist" },
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
   { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
@@ -33,6 +35,14 @@ xmap_leader("d", [["_d]], "Delete to blackhole")
 -- map("n", "<Leader><Tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 -- map("n", "<Leader><Tab>d", "<cmd>tabclose<cr>", { desc = "Delete Tab" })
 -- map("n", "<Leader><Tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+
+-- a is for assist
+nmap_leader("aa", "[[<cmd>AvanteAsk<cr>]]", "Avante: Ask")
+nmap_leader("ad", "[[<cmd>AvanteToggleDebug<cr>]]", "Avante: Debug toggle")
+nmap_leader("ah", "[[<cmd>AvanteToggleHint<cr>]]", "Avante: Hint toggle")
+nmap_leader("ar", "[[<cmd>AvanteRefresh<cr>]]", "Avante: Refresh")
+xmap_leader("aa", "[[<cmd>AvanteAsk<cr>]]", "Avante: Ask")
+xmap_leader("ae", "[[<cmd>AvanteEdit<cr>]]", "Avante: Edit")
 
 -- b is for buffer
 nmap_leader("bb", [[<cmd>b#<cr>]], "Other")
