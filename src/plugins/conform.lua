@@ -35,7 +35,7 @@ require("conform").setup({
     json = { "prettier" },
     lua = { "stylua" },
     markdown = { "prettier", "injected" },
-    python = { "isort", "black" },
+    python = { "isort" },
     sh = { "shfmt" },
     typescript = { "prettier" },
     typescriptreact = { "prettier" },
