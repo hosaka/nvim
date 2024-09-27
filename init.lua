@@ -667,15 +667,18 @@ later(function()
       -- optional
       "MeanderingProgrammer/render-markdown.nvim",
     },
+    hooks = {
+      post_checkout = function()
+        vim.cmd([[AvanteBuild source=false]])
+      end,
+    },
   })
+  require("avante_lib").load()
   require("avante").setup({
     provider = "openai",
     behaviour = {
       -- see `src/leadermaps.lua` for keymaps
       auto_set_keymaps = false,
-    },
-    windows = {
-      width = 50,
     },
   })
 end)

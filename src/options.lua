@@ -30,7 +30,7 @@ vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 opt.breakindent = true -- Indent wrapped lines to match line start
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.cursorline = true -- Enable highlighting of the current line
-opt.laststatus = 2 -- Always show statusline
+opt.laststatus = 3 -- Always show statusline in the last window only
 opt.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
 opt.list = true -- Show whitespaces and helper symbols
 opt.number = true -- Show line numbers
