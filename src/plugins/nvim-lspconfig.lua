@@ -399,8 +399,8 @@ require("mason-lspconfig").setup({
         },
       })
     end,
-    tsserver = function()
-      require("lspconfig").tsserver.setup({
+    ts_ls = function()
+      require("lspconfig").ts_ls.setup({
         on_attach = function(client, buffer)
           default_on_attach(client, buffer)
           vim.keymap.set("n", "<Leader>co", function()
