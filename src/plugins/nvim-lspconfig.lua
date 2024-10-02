@@ -467,6 +467,15 @@ require("mason-lspconfig").setup({
       })
     end,
 
+    -- solidity
+    solidity_ls_nomicfoundation = function()
+      require("lspconfig").solidity_ls_nomicfoundation.setup({
+        on_attach = default_on_attach,
+        capabilities = default_capabilities,
+        root_dir = require("lspconfig").util.root_pattern("foundry.toml", ".git"),
+      })
+    end,
+
     -- markdown-oxide
     markdown_oxide = function()
       require("lspconfig").markdown_oxide.setup({
