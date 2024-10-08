@@ -62,6 +62,18 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
+-- default MiniFiles bookmarks, summon with ' followed by the bookmark letter
+vim.api.nvim_create_autocmd("User", {
+  group = minifiles_augroup,
+  pattern = "MiniFilesExplorerOpen",
+  callback = function()
+    MiniFiles.set_bookmark("c", vim.fn.stdpath("config"), { desc = "Config" })
+    MiniFiles.set_bookmark("m", vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim", { desc = "mini.nvim" })
+    MiniFiles.set_bookmark("p", vim.fn.stdpath("data") .. "/site/pack/deps/opt", { desc = "Plugins" })
+    MiniFiles.set_bookmark("w", vim.fn.getcwd, { desc = "Working directory" })
+  end,
+})
+
 -- apply lsp rename after MiniFiles renamed a fiile
 vim.api.nvim_create_autocmd("User", {
   pattern = "MiniFilesActionRename",
