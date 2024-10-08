@@ -109,6 +109,13 @@ end)
 now(function()
   local miniicons = require("mini.icons")
   miniicons.setup()
+  miniicons.setup({
+    -- ignore some extensions and rely on `vim.filetype.match()` fallback
+    use_file_extension = function(ext, _)
+      local suf3, suf4 = ext:sub(-3), ext:sub(-4)
+      return suf3 ~= "scm" and suf3 ~= "txt" and suf3 ~= "yml" and suf4 ~= "json" and suf4 ~= "yaml"
+    end,
+  })
   miniicons.mock_nvim_web_devicons()
   -- note: enable if using mini.completion
   -- later(miniicons.tweak_lsp_kind)
@@ -393,6 +400,8 @@ later(function()
   minimisc.setup_auto_root({ ".git", "Makefile" })
   -- restore cursor position on open files
   minimisc.setup_restore_cursor()
+  -- terminal background synchronization
+  minimisc.setup_termbg_sync()
 end)
 
 later(function()
@@ -400,6 +409,18 @@ later(function()
 end)
 
 later(function()
+  local remap = function(mode, lhs_from, lhs_to, desc)
+    local keymap = vim.fn.maparg(lhs_from, mode, false, true)
+    local rhs = keymap.callback or keymap.rhs
+    if rhs == nil then
+      error("Could not remap from " .. lhs_from .. " to " .. lhs_to)
+    end
+    vim.keymap.set(mode, lhs_to, rhs, { desc = desc or keymap.desc })
+  end
+  -- remap built-in open filepath/URI keymap
+  remap("n", "gx", "<Leader>rx", "Open filepath or URI")
+  remap("x", "gx", "<Leader>rx", "Open filepath or URI")
+
   require("mini.operators").setup()
 end)
 
@@ -475,10 +496,23 @@ later(function()
   end
 
   minipick.registry.buf_lines_current = function()
-    require("mini.extra").pickers.buf_lines({ scope = "current" }, { source = { show = pick_buffer_lines } })
+    require("mini.extra").pickers.buf_lines(
+      { scope = "current", preserve_order = true },
+      { source = { show = pick_buffer_lines } }
+    )
   end
 
   vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick buf_lines_current<cr>]], { nowait = true })
+
+  minipick.registry.projects = function()
+    local cwd = vim.fn.expand("~/wa")
+    local choose = function(item)
+      vim.schedule(function()
+        MiniPick.builtin.files(nil, { source = { cwd = item.path } })
+      end)
+    end
+    return require("mini.extraMiniExtra").pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
+  end
 end)
 
 later(function()
