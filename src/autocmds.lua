@@ -1,6 +1,4 @@
-local function augroup(name)
-  return vim.api.nvim_create_augroup("hosaka_" .. name, { clear = true })
-end
+local augroup = Hosaka.augroup
 
 -- check if file needs to be reloaded when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
@@ -50,35 +48,6 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup("no_auto_comment"),
   callback = function()
     vim.opt_local.formatoptions:remove({ "c", "o" })
-  end,
-})
-
--- change the border on MiniFiles buffers
-vim.api.nvim_create_autocmd("User", {
-  group = augroup("mini_files_border"),
-  pattern = "MiniFilesWindowOpen",
-  callback = function(args)
-    vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
-  end,
-})
-
--- default MiniFiles bookmarks, summon with ' followed by the bookmark letter
-vim.api.nvim_create_autocmd("User", {
-  group = minifiles_augroup,
-  pattern = "MiniFilesExplorerOpen",
-  callback = function()
-    MiniFiles.set_bookmark("c", vim.fn.stdpath("config"), { desc = "Config" })
-    MiniFiles.set_bookmark("m", vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim", { desc = "mini.nvim" })
-    MiniFiles.set_bookmark("p", vim.fn.stdpath("data") .. "/site/pack/deps/opt", { desc = "Plugins" })
-    MiniFiles.set_bookmark("w", vim.fn.getcwd, { desc = "Working directory" })
-  end,
-})
-
--- apply lsp rename after MiniFiles renamed a fiile
-vim.api.nvim_create_autocmd("User", {
-  pattern = "MiniFilesActionRename",
-  callback = function(args)
-    Hosaka.lsp.rename(args.data.from, args.data.to)
   end,
 })
 

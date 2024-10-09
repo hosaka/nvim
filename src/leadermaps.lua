@@ -15,6 +15,7 @@ Config.leader_group_clues = {
   { mode = "x", keys = "<Leader>a", desc = "+Assist" },
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
   { mode = "x", keys = "<Leader>g", desc = "+Git" },
+  { mode = "x", keys = "<Leader>r", desc = "+Run" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
 }
 

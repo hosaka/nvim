@@ -1,38 +1,79 @@
+--- Collection of commonly used personal functions
 ---@class Hosaka
 ---@field lsp HosakaLsp
 ---@field toggle HosakaToggle
 local Hosaka = {}
 local H = {}
 
+--- Default personal augroup
+---@param name string
+Hosaka.augroup = function(name)
+  return vim.api.nvim_create_augroup("hosaka_" .. name, { clear = true })
+end
+
+--- Make a new scratch buffer and switch to it
 Hosaka.new_scratch_buffer = function()
   local buffer = vim.api.nvim_create_buf(true, true)
   vim.api.nvim_win_set_buf(0, buffer)
   return buffer
 end
 
+--- Map a key in normal mode
 ---@param lhs string
----@param rhs (string | fun())
+---@param rhs string|function
 ---@param desc string
+---@param opts? vim.keymap.set.Opts
 Hosaka.nmap = function(lhs, rhs, desc, opts)
   opts = opts or {}
   opts.desc = desc
   vim.keymap.set("n", lhs, rhs, opts)
 end
 
+--- Remap a key in a given mode
+---@param mode string
+---@param lhs_from string
+---@param lhs_to string
+---@param desc? string
+Hosaka.remap = function(mode, lhs_from, lhs_to, desc)
+  local keymap = vim.fn.maparg(lhs_from, mode, false, true)
+  local rhs = keymap.callback or keymap.rhs
+  if rhs == nil then
+    error("Could not remap from " .. lhs_from .. " to " .. lhs_to)
+  end
+  vim.keymap.set(mode, lhs_to, rhs, { desc = desc or keymap.desc })
+end
+
+--- Map a key with <Leader> prefix in a given mode
+---@param mode string|string[]
+---@param suffix string
+---@param rhs string|function
+---@param desc string
+---@param opts? vim.keymap.set.Opts
 H.map_leader = function(mode, suffix, rhs, desc, opts)
   opts = opts or {}
   opts.desc = desc
   vim.keymap.set(mode, "<Leader>" .. suffix, rhs, opts)
 end
 
+--- Map a key with <Leader> prefix in normal mode
+---@param suffix string
+---@param rhs string|function
+---@param desc string
+---@param opts? vim.keymap.set.Opts
 Hosaka.nmap_leader = function(suffix, rhs, desc, opts)
   H.map_leader("n", suffix, rhs, desc, opts)
 end
 
+--- Map a key with <Leader> prefix in visual mode
+---@param suffix string
+---@param rhs string|function
+---@param desc string
+---@param opts? vim.keymap.set.Opts
 Hosaka.xmap_leader = function(suffix, rhs, desc, opts)
   H.map_leader("x", suffix, rhs, desc, opts)
 end
 
+--- Help with options and custom toggle mappings
 ---@class HosakaToggle
 Hosaka.toggle = {}
 
@@ -47,6 +88,7 @@ Hosaka.toggle = {}
 ---@operator call:boolean
 
 ---@param toggle Toggle
+---@return ToggleWrap
 H.wrap = function(toggle)
   return setmetatable(toggle, {
     __call = function()
@@ -86,6 +128,7 @@ H.nmap_toggle = function(lhs, toggle)
   H.set_toggle_desc(lhs, toggle)
 end
 
+--- Map a custom toggle in normal mode
 ---@param lhs string
 ---@param toggle Toggle
 Hosaka.toggle.map = function(lhs, toggle)
@@ -93,6 +136,7 @@ Hosaka.toggle.map = function(lhs, toggle)
   H.nmap_toggle(lhs, wrapped)
 end
 
+--- Map a vim option toggle in normal mode
 ---@param lhs string
 ---@param option string
 ---@param opts? {name?: string, values?: {[1]:any, [2]:any}, is_global: boolean}
@@ -127,12 +171,15 @@ Hosaka.toggle.option = function(lhs, option, opts)
   H.nmap_toggle(lhs, wrapped)
 end
 
+--- Helps with frequently used LSP features
 ---@class HosakaLsp
 Hosaka.lsp = {}
 
 ---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: vim.lsp.Client):boolean}
 
+--- Get active LSP clients
 ---@param opts? lsp.Client.filter
+---@return vim.lsp.Client[]
 function H.get_lsp_clients(opts)
   local ret = {} ---@type vim.lsp.Client[]
   if vim.lsp.get_clients then
@@ -150,6 +197,7 @@ function H.get_lsp_clients(opts)
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+--- Trigger LSP rename on clients that support it
 ---@param from string
 ---@param to string
 function Hosaka.lsp.rename(from, to)
@@ -177,7 +225,7 @@ function Hosaka.lsp.rename(from, to)
   end
 end
 
--- export module
+--- Global module
 _G.Hosaka = Hosaka
 
 return Hosaka

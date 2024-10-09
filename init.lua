@@ -43,8 +43,8 @@ end
 -- settings and mappings
 -- stylua: ignore start
 now(function() source("options.lua") end)
-now(function() source("autocmds.lua") end)
 now(function() source("functions.lua") end)
+now(function() source("autocmds.lua") end)
 now(function() source("keymaps.lua") end)
 now(function() source("leadermaps.lua") end)
 if vim.g.vscode then now(function() source("vscode.lua") end) end
@@ -55,31 +55,7 @@ add({ name = "mini.nvim", checkout = "main" })
 
 -- immediate config
 now(function()
-  local notify = require("mini.notify")
-  local notify_filter = function(notif_arr)
-    local lua_ls = function(notif)
-      return not (vim.startswith(notif.msg, "lua_ls: Diagnosing") or vim.startswith(notif.msg, "lua_ls: Processing"))
-    end
-    notif_arr = vim.tbl_filter(lua_ls, notif_arr)
-    return notify.default_sort(notif_arr)
-  end
-  local window_config = function()
-    local has_statusline = vim.o.laststatus > 0
-    local padding = vim.o.cmdheight + (has_statusline and 1 or 0)
-    return { anchor = "SE", col = vim.o.columns, row = vim.o.lines - padding, border = "rounded" }
-  end
-  notify.setup({
-    content = {
-      format = function(notif)
-        return notif.msg
-      end,
-      sort = notify_filter,
-    },
-    window = {
-      config = window_config,
-    },
-  })
-  vim.notify = notify.make_notify()
+  source("plugins/mini.notify.lua")
 end)
 
 now(function()
@@ -110,18 +86,7 @@ now(function()
 end)
 
 now(function()
-  local miniicons = require("mini.icons")
-  miniicons.setup()
-  miniicons.setup({
-    -- ignore some extensions and rely on `vim.filetype.match()` fallback
-    use_file_extension = function(ext, _)
-      local suf3, suf4 = ext:sub(-3), ext:sub(-4)
-      return suf3 ~= "scm" and suf3 ~= "txt" and suf3 ~= "yml" and suf4 ~= "json" and suf4 ~= "yaml"
-    end,
-  })
-  miniicons.mock_nvim_web_devicons()
-  -- note: enable if using mini.completion
-  -- later(miniicons.tweak_lsp_kind)
+  source("plugins/mini.icons.lua")
 end)
 
 -- delayed config
@@ -130,17 +95,7 @@ later(function()
 end)
 
 later(function()
-  local ai = require("mini.ai")
-  ai.setup({
-    custom_textobjects = {
-      c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
-      m = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
-      o = ai.gen_spec.treesitter({
-        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-      }),
-    },
-  })
+  source("plugins/mini.ai.lua")
 end)
 
 later(function()
@@ -169,59 +124,7 @@ later(function()
 end)
 
 later(function()
-  local miniclue = require("mini.clue")
-  miniclue.setup({
-    window = {
-      config = {
-        width = "auto",
-        border = "rounded",
-      },
-      scroll_down = "<c-n>",
-      scroll_up = "<c-p>",
-    },
-    triggers = {
-      -- leader
-      { mode = "n", keys = "<leader>" },
-      { mode = "x", keys = "<leader>" },
-      -- built-in
-      { mode = "i", keys = "<c-x>" },
-      -- goto
-      { mode = "n", keys = "g" },
-      { mode = "x", keys = "g" },
-      -- marks
-      { mode = "n", keys = "'" },
-      { mode = "x", keys = "'" },
-      { mode = "n", keys = "`" },
-      { mode = "x", keys = "`" },
-      -- nav
-      { mode = "n", keys = "[" },
-      { mode = "n", keys = "]" },
-      { mode = "x", keys = "[" },
-      { mode = "x", keys = "]" },
-      -- registers
-      { mode = "n", keys = '"' },
-      { mode = "x", keys = '"' },
-      { mode = "i", keys = "<c-r>" },
-      { mode = "c", keys = "<c-r>" },
-      -- window
-      { mode = "n", keys = "<c-w>" },
-      -- z key
-      { mode = "n", keys = "z" },
-      { mode = "x", keys = "z" },
-    },
-    clues = {
-      Config.leader_group_clues,
-      miniclue.gen_clues.builtin_completion(),
-      miniclue.gen_clues.g(),
-      miniclue.gen_clues.marks(),
-      miniclue.gen_clues.registers(),
-      miniclue.gen_clues.windows({
-        submode_move = true,
-        submode_resize = true,
-      }),
-      miniclue.gen_clues.z(),
-    },
-  })
+  source("plugins/mini.clue.lua")
 end)
 
 later(function()
@@ -263,90 +166,7 @@ later(function()
 end)
 
 later(function()
-  -- defaults
-  local show_dotfiles = false
-  local minifiles = require("mini.files")
-
-  local content_filter = function(fs_entry)
-    local show = true
-    if not show_dotfiles then
-      show = not vim.startswith(fs_entry.name, ".")
-    end
-    return show
-  end
-
-  local toggle_dotfiles = function()
-    show_dotfiles = not show_dotfiles
-    minifiles.refresh({
-      content = { filter = content_filter },
-    })
-  end
-
-  local map_split = function(buf_id, lhs, direction)
-    local rhs = function()
-      local cur_target = MiniFiles.get_explorer_state().target_window
-      local new_target = vim.api.nvim_win_call(cur_target, function()
-        vim.cmd("belowright " .. direction .. " split")
-        return vim.api.nvim_get_current_win()
-      end)
-
-      -- setting window as a target keeps mini.files open
-      minifiles.set_target_window(new_target)
-      minifiles.go_in()
-    end
-
-    local desc = "Open in " .. direction .. " split"
-    vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = desc })
-  end
-
-  local set_cwd = function()
-    local cur_entry_path = minifiles.get_fs_entry().path
-    local cur_directory = vim.fs.dirname(cur_entry_path)
-    if cur_directory ~= nil then
-      vim.fn.chdir(cur_directory)
-    end
-  end
-
-  vim.api.nvim_create_autocmd("User", {
-    pattern = "MiniFilesBufferCreate",
-    callback = function(args)
-      local buf_id = args.data.buf_id
-      -- adding `desc` will show keymaps in the help popup (g?)
-      vim.keymap.set(
-        "n",
-        "<CR>",
-        [[<cmd>lua MiniFiles.go_in({ close_on_file = true})<cr>]],
-        { buffer = buf_id, desc = "Open" }
-      )
-      vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
-      vim.keymap.set("n", "gc", set_cwd, { buffer = buf_id, desc = "Set cwd" })
-      map_split(buf_id, "<C-s>", "horizontal")
-      map_split(buf_id, "<C-v>", "vertical")
-    end,
-  })
-
-  minifiles.setup({
-    content = {
-      filter = content_filter,
-    },
-    windows = {
-      preview = true,
-      width_focus = 30,
-      width_nofocus = 15,
-      width_preview = 100,
-    },
-    options = {
-      -- replacing netrw breaks nvim scp://user@host//path/to/file
-      use_as_default_explorer = false,
-    },
-    mappings = {
-      go_in = "L",
-      go_in_plus = "l",
-      go_out = "H",
-      go_out_plus = "h",
-      synchronize = "s",
-    },
-  })
+  source("plugins/mini.files.lua")
 end)
 
 later(function()
@@ -412,19 +232,7 @@ later(function()
 end)
 
 later(function()
-  local remap = function(mode, lhs_from, lhs_to, desc)
-    local keymap = vim.fn.maparg(lhs_from, mode, false, true)
-    local rhs = keymap.callback or keymap.rhs
-    if rhs == nil then
-      error("Could not remap from " .. lhs_from .. " to " .. lhs_to)
-    end
-    vim.keymap.set(mode, lhs_to, rhs, { desc = desc or keymap.desc })
-  end
-  -- remap built-in open filepath/URI keymap
-  remap("n", "gx", "<Leader>rx", "Open filepath or URI")
-  remap("x", "gx", "<Leader>rx", "Open filepath or URI")
-
-  require("mini.operators").setup()
+  source("plugins/mini.operators.lua")
 end)
 
 later(function()
@@ -439,158 +247,11 @@ later(function()
 end)
 
 later(function()
-  local minipick = require("mini.pick")
-  minipick.setup({
-    mappings = {
-      -- choosing marked items will send them to quickfix list
-      choose_marked = "<C-q>",
-    },
-    window = {
-      config = function()
-        -- centered on screen
-        local height = math.floor(0.618 * vim.o.lines)
-        local width = math.floor(0.618 * vim.o.columns)
-        return {
-          anchor = "NW",
-          border = "rounded",
-          height = height,
-          width = width,
-          row = math.floor(0.5 * (vim.o.lines - height)),
-          col = math.floor(0.5 * (vim.o.columns - width)),
-        }
-      end,
-    },
-  })
-  -- use as a default selector
-  vim.ui.select = minipick.ui_select
-
-  -- same as default buf_lines picker but with treesitter highlight preserved
-  local pick_buffer_lines = function(buffer, items, query, opts)
-    if items == nil or #items == 0 or not items[1].bufnr then
-      return
-    end
-
-    minipick.default_show(buffer, items, query, opts)
-
-    local ns = vim.api.nvim_create_namespace("pick_buffer_syntax_highlight")
-    vim.api.nvim_buf_clear_namespace(buffer, ns, 0, -1)
-
-    -- assume all items come from the same buffer
-    local bufnr = items[1].bufnr
-
-    local filetype = vim.bo[bufnr].filetype
-    local has_lang, lang = pcall(vim.treesitter.language.get_lang, filetype)
-    if not has_lang then
-      lang = filetype
-    end
-
-    -- parse the buffer to get the syntax tree
-    local parser = vim.treesitter.get_parser(bufnr, lang)
-    if not parser then
-      vim.notify("Failed to get Treesitter parser for language: " .. lang, vim.log.levels.ERROR)
-      return
-    end
-    local tree = parser:parse()[1]
-    local root = tree:root()
-
-    -- get the highlight query for the language
-    local ts_query = vim.treesitter.query.get(lang, "highlights")
-    if not ts_query then
-      return
-    end
-
-    -- build a mapping from original line numbers to picker buffer line indices
-    local line_num_to_picker_line = {}
-    local prefix_lengths = {}
-
-    local total_lines = vim.api.nvim_buf_line_count(buffer)
-    for line = 1, total_lines do
-      local display_line = vim.api.nvim_buf_get_lines(buffer, line - 1, line, false)[1] or ""
-
-      -- match the line number prefix added by default_show
-      local prefix_pattern = "^(%s*(%d+)%s*│)"
-      local prefix_start, prefix_end, prefix, line_str = display_line:find(prefix_pattern)
-      local prefix_length = prefix_end or 0
-      local line_number = tonumber(line_str)
-      if line_number then
-        line_num_to_picker_line[line_number - 1] = line - 1
-        prefix_lengths[line_number - 1] = prefix_length
-      end
-    end
-
-    -- determine the range of lines to process
-    local min_line, max_line = math.huge, -math.huge
-    for line_number, _ in pairs(line_num_to_picker_line) do
-      if line_number < min_line then
-        min_line = line_number
-      end
-      if line_number > max_line then
-        max_line = line_number
-      end
-    end
-
-    if min_line == math.huge or max_line == -math.huge then
-      return
-    end
-
-    local start_line = min_line
-    local end_line = max_line + 1 -- end_line is exclusive
-
-    -- todo: exclude the `query` from being highlighted, otherwise can't see the fuzzy matches
-
-    -- iterate over all captures in range
-    for id, node in ts_query:iter_captures(root, bufnr, start_line, end_line) do
-      local hl = ts_query.captures[id] -- name of the capture
-      if hl then
-        local sr, sc, er, ec = node:range()
-
-        -- apply highlights for each line the node spans
-        for line = sr, er do
-          local picker_line = line_num_to_picker_line[line]
-          if picker_line then
-            local prefix_length = prefix_lengths[line] or 0
-            local start_col = (line == sr) and (sc + prefix_length) or prefix_length
-            local end_col = (line == er) and (ec + prefix_length) or -1
-            vim.api.nvim_buf_add_highlight(buffer, ns, "@" .. hl, picker_line, start_col, end_col)
-          end
-        end
-      end
-    end
-  end
-
-  minipick.registry.buf_lines_current = function()
-    require("mini.extra").pickers.buf_lines(
-      { scope = "current", preserve_order = true },
-      { source = { show = pick_buffer_lines } }
-    )
-  end
-
-  vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick buf_lines_current<cr>]], { nowait = true })
-
-  minipick.registry.projects = function()
-    local cwd = vim.fn.expand("~/wa")
-    local choose = function(item)
-      vim.schedule(function()
-        MiniPick.builtin.files(nil, { source = { cwd = item.path } })
-      end)
-    end
-    return require("mini.extraMiniExtra").pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
-  end
+  source("plugins/mini.pick.lua")
 end)
 
 later(function()
-  require("mini.surround").setup({
-    search_method = "cover_or_next",
-    mappings = {
-      add = "gsa",
-      delete = "gsd",
-      find = "gsf",
-      find_left = "gsf",
-      highlight = "gsh",
-      replace = "gsr",
-      update_n_lines = "gsn",
-    },
-  })
+  source("plugins/mini.surround.lua")
 end)
 
 later(function()
@@ -735,23 +396,7 @@ later(function()
     source = "MeanderingProgrammer/render-markdown.nvim",
     depends = { "nvim-treesitter/nvim-treesitter" },
   })
-  require("render-markdown").setup({
-    render_modes = { "n", "i", "c" },
-    file_types = { "markdown", "Avante" },
-  })
-  Hosaka.toggle.map("om", {
-    name = "markdown",
-    get = function()
-      return require("render-markdown.state").enabled
-    end,
-    set = function(state)
-      if state then
-        require("render-markdown").enable()
-      else
-        require("render-markdown").disable()
-      end
-    end,
-  })
+  source("plugins/render-markdown.lua")
 end)
 
 later(function()
@@ -770,12 +415,5 @@ later(function()
       end,
     },
   })
-  require("avante_lib").load()
-  require("avante").setup({
-    provider = "openai",
-    behaviour = {
-      -- see `src/leadermaps.lua` for keymaps
-      auto_set_keymaps = false,
-    },
-  })
+  source("plugins/avante.lua")
 end)
