@@ -63,6 +63,11 @@ now(function()
     notif_arr = vim.tbl_filter(lua_ls, notif_arr)
     return notify.default_sort(notif_arr)
   end
+  local window_config = function()
+    local has_statusline = vim.o.laststatus > 0
+    local padding = vim.o.cmdheight + (has_statusline and 1 or 0)
+    return { anchor = "SE", col = vim.o.columns, row = vim.o.lines - padding, border = "rounded" }
+  end
   notify.setup({
     content = {
       format = function(notif)
@@ -71,9 +76,7 @@ now(function()
       sort = notify_filter,
     },
     window = {
-      config = {
-        border = "rounded",
-      },
+      config = window_config,
     },
   })
   vim.notify = notify.make_notify()
