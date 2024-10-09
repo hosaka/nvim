@@ -45,9 +45,9 @@ Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/
 ### Editor
 
 - [x] Keep quickfix in focus when navigating items, until closed with `q`
+- [x] Make use of some opensource code assistance ([avante](https://github.com/yetone/avante.nvim) with [ollama](https://ollama.ai))
 - [ ] Try setting up [nvim-dap](https://github.com/mfussenegger/nvim-dap) for some LSPs
 - [ ] Replace tokyonight colorscheme with a base16 generated one
-- [ ] Make use of some opensource code assistance ([ollama](https://ollama.ai))
 
 ### Repo
 
