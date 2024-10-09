@@ -17,7 +17,7 @@ local toggle_dotfiles = function()
   })
 end
 
-local map_split = function(buf_id, lhs, direction)
+local map_split = function(buf_id, lhs, direction, close_on_file)
   local rhs = function()
     local cur_target = MiniFiles.get_explorer_state().target_window
     local new_target = vim.api.nvim_win_call(cur_target, function()
@@ -27,7 +27,7 @@ local map_split = function(buf_id, lhs, direction)
 
     -- setting window as a target keeps mini.files open
     MiniFiles.set_target_window(new_target)
-    MiniFiles.go_in()
+    MiniFiles.go_in({ close_on_file = close_on_file })
   end
 
   local desc = "Open in " .. direction .. " split"
@@ -37,6 +37,7 @@ end
 local set_cwd = function()
   local cur_entry_path = MiniFiles.get_fs_entry().path
   local cur_directory = vim.fs.dirname(cur_entry_path)
+  vim.notify(cur_directory)
   if cur_directory ~= nil then
     vim.fn.chdir(cur_directory)
   end
@@ -66,8 +67,10 @@ vim.api.nvim_create_autocmd("User", {
     )
     vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle hidden" })
     vim.keymap.set("n", "gc", set_cwd, { buffer = buf_id, desc = "Set cwd" })
-    map_split(buf_id, "<C-s>", "horizontal")
-    map_split(buf_id, "<C-v>", "vertical")
+    map_split(buf_id, "<C-s>", "horizontal", false)
+    map_split(buf_id, "<C-v>", "vertical", false)
+    map_split(buf_id, "<C-w>s", "horizontal", true)
+    map_split(buf_id, "<C-w>v", "vertical", true)
   end,
 })
 
