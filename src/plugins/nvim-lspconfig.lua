@@ -228,8 +228,8 @@ require("mason-lspconfig").setup({
         capabilities = default_capabilities,
       })
     end,
-    ruff_lsp = function()
-      require("lspconfig").ruff_lsp.setup({
+    ruff = function()
+      require("lspconfig").ruff.setup({
         on_attach = function(client, buffer)
           default_on_attach(client, buffer)
 
