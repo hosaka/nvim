@@ -278,7 +278,6 @@ later(function()
     },
     integrations = {
       lspconfig = true,
-      cmp = true,
     },
   })
 end)
@@ -315,7 +314,10 @@ later(function()
 end)
 
 later(function()
-  add({ source = "williamboman/mason.nvim", depends = { "williamboman/mason-lspconfig.nvim" } })
+  add({
+    source = "williamboman/mason.nvim",
+    depends = { "williamboman/mason-lspconfig.nvim" },
+  })
   require("mason").setup({
     -- prefer existing binaries over the ones installed by mason
     -- PATH = "append",
@@ -337,15 +339,10 @@ end)
 
 later(function()
   add({
-    source = "hrsh7th/nvim-cmp",
-    depends = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-    },
+    source = "saghen/blink.cmp",
+    checkout = "v0.5.1",
   })
-  source("plugins/nvim-cmp.lua")
+  source("plugins/blink.lua")
 end)
 
 later(function()
@@ -357,7 +354,10 @@ later(function()
 end)
 
 later(function()
-  add({ source = "neovim/nvim-lspconfig", depends = { "williamboman/mason-lspconfig.nvim" } })
+  add({
+    source = "neovim/nvim-lspconfig",
+    depends = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
+  })
   source("plugins/nvim-lspconfig.lua")
 end)
 
