@@ -120,20 +120,22 @@ end
 
 ---@param lhs string
 ---@param toggle ToggleWrap
-H.nmap_toggle = function(lhs, toggle)
+---@param opts? vim.keymap.set.Opts
+H.nmap_toggle = function(lhs, toggle, opts)
   Hosaka.nmap_leader(lhs, function()
     toggle()
     H.set_toggle_desc(lhs, toggle)
-  end, "Toggle " .. toggle.name)
+  end, "Toggle " .. toggle.name, opts)
   H.set_toggle_desc(lhs, toggle)
 end
 
 --- Map a custom toggle in normal mode
 ---@param lhs string
 ---@param toggle Toggle
-Hosaka.toggle.map = function(lhs, toggle)
+---@param opts? vim.keymap.set.Opts
+Hosaka.toggle.map = function(lhs, toggle, opts)
   local wrapped = H.wrap(toggle)
-  H.nmap_toggle(lhs, wrapped)
+  H.nmap_toggle(lhs, wrapped, opts)
 end
 
 --- Map a vim option toggle in normal mode
@@ -177,26 +179,6 @@ Hosaka.lsp = {}
 
 ---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: vim.lsp.Client):boolean}
 
---- Get active LSP clients
----@param opts? lsp.Client.filter
----@return vim.lsp.Client[]
-function H.get_lsp_clients(opts)
-  local ret = {} ---@type vim.lsp.Client[]
-  if vim.lsp.get_clients then
-    ret = vim.lsp.get_clients(opts)
-  else
-    ---@diagnostic disable-next-line: deprecated
-    ret = vim.lsp.get_active_clients(opts)
-    if opts and opts.method then
-      ---@param client vim.lsp.Client
-      ret = vim.tbl_filter(function(client)
-        return client.supports_method(opts.method, { bufnr = opts.bufnr })
-      end, ret)
-    end
-  end
-  return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
-end
-
 --- Trigger LSP rename on clients that support it
 ---@param from string
 ---@param to string
@@ -209,7 +191,9 @@ function Hosaka.lsp.rename(from, to)
       },
     },
   }
-  local clients = H.get_lsp_clients()
+
+  ---@diagnostic disable-next-line: deprecated
+  local clients = (vim.lsp.get_clients or vim.lsp.get_active_clients)()
   for _, client in ipairs(clients) do
     if client.supports_method("workspace/willRenameFiles") then
       local resp = client.request_sync("workspace/willRenameFiles", changes, 1000, 0)
