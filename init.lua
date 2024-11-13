@@ -364,7 +364,8 @@ end)
 later(function()
   add({ source = "https://git.sr.ht/~whynothugo/lsp_lines.nvim", depends = { "neovim/nvim-lspconfig" } })
   require("lsp_lines").setup()
-  vim.diagnostic.config({ virtual_text = true, virtual_lines = { only_current_line = true } })
+  -- disabled by default, see `leadermaps.lua` for keymaps
+  vim.diagnostic.config({ virtual_lines = false })
 end)
 
 later(function()

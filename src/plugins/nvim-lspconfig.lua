@@ -85,6 +85,13 @@ local default_on_attach = function(client, buffer)
     require("mini.basics").toggle_diagnostic()
   end, "textDocument/publishDiagnostics")
 
+  -- note: assuming using lsp_lines plugin
+  mapt("oD", "line diagnostics", function()
+    return not vim.diagnostic.config().virtual_lines
+  end, function(state)
+    vim.diagnostic.config({ virtual_text = state, virtual_lines = not state })
+  end, "textDocument/publishDiagnostics")
+
   if vim.lsp.inlay_hint then
     mapt("oh", "inlay hints", function()
       return vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
