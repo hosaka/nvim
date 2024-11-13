@@ -136,3 +136,34 @@ minipick.registry.projects = function()
   end
   return require("mini.extra").pickers.explorer({ cwd = cwd }, { source = { choose = choose } })
 end
+
+-- same as default buffers picker but with extra key mappings
+local function pick_open_buffers()
+  minipick.builtin.buffers(nil, {
+    mappings = {
+      delete_buffer = {
+        char = "<C-d>",
+        func = function()
+          local matches = minipick.get_picker_matches()
+          if matches then
+            if next(matches.marked) then
+              for _, buffer in ipairs(matches.marked) do
+                vim.cmd.bdelete(buffer.bufnr)
+              end
+            elseif matches.current then
+              -- vim.api.nvim_buf_delete()
+              vim.cmd.bdelete(matches.current.bufnr)
+            end
+            -- fixme: restarting the picker refreshes the items, but perhaps
+            -- there's a better way: removing deleted buffers from items
+            pick_open_buffers()
+          end
+        end,
+      },
+    },
+  })
+end
+
+minipick.registry.open_buffers = function()
+  pick_open_buffers()
+end

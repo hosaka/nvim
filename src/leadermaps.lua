@@ -74,42 +74,15 @@ nmap_leader("ew", function()
   end)
 end, "Write session")
 
-local function pick_buffers()
-  local minipick = require("mini.pick")
-  minipick.builtin.buffers(nil, {
-    mappings = {
-      delete_buffer = {
-        char = "<C-d>",
-        func = function()
-          local matches = minipick.get_picker_matches()
-          if matches then
-            if next(matches.marked) then
-              for _, buffer in ipairs(matches.marked) do
-                vim.cmd.bdelete(buffer.bufnr)
-              end
-            elseif matches.current then
-              -- vim.api.nvim_buf_delete()
-              vim.cmd.bdelete(matches.current.bufnr)
-            end
-            -- fixme: restarting the picker refreshes the items, but perhaps
-            -- there's a better way: removing deleted buffers from items
-            pick_buffers()
-          end
-        end,
-      },
-    },
-  })
-end
-
 -- f is for find
 nmap_leader("<Space>", [[<cmd>Pick files<cr>]], "Files")
-nmap_leader(",", pick_buffers, "Open buffers")
+nmap_leader(",", [[<cmd>Pick open_buffers<cr>]], "Open buffers")
 nmap_leader("?", [[<cmd>Pick oldfiles<cr>]], "Recent files")
 nmap_leader("f/", [[<cmd>Pick history scope="/"<cr>]], "/ history")
 nmap_leader("f:", [[<cmd>Pick history scope=":"<cr>]], ": history")
 nmap_leader("fa", [[<cmd>Pick git_hunks scope='staged'<cr>]], "Added hunks (all)")
 nmap_leader("fA", [[<cmd>Pick git_hunks path='%' scope='staged'<cr>]], "Added hunks (current)")
-nmap_leader("fb", pick_buffers, "Open buffers")
+nmap_leader("fb", [[<cmd> Pick open_buffers<cr>]], "Open buffers")
 nmap_leader("fB", [[<cmd>Pick git_branches<cr>]], "Git branches")
 nmap_leader("fc", [[<cmd>Pick git_commits<cr>]], "Commits (all)")
 nmap_leader("fC", [[<cmd>Pick git_commits path="%"<cr>]], "Commits (current)")
