@@ -42,6 +42,7 @@ end
 
 -- settings and mappings
 -- stylua: ignore start
+now(function() require("hosaka").setup() end)
 now(function() source("options.lua") end)
 now(function() source("functions.lua") end)
 now(function() source("autocmds.lua") end)
@@ -362,7 +363,10 @@ later(function()
 end)
 
 later(function()
-  add({ source = "https://git.sr.ht/~whynothugo/lsp_lines.nvim", depends = { "neovim/nvim-lspconfig" } })
+  add({
+    source = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    depends = { "neovim/nvim-lspconfig" },
+  })
   require("lsp_lines").setup()
   -- disabled by default, see `leadermaps.lua` for keymaps
   vim.diagnostic.config({ virtual_lines = false })

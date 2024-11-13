@@ -20,10 +20,8 @@ Config.leader_group_clues = {
 }
 
 local nmap = Hosaka.nmap
-local nmap_leader = Hosaka.nmap_leader
+local mapl = Hosaka.nmap_leader
 local xmap_leader = Hosaka.xmap_leader
-local nmap_toggle = Hosaka.toggle.map
-local nmap_option = Hosaka.toggle.option
 
 -- registers
 xmap_leader("p", [["_dP]], "Paste to blackhole")
@@ -38,35 +36,35 @@ xmap_leader("d", [["_d]], "Delete to blackhole")
 -- map("n", "<Leader><Tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- a is for assist
-nmap_leader("aa", "[[<cmd>AvanteAsk<cr>]]", "Avante: Ask")
-nmap_leader("ad", "[[<cmd>AvanteToggleDebug<cr>]]", "Avante: Debug toggle")
-nmap_leader("ah", "[[<cmd>AvanteToggleHint<cr>]]", "Avante: Hint toggle")
-nmap_leader("ar", "[[<cmd>AvanteRefresh<cr>]]", "Avante: Refresh")
+mapl("aa", "[[<cmd>AvanteAsk<cr>]]", "Avante: Ask")
+mapl("ad", "[[<cmd>AvanteToggleDebug<cr>]]", "Avante: Debug toggle")
+mapl("ah", "[[<cmd>AvanteToggleHint<cr>]]", "Avante: Hint toggle")
+mapl("ar", "[[<cmd>AvanteRefresh<cr>]]", "Avante: Refresh")
 xmap_leader("aa", "[[<cmd>AvanteAsk<cr>]]", "Avante: Ask")
 xmap_leader("ae", "[[<cmd>AvanteEdit<cr>]]", "Avante: Edit")
 
 -- b is for buffer
-nmap_leader("bb", [[<cmd>b#<cr>]], "Other")
-nmap_leader("bn", [[<cmd>bnext<cr>]], "Next")
-nmap_leader("bp", [[<cmd>bprevious<cr>]], "Prev")
-nmap_leader("bs", [[<cmd>lua Hosaka.new_scratch_buffer()<cr>]], "Scratch")
-nmap_leader("bd", [[<cmd>lua require("mini.bufremove").delete()<cr>]], "Delete")
-nmap_leader("bD", [[<cmd>lua require("mini.bufremove").delete(0, true)<cr>]], "Delete!")
-nmap_leader("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout")
-nmap_leader("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
+mapl("bb", [[<cmd>b#<cr>]], "Other")
+mapl("bn", [[<cmd>bnext<cr>]], "Next")
+mapl("bp", [[<cmd>bprevious<cr>]], "Prev")
+mapl("bs", [[<cmd>lua Hosaka.new_scratch_buffer()<cr>]], "Scratch")
+mapl("bd", [[<cmd>lua require("mini.bufremove").delete()<cr>]], "Delete")
+mapl("bD", [[<cmd>lua require("mini.bufremove").delete(0, true)<cr>]], "Delete!")
+mapl("bw", [[<cmd>lua require("mini.bufremove").wipeout()<cr>]], "Wipeout")
+mapl("bW", [[<cmd>lua require("mini.bufremove").wipeout(0, true)<cr>]], "Wipeout!")
 
 -- c is for code
 -- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
-nmap_leader("cl", [[<cmd>lua require("quicker").toggle({ loclist=true })<cr>]], "Toggle loclist")
-nmap_leader("cq", [[<cmd>lua require("quicker").toggle()<cr>]], "Toggle quickfix")
+mapl("cl", [[<cmd>lua require("quicker").toggle({ loclist=true })<cr>]], "Toggle loclist")
+mapl("cq", [[<cmd>lua require("quicker").toggle()<cr>]], "Toggle quickfix")
 
 -- e is for edit
-nmap_leader("en", [[<cmd>enew<cr>]], "New file")
-nmap_leader("ed", [[<cmd>lua MiniFiles.open()<cr>]], "Directory")
-nmap_leader("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], "Config")
-nmap_leader("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], "File directory")
-nmap_leader("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
-nmap_leader("ew", function()
+mapl("en", [[<cmd>enew<cr>]], "New file")
+mapl("ed", [[<cmd>lua MiniFiles.open()<cr>]], "Directory")
+mapl("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], "Config")
+mapl("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], "File directory")
+mapl("es", [[<cmd>lua MiniSessions.select()<cr>]], "Select session")
+mapl("ew", function()
   vim.ui.input({ prompt = "Session name" }, function(input)
     if input then
       require("mini.sessions").write(input)
@@ -75,60 +73,60 @@ nmap_leader("ew", function()
 end, "Write session")
 
 -- f is for find
-nmap_leader("<Space>", [[<cmd>Pick files<cr>]], "Files")
-nmap_leader(",", [[<cmd>Pick open_buffers<cr>]], "Open buffers")
-nmap_leader("?", [[<cmd>Pick oldfiles<cr>]], "Recent files")
-nmap_leader("f/", [[<cmd>Pick history scope="/"<cr>]], "/ history")
-nmap_leader("f:", [[<cmd>Pick history scope=":"<cr>]], ": history")
-nmap_leader("fa", [[<cmd>Pick git_hunks scope='staged'<cr>]], "Added hunks (all)")
-nmap_leader("fA", [[<cmd>Pick git_hunks path='%' scope='staged'<cr>]], "Added hunks (current)")
-nmap_leader("fb", [[<cmd> Pick open_buffers<cr>]], "Open buffers")
-nmap_leader("fB", [[<cmd>Pick git_branches<cr>]], "Git branches")
-nmap_leader("fc", [[<cmd>Pick git_commits<cr>]], "Commits (all)")
-nmap_leader("fC", [[<cmd>Pick git_commits path="%"<cr>]], "Commits (current)")
-nmap_leader("fd", [[<cmd>Pick diagnostic scope="all"<cr>]], "Diagnostic (all)")
-nmap_leader("fD", [[<cmd>Pick diagnostic scope="current"<cr>]], "Diagnostic (current)")
-nmap_leader("ff", [[<cmd>Pick files<cr>]], "Files")
-nmap_leader("fF", [[<cmd>Pick git_files<cr>]], "Git files")
-nmap_leader("fg", [[<cmd>Pick grep_live<cr>]], "Grep live")
-nmap_leader("fw", [[<cmd>Pick grep pattern="<cword>"<cr>]], "Grep current word")
-nmap_leader("fW", [[<cmd>Pick grep pattern="<cWORD>"<cr>]], "Grep current WORD")
-nmap_leader("fh", [[<cmd>Pick help<cr>]], "Help")
-nmap_leader("fH", [[<cmd>Pick hl_groups<cr>]], "Highlight groups")
-nmap_leader("fl", [[<cmd>Pick buf_lines scope='all'<cr>]], "Lines (all)")
-nmap_leader("fL", [[<cmd>Pick buf_lines_current<cr>]], "Lines (current)")
-nmap_leader("fm", [[<cmd>Pick git_hunks<cr>]], "Modified hunks (all)")
-nmap_leader("fM", [[<cmd>Pick git_hunks path='%'<cr>]], "Modified hunks (current)")
-nmap_leader("fk", [[<cmd>Pick keymaps<cr>]], "Keymaps")
-nmap_leader("fo", [[<cmd>Pick options<cr>]], "Options")
-nmap_leader("fr", [[<cmd>Pick resume<cr>]], "Resume")
-nmap_leader("fp", [[<cmd>Pick projects<cr>]], "Projects")
-nmap_leader("fz", [[<cmd>Pick spellsuggest<cr>]], "Spelling suggestions")
-nmap_leader("fR", [[<cmd>Pick lsp scope='references'<cr>]], "References (LSP)")
-nmap_leader("fs", [[<cmd>Pick lsp scope="workspace_symbol"<cr>]], "Symbol workspace (LSP)")
-nmap_leader("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], "Symbol buffer (LSP)")
+mapl("<Space>", [[<cmd>Pick files<cr>]], "Files")
+mapl(",", [[<cmd>Pick open_buffers<cr>]], "Open buffers")
+mapl("?", [[<cmd>Pick oldfiles<cr>]], "Recent files")
+mapl("f/", [[<cmd>Pick history scope="/"<cr>]], "/ history")
+mapl("f:", [[<cmd>Pick history scope=":"<cr>]], ": history")
+mapl("fa", [[<cmd>Pick git_hunks scope='staged'<cr>]], "Added hunks (all)")
+mapl("fA", [[<cmd>Pick git_hunks path='%' scope='staged'<cr>]], "Added hunks (current)")
+mapl("fb", [[<cmd> Pick open_buffers<cr>]], "Open buffers")
+mapl("fB", [[<cmd>Pick git_branches<cr>]], "Git branches")
+mapl("fc", [[<cmd>Pick git_commits<cr>]], "Commits (all)")
+mapl("fC", [[<cmd>Pick git_commits path="%"<cr>]], "Commits (current)")
+mapl("fd", [[<cmd>Pick diagnostic scope="all"<cr>]], "Diagnostic (all)")
+mapl("fD", [[<cmd>Pick diagnostic scope="current"<cr>]], "Diagnostic (current)")
+mapl("ff", [[<cmd>Pick files<cr>]], "Files")
+mapl("fF", [[<cmd>Pick git_files<cr>]], "Git files")
+mapl("fg", [[<cmd>Pick grep_live<cr>]], "Grep live")
+mapl("fw", [[<cmd>Pick grep pattern="<cword>"<cr>]], "Grep current word")
+mapl("fW", [[<cmd>Pick grep pattern="<cWORD>"<cr>]], "Grep current WORD")
+mapl("fh", [[<cmd>Pick help<cr>]], "Help")
+mapl("fH", [[<cmd>Pick hl_groups<cr>]], "Highlight groups")
+mapl("fl", [[<cmd>Pick buf_lines scope='all'<cr>]], "Lines (all)")
+mapl("fL", [[<cmd>Pick buf_lines_current<cr>]], "Lines (current)")
+mapl("fm", [[<cmd>Pick git_hunks<cr>]], "Modified hunks (all)")
+mapl("fM", [[<cmd>Pick git_hunks path='%'<cr>]], "Modified hunks (current)")
+mapl("fk", [[<cmd>Pick keymaps<cr>]], "Keymaps")
+mapl("fo", [[<cmd>Pick options<cr>]], "Options")
+mapl("fr", [[<cmd>Pick resume<cr>]], "Resume")
+mapl("fp", [[<cmd>Pick projects<cr>]], "Projects")
+mapl("fz", [[<cmd>Pick spellsuggest<cr>]], "Spelling suggestions")
+mapl("fR", [[<cmd>Pick lsp scope='references'<cr>]], "References (LSP)")
+mapl("fs", [[<cmd>Pick lsp scope="workspace_symbol"<cr>]], "Symbol workspace (LSP)")
+mapl("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], "Symbol buffer (LSP)")
 
 -- g is for git
 local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ |\ \%s --topo-order]]
-nmap_leader("gg", [[<cmd>lua Hosaka.toggle_lazygit()<cr>]], "Lazygit")
-nmap_leader("gG", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
-nmap_leader("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
+mapl("gg", [[<cmd>lua Hosaka.toggle_lazygit()<cr>]], "Lazygit")
+mapl("gG", [[<cmd>lua require('neogit').open()<cr>]], "Neogit")
+mapl("gd", [[<cmd>DiffviewOpen<cr>]], "Diffview")
 -- nmap_leader("ga", [[<cmd>Git diff --cached<cr>]], "Added diff")
 -- nmap_leader("gA", [[<cmd>Git diff --cached -- %<cr>]], "Added diff buffer")
 -- nmap_leader("gd", [[<cmd>Git diff<cr>]], "Diff")
 -- nmap_leader("gD", [[<cmd>Git diff -- %<cr>]], "Diff buffer")
-nmap_leader("gl", "<cmd>" .. git_log_cmd .. "<cr>", "Log")
-nmap_leader("gL", "<cmd>" .. git_log_cmd .. " --follow -- %<cr>", "Log buffer")
-nmap_leader("gc", [[<cmd>Git commit<cr>]], "Commit")
-nmap_leader("gC", [[<cmd>Git commit --amend<cr>]], "Commit amend")
-nmap_leader("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Overlay diff")
-nmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
+mapl("gl", "<cmd>" .. git_log_cmd .. "<cr>", "Log")
+mapl("gL", "<cmd>" .. git_log_cmd .. " --follow -- %<cr>", "Log buffer")
+mapl("gc", [[<cmd>Git commit<cr>]], "Commit")
+mapl("gC", [[<cmd>Git commit --amend<cr>]], "Commit amend")
+mapl("go", [[<cmd>lua MiniDiff.toggle_overlay()<cr>]], "Overlay diff")
+mapl("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at cursor")
 xmap_leader("gs", [[<cmd>lua MiniGit.show_at_cursor()<cr>]], "Show at selection")
-nmap_leader("gQ", function()
+mapl("gQ", function()
   vim.fn.setqflist(require("mini.diff").export("qf", { scope = "current" }))
   require("quicker").open()
 end, "Hunk quickfix")
-nmap_leader("gq", function()
+mapl("gq", function()
   vim.fn.setqflist(require("mini.diff").export("qf", { scope = "all" }))
   require("quicker").open()
 end, "Hunk quickfix (all)")
@@ -136,82 +134,62 @@ end, "Hunk quickfix (all)")
 -- o is for options
 -- also see `plugins/nvim-lspconfig.lua`
 -- also see `plugins/nvim-treesitter-context.lua`
-nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
-nmap_toggle("of", {
-  name = "autoformat",
-  get = function()
-    return not vim.g.autoformat_disable
-  end,
-  set = function(state)
-    vim.g.autoformat_disable = not state
-  end,
-})
-nmap_toggle("op", {
-  name = "autopairs",
-  get = function()
-    return not vim.g.minipairs_disable
-  end,
-  set = function(state)
-    vim.g.minipairs_disable = not state
-  end,
-})
-nmap_toggle("oT", {
-  name = "trailspace",
-  get = function()
-    return not vim.g.minitrailspace_disable
-  end,
-  set = function(state)
-    vim.g.minitrailspace_disable = not state
-  end,
-})
-nmap_option("oC", "cursorcolumn", { name = "'cursorcolumn'" })
-nmap_option("oc", "cursorline", { name = "'cursorline'" })
-nmap_option("on", "number", { name = "'number'" })
-nmap_option("or", "relativenumber", { name = "'relativenumber'" })
-nmap_option("os", "spell", { name = "'spell'" })
-nmap_option("ow", "wrap", { name = "'wrap'" })
-nmap_option("ob", "bg", { name = "background", values = { "dark", "light" }, is_global = true })
+local toggle = require("hosaka.toggle")
+local option = toggle.option
+local global = toggle.global
+
+global("autoformat_disable", { name = "autoformat" }):mapl("of")
+global("minipairs_disable", { name = "autopairs" }):mapl("op")
+global("minitrailspace_disable", { name = "trailspace" }):mapl("oT")
+option("cursorcolumn", { name = "'cursorcolumn'" }):mapl("oC")
+option("cursorline", { name = "'cursorline'" }):mapl("oc")
+option("number", { name = "'number'" }):mapl("on")
+option("relativenumber", { name = "'relativenumber'" }):mapl("or")
+option("spell", { name = "'spell'" }):mapl("os")
+option("wrap", { name = "'wrap'" }):mapl("ow")
+option("bg", { name = "'background'", on = "dark", off = "light" }):mapl("ob")
+mapl("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
 
 -- q is for quit
-nmap_leader("qq", [[<cmd>quitall<cr>]], "Quit all")
-nmap_leader("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
-nmap_leader("qs", [[<cmd>suspend<cr>]], "Suspend")
+mapl("qq", [[<cmd>quitall<cr>]], "Quit all")
+mapl("qQ", [[<cmd>quitall!<cr>]], "Quit all!")
+mapl("qs", [[<cmd>suspend<cr>]], "Suspend")
 
 -- r is for run
 -- also see `plugins/nvim-lspconfig.lua`
-nmap_leader("rc", function()
+mapl("rc", function()
   local config_path = vim.fn.stdpath("config") .. "/init.lua"
   if vim.loop.fs_stat(config_path) then
     vim.cmd("source" .. config_path)
   end
 end, "Config reload")
-nmap_leader("rd", [[<cmd>DepsUpdate<cr>]], "Deps update")
-nmap_leader("rD", [[<cmd>DepsSnapSave<cr>]], "Deps snapshot")
+mapl("rd", [[<cmd>DepsUpdate<cr>]], "Deps update")
+mapl("rD", [[<cmd>DepsSnapSave<cr>]], "Deps snapshot")
 
 -- t is for terminal
-nmap_leader("tt", [[<cmd>ToggleTerm<cr>]], "Terminal toggle")
-nmap_leader("tf", [[<cmd>ToggleTerm direction=float<cr>]], "Terminal float")
-nmap_leader("th", [[<cmd>ToggleTerm size=10 direction=horizontal<cr>]], "Terminal horizontal")
-nmap_leader("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], "Terminal vertical")
-nmap_leader("ts", [[<cmd>TermSelect<cr>]], "Terminal select")
-nmap_leader("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], "Terminal send line")
+mapl("tt", [[<cmd>ToggleTerm<cr>]], "Terminal toggle")
+mapl("tf", [[<cmd>ToggleTerm direction=float<cr>]], "Terminal float")
+mapl("th", [[<cmd>ToggleTerm size=10 direction=horizontal<cr>]], "Terminal horizontal")
+mapl("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], "Terminal vertical")
+mapl("ts", [[<cmd>TermSelect<cr>]], "Terminal select")
+mapl("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], "Terminal send line")
 xmap_leader("tl", [[<cmd>ToggleTermSendVisualSelection<cr><esc>]], "Terminal send selection")
-nmap_leader("tp", [[<cmd>lua Hosaka.toggle_python()<cr>]], "Python REPL")
-nmap_leader("tn", [[<cmd>lua Hosaka.toggle_node()<cr>]], "Node REPL")
+mapl("tp", [[<cmd>lua Hosaka.toggle_python()<cr>]], "Python REPL")
+mapl("tn", [[<cmd>lua Hosaka.toggle_node()<cr>]], "Node REPL")
 
 -- v is for visits
-nmap_leader("vp", [[<cmd>Pick visit_paths cwd=''<cr>]], "Path visits (all)")
-nmap_leader("vP", [[<cmd>Pick visit_paths<cr>]], "Path visits (cwd)")
-nmap_leader("vv", [[<cmd>lua MiniVisits.add_label("core")<cr>]], "Add core label")
-nmap_leader("vV", [[<cmd>lua MiniVisits.remove_label("core")<cr>]], "Remove core label")
-nmap_leader("va", function()
+mapl("vp", [[<cmd>Pick visit_paths cwd=''<cr>]], "Path visits (all)")
+mapl("vP", [[<cmd>Pick visit_paths<cr>]], "Path visits (cwd)")
+mapl("vv", [[<cmd>lua MiniVisits.add_label("core")<cr>]], "Add core label")
+mapl("vV", [[<cmd>lua MiniVisits.remove_label("core")<cr>]], "Remove core label")
+mapl("va", function()
   vim.ui.input({ prompt = "Add label" }, function(input)
     if input then
       require("mini.visits").add_label(input)
     end
   end)
 end, "Add label")
-nmap_leader("vr", function()
+mapl("vr", function()
   -- todo: use mini.pick populated from mini.visits.list_labels
   -- to only list labels applicable to the current buffer, remove
   -- upon selecting one
@@ -256,7 +234,7 @@ local iterate_visits = function(label, direction)
   end
 end
 
-nmap_leader("vc", pick_visits("core", ""), "Core visits (all)")
-nmap_leader("vC", pick_visits("core", nil), "Core visits (cwd)")
+mapl("vc", pick_visits("core", ""), "Core visits (all)")
+mapl("vC", pick_visits("core", nil), "Core visits (cwd)")
 nmap("]]", iterate_visits("core", "forward"), "Core forward")
 nmap("[[", iterate_visits("core", "backward"), "Core backward")

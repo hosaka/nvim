@@ -3,9 +3,7 @@ require("render-markdown").setup({
   file_types = { "markdown", "Avante" },
 })
 
-local nmap_toggle = Hosaka.toggle.map
-
-nmap_toggle("om", {
+require("hosaka.toggle")({
   name = "markdown",
   get = function()
     return require("render-markdown.state").enabled
@@ -17,4 +15,4 @@ nmap_toggle("om", {
       require("render-markdown").disable()
     end
   end,
-})
+}):mapl("om")

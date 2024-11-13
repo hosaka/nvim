@@ -35,6 +35,7 @@ require("lspconfig.ui.windows").default_options.border = "rounded"
 local default_on_attach = function(client, buffer)
   -- use mini.completion
   -- vim.bo[buffer].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
+  local toggle = require("hosaka.toggle")
 
   local map = function(mode, lhs, rhs, desc, has)
     -- skips the keymap if lsp method is not supported
@@ -43,7 +44,6 @@ local default_on_attach = function(client, buffer)
         return
       end
     end
-
     vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = buffer })
   end
 
@@ -57,11 +57,11 @@ local default_on_attach = function(client, buffer)
         return
       end
     end
-    Hosaka.toggle.map(lhs, {
+    toggle({
       name = name,
       get = get,
       set = set,
-    }, { buffer = buffer })
+    }):mapl(lhs, { buffer = buffer })
   end
 
   map("n", "K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], "Hover popup")

@@ -4,12 +4,8 @@ context.setup({
   max_lines = 3,
 })
 
-Hosaka.toggle.map("ot", {
+require("hosaka.toggle")({
   name = "context",
-  get = function()
-    return context.enabled()
-  end,
-  set = function()
-    context.toggle()
-  end,
-})
+  get = context.enabled,
+  set = context.toggle,
+}):mapl("ot")
