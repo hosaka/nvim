@@ -12,13 +12,16 @@ require("blink.cmp").setup({
   windows = {
     autocomplete = {
       border = "rounded",
+      winblend = vim.o.pumblend,
     },
     documentation = {
       border = "rounded",
+      winblend = vim.o.pumblend,
       -- triggered with <C-Space> by default
       -- auto_show = true,
     },
     signature_help = {
+      winblend = vim.o.pumblend,
       border = "rounded",
     },
   },
