@@ -137,15 +137,6 @@ end, "Hunk quickfix (all)")
 -- also see `plugins/nvim-lspconfig.lua`
 -- also see `plugins/nvim-treesitter-context.lua`
 nmap_leader("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], "Toggle zoom")
-nmap_toggle("od", {
-  name = "diagnostics",
-  get = function()
-    return vim.diagnostic.is_enabled()
-  end,
-  set = function()
-    require("mini.basics").toggle_diagnostic()
-  end,
-})
 nmap_toggle("of", {
   name = "autoformat",
   get = function()

@@ -42,14 +42,24 @@ local default_on_attach = function(client, buffer)
       end
     end
 
-    local opts = {}
-    opts.desc = desc
-    opts.buffer = buffer
-    vim.keymap.set(mode, lhs, rhs, opts)
+    vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = buffer })
   end
 
   local mapl = function(mode, suffix, rhs, desc, has)
     map(mode, "<Leader>" .. suffix, rhs, desc, has)
+  end
+
+  local mapt = function(lhs, name, get, set, has)
+    if has ~= nil then
+      if not client.supports_method(has) then
+        return
+      end
+    end
+    Hosaka.toggle.map(lhs, {
+      name = name,
+      get = get,
+      set = set,
+    }, { buffer = buffer })
   end
 
   map("n", "K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], "Hover popup")
@@ -69,18 +79,18 @@ local default_on_attach = function(client, buffer)
     require("quicker").refresh()
   end, "Diagnostic quickfix", "textDocument/publishDiagnostics")
 
+  mapt("od", "diagnostics", function()
+    return vim.diagnostic.is_enabled()
+  end, function()
+    require("mini.basics").toggle_diagnostic()
+  end, "textDocument/publishDiagnostics")
+
   if vim.lsp.inlay_hint then
-    if client.supports_method("textDocument/inlayHint") then
-      Hosaka.toggle.map("oh", {
-        name = "inlay hints",
-        get = function()
-          return vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
-        end,
-        set = function(state)
-          vim.lsp.inlay_hint.enable(state, { bufnr = buffer })
-        end,
-      })
-    end
+    mapt("oh", "inlay hints", function()
+      return vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
+    end, function(state)
+      vim.lsp.inlay_hint.enable(state, { bufnr = buffer })
+    end, "textDocument/inlayHint")
   end
 
   local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
