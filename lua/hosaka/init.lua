@@ -1,7 +1,8 @@
---- Personal collection of commonly used functions
+--- Collection of commonly used personal functions
 ---@class Hosaka
 ---@field keymap hosaka.keymap
 ---@field toggle hosaka.toggle
+---@field lsp hosaka.lsp
 local Hosaka = {}
 local H = {}
 
@@ -13,9 +14,10 @@ setmetatable(Hosaka, {
 })
 
 --- Hosaka setup
----@param config hosaka.Config
+---@param config? hosaka.Config
 function Hosaka.setup(config)
-  _G.HosakaTest = Hosaka
+  -- export module
+  _G.Hosaka = Hosaka
 
   config = H.setup_config(config)
 
@@ -39,6 +41,18 @@ function H.apply_config(config)
   Hosaka.config = config
 end
 
----
+--- Default personal augroup
+---@param name string
+---@return integer
+function Hosaka.augroup(name)
+  return vim.api.nvim_create_augroup("hosaka_" .. name, { clear = true })
+end
+
+--- Make a new scratch buffer and switch to it
+function Hosaka.new_scratch_buffer()
+  local buffer = vim.api.nvim_create_buf(true, true)
+  vim.api.nvim_win_set_buf(0, buffer)
+  return buffer
+end
 
 return Hosaka

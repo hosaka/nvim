@@ -10,7 +10,7 @@ _G.Config = {
   path_snapshot = vim.fn.stdpath("config") .. "/snapshot",
 }
 
--- bootstrap 'mini.nvim'
+-- bootstrap `mini.nvim`
 local mini_path = Config.path_package .. "pack/deps/start/mini.nvim"
 if not vim.loop.fs_stat(mini_path) then
   vim.cmd([[echo "Installing 'mini.nvim'" | redraw]])
@@ -40,11 +40,10 @@ local source = function(path)
   dofile(Config.path_source .. path)
 end
 
--- settings and mappings
--- stylua: ignore start
-now(function() require("hosaka").setup() end)
+  -- settings and mappings
+  -- stylua: ignore start
 now(function() source("options.lua") end)
-now(function() source("functions.lua") end)
+now(function() require("hosaka").setup() end)
 now(function() source("autocmds.lua") end)
 now(function() source("keymaps.lua") end)
 now(function() source("leadermaps.lua") end)

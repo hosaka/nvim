@@ -4,7 +4,7 @@ context.setup({
   max_lines = 3,
 })
 
-require("hosaka.toggle")({
+Hosaka.toggle({
   name = "context",
   get = context.enabled,
   set = context.toggle,

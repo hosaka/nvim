@@ -3,7 +3,7 @@ require("render-markdown").setup({
   file_types = { "markdown", "Avante" },
 })
 
-require("hosaka.toggle")({
+Hosaka.toggle({
   name = "markdown",
   get = function()
     return require("render-markdown.state").enabled

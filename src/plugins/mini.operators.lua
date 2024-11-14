@@ -1,7 +1,7 @@
-local remap = Hosaka.remap
+local remap = Hosaka.keymap.remap
 
 -- remap built-in open filepath/URI keymap before setup
-remap("n", "gx", "<Leader>rx", "Open filepath or URI")
-remap("x", "gx", "<Leader>rx", "Open filepath or URI")
+remap("gx", "<Leader>rx", { desc = "Open filepath or URI" })
+remap("gx", "<Leader>rx", { mode = "x", desc = "Open filepath or URI" })
 
 require("mini.operators").setup()

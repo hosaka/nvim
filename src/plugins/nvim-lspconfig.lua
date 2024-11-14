@@ -35,8 +35,6 @@ require("lspconfig.ui.windows").default_options.border = "rounded"
 local default_on_attach = function(client, buffer)
   -- use mini.completion
   -- vim.bo[buffer].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-  local toggle = require("hosaka.toggle")
-
   local map = function(mode, lhs, rhs, desc, has)
     -- skips the keymap if lsp method is not supported
     if has ~= nil then
@@ -57,7 +55,7 @@ local default_on_attach = function(client, buffer)
         return
       end
     end
-    toggle({
+    Hosaka.toggle({
       name = name,
       get = get,
       set = set,
