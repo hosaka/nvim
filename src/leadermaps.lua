@@ -9,6 +9,7 @@ Config.leader_group_clues = {
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
+  { mode = "n", keys = "<Leader>rd", desc = "+Deps" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
@@ -159,8 +160,10 @@ mapl("rc", function()
     vim.cmd("source" .. config_path)
   end
 end, { desc = "Config reload" })
-mapl("rd", [[<cmd>DepsUpdate<cr>]], { desc = "Deps update" })
-mapl("rD", [[<cmd>DepsSnapSave<cr>]], { desc = "Deps snapshot" })
+mapl("rdu", [[<cmd>DepsUpdate<cr>]], { desc = "Update" })
+mapl("rds", [[<cmd>DepsSnapSave<cr>]], { desc = "Save snapshot" })
+mapl("rdl", [[<cmd>DepsSnapLoad<cr>]], { desc = "Load snapshot" })
+mapl("rdc", [[<cmd>DepsClean<cr>]], { desc = "Clean" })
 
 -- t is for terminal
 mapl("tt", [[<cmd>execute v:count1 . "ToggleTerm"<cr>]], { desc = "Toggle" })
