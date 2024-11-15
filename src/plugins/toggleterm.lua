@@ -6,6 +6,9 @@ require("toggleterm").setup({
     vim.opt.foldcolumn = "0"
     vim.opt.signcolumn = "no"
   end,
+  winbar = {
+    enabled = true,
+  },
 })
 
 local Terminal = require("toggleterm.terminal").Terminal
