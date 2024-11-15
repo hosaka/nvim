@@ -119,7 +119,7 @@ local pick_buffer_lines = function(buffer, items, query, opts)
 end
 
 minipick.registry.buf_lines_current = function()
-  require("mini.extra").pickers.buf_lines(
+  return require("mini.extra").pickers.buf_lines(
     { scope = "current", preserve_order = true },
     { source = { show = pick_buffer_lines } }
   )

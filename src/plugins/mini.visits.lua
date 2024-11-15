@@ -39,24 +39,5 @@ local mapl = Hosaka.keymap.mapl
 
 map("]]", iterate_visits("core", "forward"), { desc = "Core forward" })
 map("[[", iterate_visits("core", "backward"), { desc = "Core backward" })
-
 mapl("vc", pick_visits("core", ""), { desc = "Core visits (all)" })
 mapl("vC", pick_visits("core", nil), { desc = "Core visits (cwd)" })
-
-mapl("va", function()
-  vim.ui.input({ prompt = "Add label" }, function(input)
-    if input then
-      minivisits.add_label(input)
-    end
-  end)
-end, { desc = "Add label" })
-mapl("vr", function()
-  -- todo: use mini.pick populated from mini.visits.list_labels
-  -- to only list labels applicable to the current buffer, remove
-  -- upon selecting one
-  vim.ui.input({ prompt = "Remove label" }, function(input)
-    if input then
-      minivisits.remove_label(input)
-    end
-  end)
-end, { desc = "Remove label" })
