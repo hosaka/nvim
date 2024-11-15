@@ -125,8 +125,6 @@ minipick.registry.buf_lines_current = function()
   )
 end
 
-vim.keymap.set({ "n", "x" }, ",", [[<cmd>Pick buf_lines_current<cr>]], { nowait = true })
-
 minipick.registry.projects = function()
   local cwd = vim.fn.expand("~/wa")
   local choose = function(item)
@@ -164,6 +162,4 @@ local function pick_open_buffers()
   })
 end
 
-minipick.registry.open_buffers = function()
-  pick_open_buffers()
-end
+minipick.registry.open_buffers = pick_open_buffers

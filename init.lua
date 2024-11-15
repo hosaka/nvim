@@ -259,7 +259,7 @@ later(function()
 end)
 
 later(function()
-  require("mini.visits").setup()
+  source("plugins/mini.visits.lua")
 end)
 
 -- dependencies

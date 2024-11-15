@@ -20,6 +20,7 @@ Config.leader_group_clues = {
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
 }
 
+local map = Hosaka.keymap.map
 local mapl = Hosaka.keymap.mapl
 
 -- registers
@@ -71,6 +72,7 @@ mapl("ew", function()
 end, { desc = "Write session" })
 
 -- f is for find
+map(",", [[<cmd>Pick buf_lines_current<cr>]], { mode = { "n", "x" }, desc = "Buffer lines", nowait = true })
 mapl("<Space>", [[<cmd>Pick files<cr>]], { desc = "Files" })
 mapl(",", [[<cmd>Pick open_buffers<cr>]], { desc = "Open buffers" })
 mapl("?", [[<cmd>Pick oldfiles<cr>]], { desc = "Recent files" })
@@ -78,7 +80,7 @@ mapl("f/", [[<cmd>Pick history scope="/"<cr>]], { desc = "/ history" })
 mapl("f:", [[<cmd>Pick history scope=":"<cr>]], { desc = ": history" })
 mapl("fa", [[<cmd>Pick git_hunks scope='staged'<cr>]], { desc = "Added hunks (all)" })
 mapl("fA", [[<cmd>Pick git_hunks path='%' scope='staged'<cr>]], { desc = "Added hunks (current)" })
-mapl("fb", [[<cmd> Pick open_buffers<cr>]], { desc = "Open buffers" })
+mapl("fb", [[<cmd>Pick open_buffers<cr>]], { desc = "Open buffers" })
 mapl("fB", [[<cmd>Pick git_branches<cr>]], { desc = "Git branches" })
 mapl("fc", [[<cmd>Pick git_commits<cr>]], { desc = "Commits (all)" })
 mapl("fC", [[<cmd>Pick git_commits path="%"<cr>]], { desc = "Commits (current)" })
@@ -179,65 +181,8 @@ mapl("tp", [[<cmd>lua Hosaka.toggle_python()<cr>]], { desc = "Python REPL" })
 mapl("tn", [[<cmd>lua Hosaka.toggle_node()<cr>]], { desc = "Node REPL" })
 
 -- v is for visits
+-- also see `plugins/mini.visits.lua`
 mapl("vp", [[<cmd>Pick visit_paths cwd=''<cr>]], { desc = "Path visits (all)" })
 mapl("vP", [[<cmd>Pick visit_paths<cr>]], { desc = "Path visits (cwd)" })
 mapl("vv", [[<cmd>lua MiniVisits.add_label("core")<cr>]], { desc = "Add core label" })
 mapl("vV", [[<cmd>lua MiniVisits.remove_label("core")<cr>]], { desc = "Remove core label" })
-mapl("va", function()
-  vim.ui.input({ prompt = "Add label" }, function(input)
-    if input then
-      require("mini.visits").add_label(input)
-    end
-  end)
-end, { desc = "Add label" })
-mapl("vr", function()
-  -- todo: use mini.pick populated from mini.visits.list_labels
-  -- to only list labels applicable to the current buffer, remove
-  -- upon selecting one
-  vim.ui.input({ prompt = "Remove label" }, function(input)
-    if input then
-      require("mini.visits").remove_label(input)
-    end
-  end)
-end, { desc = "Remove label" })
-
-local function pick_visits(label, cwd)
-  return function()
-    local miniextra = require("mini.extra")
-    miniextra.pickers.visit_paths({
-      cwd = cwd,
-      filter = label,
-      recency_weight = 0,
-    }, {
-      source = { name = string.format("%s visits (%s)", label, cwd ~= "" and "cwd" or "all") },
-      mappings = {
-        delete_visit = {
-          char = "<C-d>",
-          func = function()
-            local minipick = require("mini.pick")
-            local minivisits = require("mini.visits")
-            local matches = minipick.get_picker_matches()
-            if matches and matches.current then
-              minivisits.remove_label(label, matches.current, cwd)
-            end
-            pick_visits(label, cwd)()
-          end,
-        },
-      },
-    })
-  end
-end
-
-local iterate_visits = function(label, direction)
-  return function()
-    local minivisits = require("mini.visits")
-    minivisits.iterate_paths(direction, vim.fn.getcwd(), { filter = label, recency_weight = 0, wrap = true })
-  end
-end
-
-mapl("vc", pick_visits("core", ""), { desc = "Core visits (all)" })
-mapl("vC", pick_visits("core", nil), { desc = "Core visits (cwd)" })
-
-local map = Hosaka.keymap.map
-map("]]", iterate_visits("core", "forward"), { desc = "Core forward" })
-map("[[", iterate_visits("core", "backward"), { desc = "Core backward" })
