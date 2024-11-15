@@ -94,7 +94,7 @@ function HosakaToggle:toggle()
   end
 end
 
---- New local option (vim.opt_local) toggle
+--- New local option (vim.opt_local) toggle, default description is "Toggle `opts.name`"
 ---@param option string
 ---@param opts? hosaka.toggle.Opts | {on?: unknown, off?: unknown}
 function HosakaToggle.option(option, opts)
@@ -123,7 +123,7 @@ function HosakaToggle.option(option, opts)
   return toggle
 end
 
---- New global option (vim.g) toggle
+--- New global option (vim.g) toggle, default description is "Toggle `opts.name`"
 ---@param option string
 ---@param opts? hosaka.toggle.Opts | {on?: unknown, off?: unknown}
 function HosakaToggle.global(option, opts)
@@ -138,7 +138,7 @@ function HosakaToggle.global(option, opts)
   }, opts)
 end
 
---- Add a keymap to this toggle
+--- Add a keymap to this toggle, default description is "Toggle `opts.name`"
 ---@param keys string
 ---@param opts? vim.keymap.set.Opts | { mode: string | string[] }
 function HosakaToggle:map(keys, opts)
@@ -158,7 +158,7 @@ function HosakaToggle:map(keys, opts)
   end
 end
 
---- Map a toggle prefixed with <Leader>
+--- Map a toggle prefixed with <Leader>, default description is "Toggle `opts.name`"
 ---@param keys string
 ---@param opts? vim.keymap.set.Opts | { mode: string | string[] }
 function HosakaToggle:mapl(keys, opts)

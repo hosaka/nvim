@@ -35,20 +35,37 @@ require("lspconfig.ui.windows").default_options.border = "rounded"
 local default_on_attach = function(client, buffer)
   -- use mini.completion
   -- vim.bo[buffer].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-  local map = function(mode, lhs, rhs, desc, has)
-    -- skips the keymap if lsp method is not supported
+
+  --- Map a key, unless lsp method is not supported
+  ---@param lhs string
+  ---@param rhs string|function
+  ---@param opts? vim.keymap.set.Opts | { mode: string | string[] }
+  ---@param has? string
+  local map = function(lhs, rhs, opts, has)
     if has ~= nil then
       if not client.supports_method(has) then
         return
       end
     end
-    vim.keymap.set(mode, lhs, rhs, { desc = desc, buffer = buffer })
+    opts.buffer = buffer
+    Hosaka.keymap.map(lhs, rhs, opts)
   end
 
-  local mapl = function(mode, suffix, rhs, desc, has)
-    map(mode, "<Leader>" .. suffix, rhs, desc, has)
+  --- Map a key with <Leader> prefix, unless lsp method is not supported
+  ---@param lhs string
+  ---@param rhs string|function
+  ---@param opts? vim.keymap.set.Opts | { mode: string | string[] }
+  ---@param has? string
+  local mapl = function(lhs, rhs, opts, has)
+    map("<Leader>" .. lhs, rhs, opts, has)
   end
 
+  --- Map a toggle, unless lsp method is not supported
+  ---@param lhs string
+  ---@param name string
+  ---@param get fun():boolean
+  ---@param set fun(state:boolean)
+  ---@param has? string
   local mapt = function(lhs, name, get, set, has)
     if has ~= nil then
       if not client.supports_method(has) then
@@ -62,22 +79,47 @@ local default_on_attach = function(client, buffer)
     }):mapl(lhs, { buffer = buffer })
   end
 
-  map("n", "K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], "Hover popup")
-  map("n", "gd", [[<cmd>lua vim.lsp.buf.definition()<cr>]], "Go to definition", "textDocument/definition")
-  map("n", "gD", [[<cmd>lua vim.lsp.buf.declaration()<cr>]], "Go to declaration", "textDocument/declaration")
-  map("n", "gI", [[<cmd>lua vim.lsp.buf.implementation()<cr>]], "Go to implementation", "textDocument/implementation")
-  map("n", "gY", [[<cmd>lua vim.lsp.buf.type_definition()<cr>]], "Go to type definition", "textDocument/typeDefinition")
-  map("n", "gK", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
-  map("i", "<C-k>", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], "Signature help", "textDocument/signatureHelp")
-  mapl({ "n", "x" }, "ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], "Action popup", "textDocument/codeAction")
-  mapl("n", "cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], "Rename symbol", "textDocument/rename")
-  mapl("n", "cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], "Find references", "textDocument/references")
-  mapl("n", "cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], "Diagnostic popup", "textDocument/publishDiagnostics")
-  mapl("n", "cD", function()
+  map("K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], { desc = "Hover popup" })
+  map("gd", [[<cmd>lua vim.lsp.buf.definition()<cr>]], { desc = "Go to definition" }, "textDocument/definition")
+  map("gD", [[<cmd>lua vim.lsp.buf.declaration()<cr>]], { desc = "Go to declaration" }, "textDocument/declaration")
+  map(
+    "gI",
+    [[<cmd>lua vim.lsp.buf.implementation()<cr>]],
+    { desc = "Go to implementation" },
+    "textDocument/implementation"
+  )
+  map(
+    "gY",
+    [[<cmd>lua vim.lsp.buf.type_definition()<cr>]],
+    { desc = "Go to type definition" },
+    "textDocument/typeDefinition"
+  )
+  map("gK", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], { desc = "Signature help" }, "textDocument/signatureHelp")
+  map(
+    "<C-k>",
+    [[<cmd>lua vim.lsp.buf.signature_help()<cr>]],
+    { mode = "i", desc = "Signature help" },
+    "textDocument/signatureHelp"
+  )
+  mapl(
+    "ca",
+    [[<cmd>lua vim.lsp.buf.code_action()<cr>]],
+    { mode = { "n", "x" }, desc = "Action popup" },
+    "textDocument/codeAction"
+  )
+  mapl("cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], { desc = "Rename symbol" }, "textDocument/rename")
+  mapl("cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], { desc = "Find references" }, "textDocument/references")
+  mapl(
+    "cd",
+    [[<cmd>lua vim.diagnostic.open_float()<cr>]],
+    { desc = "Diagnostic popup" },
+    "textDocument/publishDiagnostics"
+  )
+  mapl("cD", function()
     vim.diagnostic.setqflist()
     -- expand source lines in for quickfix items
     require("quicker").refresh()
-  end, "Diagnostic quickfix", "textDocument/publishDiagnostics")
+  end, { desc = "Diagnostic quickfix" }, "textDocument/publishDiagnostics")
 
   mapt("od", "diagnostics", function()
     return vim.diagnostic.is_enabled()
