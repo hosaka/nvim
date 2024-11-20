@@ -59,6 +59,7 @@ mapl("cq", [[<cmd>lua require("quicker").toggle()<cr>]], { desc = "Toggle quickf
 
 -- e is for edit
 mapl("en", [[<cmd>enew<cr>]], { desc = "New file" })
+mapl("er", [[<cmd>lua Hosaka.lsp.rename_file()<cr>]], { desc = "Rename file" })
 mapl("ed", [[<cmd>lua MiniFiles.open()<cr>]], { desc = "Directory" })
 mapl("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], { desc = "Config" })
 mapl("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], { desc = "File directory" })
