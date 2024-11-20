@@ -18,6 +18,10 @@ Config.leader_group_clues = {
   { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "x", keys = "<Leader>r", desc = "+Run" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
+
+  -- see `config/mini.surround.lua`
+  { mode = "n", keys = "gz", desc = "Surround" },
+  { mode = "x", keys = "gz", desc = "Surround selection" },
 }
 
 local map = Hosaka.keymap.map
