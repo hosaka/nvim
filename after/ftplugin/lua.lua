@@ -8,7 +8,7 @@ vim.b.minai_config = {
   },
 }
 
--- custom  surround
+-- custom surround
 vim.b.minisurround_config = {
   custom_surroundings = {
     s = { input = { "%[%[().-()%]%]" }, output = { left = "[[", right = "]]" } },
