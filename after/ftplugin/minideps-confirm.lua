@@ -1,1 +1,1 @@
-vim.cmd([[setlocal foldlevvel=0]])
+vim.cmd([[setlocal foldlevel=0]])
