@@ -340,7 +340,7 @@ end)
 later(function()
   add({
     source = "saghen/blink.cmp",
-    checkout = "v0.5.1",
+    checkout = "v0.6.1",
   })
   source("plugins/blink.lua")
 end)

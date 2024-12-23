@@ -13,6 +13,27 @@ require("blink.cmp").setup({
     autocomplete = {
       border = "rounded",
       winblend = vim.o.pumblend,
+      -- draw = {
+      --   components = {
+      --     kind_icon = {
+      --       text = function(ctx)
+      --         local icon = ctx.kind_icon
+      --         local source = ctx.item.source_name
+      --         if source == "LSP" then
+      --           icon = MiniIcons.get("lsp", ctx.kind)
+      --         elseif source == "Path" then
+      --           local label = ctx.item.label
+      --           if ctx.kind == "File" then
+      --             icon = MiniIcons.get("file", label)
+      --           elseif ctx.kind == "Folder" then
+      --             icon = MiniIcons.get("directory", label)
+      --           end
+      --         end
+      --         return icon .. ctx.icon_gap
+      --       end,
+      --     },
+      --   },
+      -- },
     },
     documentation = {
       border = "rounded",
@@ -35,5 +56,4 @@ require("blink.cmp").setup({
       lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
     },
   },
-  -- todo: kind_icons = require("mini.icons")
 })
