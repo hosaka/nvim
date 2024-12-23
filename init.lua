@@ -109,7 +109,6 @@ later(function()
       basic = false,
     },
     mappings = {
-      windows = true,
       option_toggle_prefix = "",
     },
   })
@@ -266,6 +265,10 @@ end)
 
 later(function()
   source("plugins/mini.pick.lua")
+end)
+
+later(function()
+  source("plugins/mini.snippets.lua")
 end)
 
 later(function()
