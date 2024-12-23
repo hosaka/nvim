@@ -215,6 +215,24 @@ later(function()
 end)
 
 later(function()
+  local map = require("mini.map")
+  local gen_integration = map.gen_integration
+  local encode_symbols = map.gen_encode_symbols.dot("3x2")
+  map.setup({
+    symbols = { encode = encode_symbols },
+    integrations = {
+      gen_integration.builtin_search(),
+      gen_integration.diff(),
+      gen_integration.diagnostic(),
+    },
+  })
+  vim.keymap.set({ "n" }, [[<Esc>]], [[:nohlsearch<cr>]], { desc = "Cancel hlsearch", silent = true })
+  for _, key in ipairs({ "n", "N", "*" }) do
+    vim.keymap.set("n", key, key .. "zv<cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<cr>")
+  end
+end)
+
+later(function()
   local minimisc = require("mini.misc")
   minimisc.setup({
     make_global = { "put", "put_text" },

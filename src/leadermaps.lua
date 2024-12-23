@@ -6,6 +6,7 @@ Config.leader_group_clues = {
   { mode = "n", keys = "<Leader>e", desc = "+Edit" },
   { mode = "n", keys = "<Leader>f", desc = "+Find" },
   { mode = "n", keys = "<Leader>g", desc = "+Git" },
+  { mode = "n", keys = "<Leader>m", desc = "+Map" },
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
@@ -136,6 +137,14 @@ mapl("gq", function()
   require("quicker").open()
 end, { desc = "Hunk quickfix (all)" })
 
+-- m is for map
+mapl("mc", [[<cmd>lua MiniMap.close()<cr>]], { desc = "Close" })
+mapl("mf", [[<cmd>lua MiniMap.toggle_focus()<cr>]], { desc = "Focus toggle" })
+mapl("mo", [[<cmd>lua MiniMap.open()<cr>]], { desc = "Open" })
+mapl("mr", [[<cmd>lua MiniMap.refresh()<cr>]], { desc = "Refresh" })
+mapl("ms", [[<cmd>lua MiniMap.refresh()<cr>]], { desc = "Side toggle" })
+mapl("mt", [[<cmd>lua MiniMap.toggle()<cr>]], { desc = "Toggle" })
+
 -- o is for options
 -- also see `plugins/nvim-lspconfig.lua`
 -- also see `plugins/nvim-treesitter-context.lua`
@@ -145,6 +154,7 @@ local global = Hosaka.toggle.global
 global("autoformat_disable", { name = "autoformat" }):mapl("of")
 global("minipairs_disable", { name = "autopairs" }):mapl("op")
 global("minitrailspace_disable", { name = "trailspace" }):mapl("oT")
+-- global("minicursorword_disable", { name = "cursorword" }):mapl("oC")
 option("cursorcolumn", { name = "'cursorcolumn'" }):mapl("oC")
 option("cursorline", { name = "'cursorline'" }):mapl("oc")
 option("number", { name = "'number'" }):mapl("on")
