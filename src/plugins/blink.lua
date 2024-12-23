@@ -17,25 +17,29 @@ require("blink.cmp").setup({
       border = "rounded",
       winblend = vim.o.pumblend,
       draw = {
-        --   components = {
-        --     kind_icon = {
-        --       text = function(ctx)
-        --         local icon = ctx.kind_icon
-        --         local source = ctx.item.source_name
-        --         if source == "LSP" then
-        --           icon = MiniIcons.get("lsp", ctx.kind)
-        --         elseif source == "Path" then
-        --           local label = ctx.item.label
-        --           if ctx.kind == "File" then
-        --             icon = MiniIcons.get("file", label)
-        --           elseif ctx.kind == "Folder" then
-        --             icon = MiniIcons.get("directory", label)
-        --           end
-        --         end
-        --         return icon .. ctx.icon_gap
-        --       end,
-        --     },
-        --   },
+        components = {
+          -- kind_icon = {
+          --   text = function(ctx)
+          --     local icon = ctx.kind_icon
+          --     local source = ctx.item.source_name
+          --     if source == "LSP" then
+          --       icon = MiniIcons.get("lsp", ctx.kind)
+          --     elseif source == "Path" then
+          --       local label = ctx.item.label
+          --       if ctx.kind == "File" then
+          --         icon = MiniIcons.get("file", label)
+          --       elseif ctx.kind == "Folder" then
+          --         icon = MiniIcons.get("directory", label)
+          --       end
+          --     end
+          --     return icon .. ctx.icon_gap
+          --   end,
+          --   highlight = function(ctx)
+          --     local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+          --     return hl
+          --   end,
+          -- },
+        },
       },
     },
   },
