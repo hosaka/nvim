@@ -268,10 +268,6 @@ later(function()
 end)
 
 later(function()
-  source("plugins/mini.snippets.lua")
-end)
-
-later(function()
   source("plugins/mini.surround.lua")
 end)
 
@@ -380,6 +376,10 @@ later(function()
     depends = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
   })
   source("plugins/nvim-lspconfig.lua")
+end)
+
+later(function()
+  add("rafamadriz/friendly-snippets")
 end)
 
 later(function()
