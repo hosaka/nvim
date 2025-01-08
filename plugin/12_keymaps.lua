@@ -1,5 +1,26 @@
+-- basic maps
+-- note: a lot of mappings are defined by mini.basics, see `init.lua`
+
+-- paste above/below linewise
+vim.keymap.set({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above", silent = true })
+vim.keymap.set({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc = "Paste below", silent = true })
+
+-- search highlight
+vim.keymap.set("n", [[\h]], [[:let v:hlsearch = 1 - v:hlsearch<cr>]], { desc = "Toggle hlsearch", silent = true })
+vim.keymap.set({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]], { desc = "Cancel hlsearch", silent = true })
+
+-- delete empty lines to blackhole
+vim.keymap.set("n", "dd", function()
+  if vim.fn.getline(".") == "" then
+    return '"_dd'
+  end
+  return "dd"
+end, { expr = true })
+
+-- leader maps
+
 -- global table for mini.clue groups
-Config.leader_group_clues = {
+Config.mini.clues = {
   { mode = "n", keys = "<Leader>a", desc = "+Assist" },
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
@@ -143,7 +164,7 @@ mapl("mf", [[<cmd>lua MiniMap.toggle_focus()<cr>]], { desc = "Focus toggle" })
 mapl("mo", [[<cmd>lua MiniMap.open()<cr>]], { desc = "Open" })
 mapl("mr", [[<cmd>lua MiniMap.refresh()<cr>]], { desc = "Refresh" })
 mapl("ms", [[<cmd>lua MiniMap.refresh()<cr>]], { desc = "Side toggle" })
-mapl("mt", [[<cmd>lua MiniMap.toggle()<cr>]], { desc = "Toggle" })
+mapl("mm", [[<cmd>lua MiniMap.toggle()<cr>]], { desc = "Toggle" })
 
 -- o is for options
 -- also see `plugins/nvim-lspconfig.lua`

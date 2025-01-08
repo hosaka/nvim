@@ -1,27 +1,3 @@
-vim.diagnostic.config({
-  float = {
-    border = "rounded",
-  },
-  -- underline = false,
-  severity_sort = true,
-  -- don't update diagnostics when typing
-  update_in_insert = false,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "󰅚 ",
-      [vim.diagnostic.severity.HINT] = " ",
-      [vim.diagnostic.severity.INFO] = " ",
-      [vim.diagnostic.severity.WARN] = "󰀪 ",
-    },
-    linehl = {
-      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-    },
-    numhl = {
-      [vim.diagnostic.severity.WARN] = "WarningMsg",
-    },
-  },
-})
-
 require("lspconfig.ui.windows").default_options.border = "rounded"
 
 -- vim.api.nvim_create_autocmd("LspAttach", {

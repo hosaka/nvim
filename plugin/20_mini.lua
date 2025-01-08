@@ -1,0 +1,348 @@
+local deps = require("mini.deps")
+local add, now, later = deps.add, deps.now, deps.later
+
+local source = function(path)
+  return dofile(vim.fn.stdpath("config") .. "/" .. path)
+end
+
+-- make mini.nvim part of the deps snapshot
+add({ name = "mini.nvim", checkout = "main" })
+
+-- immediate config
+now(function()
+  require("mini.basics").setup({
+    options = {
+      -- manage options manually, see `options.lua`
+      basic = false,
+    },
+    mappings = {
+      option_toggle_prefix = "",
+    },
+  })
+end)
+
+now(function()
+  local notify = require("mini.notify")
+  local notify_filter = function(notif_arr)
+    local lua_ls = function(notif)
+      return not (vim.startswith(notif.msg, "lua_ls: Diagnosing") or vim.startswith(notif.msg, "lua_ls: Processing"))
+    end
+    notif_arr = vim.tbl_filter(lua_ls, notif_arr)
+    return notify.default_sort(notif_arr)
+  end
+  local window_config = function()
+    local has_statusline = vim.o.laststatus > 0
+    local padding = vim.o.cmdheight + (has_statusline and 1 or 0)
+    return { anchor = "SE", col = vim.o.columns, row = vim.o.lines - padding, border = "rounded" }
+  end
+  notify.setup({
+    content = {
+      format = function(notif)
+        return notif.msg
+      end,
+      sort = notify_filter,
+    },
+    window = {
+      config = window_config,
+    },
+  })
+  vim.notify = notify.make_notify()
+end)
+
+now(function()
+  require("mini.sessions").setup()
+end)
+
+now(function()
+  local starter = require("mini.starter")
+  starter.setup({
+    items = {
+      starter.sections.sessions(),
+      starter.sections.recent_files(5, false, false),
+      starter.sections.pick(),
+      starter.sections.builtin_actions(),
+    },
+    footer = "",
+  })
+end)
+
+now(function()
+  require("mini.statusline").setup()
+end)
+
+now(function()
+  require("mini.tabline").setup({
+    tabpage_section = "right",
+  })
+end)
+
+now(function()
+  local miniicons = require("mini.icons")
+  miniicons.setup({
+    -- ignore some extensions and rely on `vim.filetype.match()` fallback
+    use_file_extension = function(ext, _)
+      local suf3, suf4 = ext:sub(-3), ext:sub(-4)
+      return suf3 ~= "scm" and suf3 ~= "txt" and suf3 ~= "yml" and suf4 ~= "json" and suf4 ~= "yaml"
+    end,
+  })
+  miniicons.mock_nvim_web_devicons()
+  -- note: enable if using mini.completion
+  -- later(miniicons.tweak_lsp_kind)
+end)
+
+-- delayed config
+later(function()
+  require("mini.extra").setup()
+end)
+
+later(function()
+  local ai = require("mini.ai")
+  ai.setup({
+    custom_textobjects = {
+      -- class
+      c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+      -- function
+      m = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+      -- code block
+      o = ai.gen_spec.treesitter({
+        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+      }),
+    },
+  })
+end)
+
+later(function()
+  require("mini.align").setup()
+end)
+
+later(function()
+  require("mini.bracketed").setup()
+end)
+
+later(function()
+  require("mini.bufremove").setup()
+end)
+
+later(function()
+  local miniclue = require("mini.clue")
+  miniclue.setup({
+    clues = {
+      Config.mini.clues,
+      miniclue.gen_clues.builtin_completion(),
+      miniclue.gen_clues.g(),
+      miniclue.gen_clues.marks(),
+      miniclue.gen_clues.registers(),
+      miniclue.gen_clues.windows({
+        submode_move = true,
+        submode_resize = true,
+      }),
+      miniclue.gen_clues.z(),
+    },
+    triggers = {
+      -- leader
+      { mode = "n", keys = "<leader>" },
+      { mode = "x", keys = "<leader>" },
+      -- built-in
+      { mode = "i", keys = "<c-x>" },
+      -- goto
+      { mode = "n", keys = "g" },
+      { mode = "x", keys = "g" },
+      -- marks
+      { mode = "n", keys = "'" },
+      { mode = "x", keys = "'" },
+      { mode = "n", keys = "`" },
+      { mode = "x", keys = "`" },
+      -- nav
+      { mode = "n", keys = "[" },
+      { mode = "n", keys = "]" },
+      { mode = "x", keys = "[" },
+      { mode = "x", keys = "]" },
+      -- registers
+      { mode = "n", keys = '"' },
+      { mode = "x", keys = '"' },
+      { mode = "i", keys = "<c-r>" },
+      { mode = "c", keys = "<c-r>" },
+      -- window
+      { mode = "n", keys = "<c-w>" },
+      -- z key
+      { mode = "n", keys = "z" },
+      { mode = "x", keys = "z" },
+    },
+    window = {
+      config = {
+        width = "auto",
+        border = "rounded",
+      },
+      scroll_down = "<c-n>",
+      scroll_up = "<c-p>",
+    },
+  })
+end)
+
+later(function()
+  require("mini.comment").setup()
+end)
+
+-- later(function()
+--   local minicomplete = require("mini.completion")
+--   minicomplete.setup({
+--     lsp_completion = {
+--       source_func = "omnifunc",
+--       -- omnifunc is set per buffer in LSP on_attach
+--       auto_setup = false,
+--       process_items = function(items, base)
+--         -- don't show Text suggestions
+--         items = vim.tbl_filter(function(item)
+--           return item.kind ~= 1
+--         end, items)
+--         return minicomplete.default_process_items(items, base)
+--       end,
+--     },
+--     window = {
+--       info = { border = "rounded" },
+--       signature = { border = "rounded" },
+--     },
+--   })
+-- end)
+
+later(function()
+  require("mini.cursorword").setup()
+end)
+
+later(function()
+  require("mini.diff").setup({
+    view = {
+      style = "sign",
+    },
+  })
+end)
+
+later(function()
+  source("config/mini.files.lua")
+end)
+
+later(function()
+  require("mini.git").setup()
+end)
+
+later(function()
+  local hipatterns = require("mini.hipatterns")
+  local hi_words = require("mini.extra").gen_highlighter.words
+  hipatterns.setup({
+    highlighters = {
+      fixme = hi_words({ "FIXME", "Fixme", "fixme" }, "MiniHipatternsFixme"),
+      hack = hi_words({ "HACK", "Hack", "hack" }, "MiniHipatternsHack"),
+      todo = hi_words({ "TODO", "Todo", "todo" }, "MiniHipatternsTodo"),
+      note = hi_words({ "NOTE", "Note", "note" }, "MiniHipatternsNote"),
+      hex_color = hipatterns.gen_highlighter.hex_color(),
+    },
+  })
+end)
+
+later(function()
+  require("mini.indentscope").setup({
+    symbol = "│",
+    options = {
+      try_as_border = true,
+    },
+  })
+end)
+
+later(function()
+  require("mini.jump").setup()
+end)
+
+later(function()
+  require("mini.jump2d").setup({
+    view = {
+      dim = true,
+      n_steps_ahead = 2,
+    },
+    mappings = {
+      start_jumping = "",
+    },
+  })
+  -- disable s shortcut (use cl instead) in order to use mini.jump2d
+  vim.keymap.set({ "n", "x", "o" }, "s", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
+end)
+
+later(function()
+  local map = require("mini.map")
+  local gen_integration = map.gen_integration
+  map.setup({
+    symbols = { encode = map.gen_encode_symbols.dot("3x2") },
+    integrations = {
+      gen_integration.builtin_search(),
+      gen_integration.diff(),
+      gen_integration.diagnostic(),
+    },
+  })
+  vim.keymap.set({ "n" }, [[<Esc>]], [[:nohlsearch<cr>]], { desc = "Cancel hlsearch", silent = true })
+  for _, key in ipairs({ "n", "N", "*" }) do
+    vim.keymap.set("n", key, key .. "zv<cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<cr>")
+  end
+end)
+
+later(function()
+  local minimisc = require("mini.misc")
+  minimisc.setup({
+    make_global = { "put", "put_text" },
+  })
+  -- chdir to root directory containing these files
+  minimisc.setup_auto_root({ ".git", "Makefile" })
+  -- restore cursor position on open files
+  minimisc.setup_restore_cursor()
+  -- terminal background synchronization
+  minimisc.setup_termbg_sync()
+end)
+
+later(function()
+  require("mini.move").setup()
+end)
+
+later(function()
+  local remap = Hosaka.keymap.remap
+  -- remap built-in open filepath/URI keymap before setup
+  remap("gx", "<Leader>rx", { desc = "Open filepath or URI" })
+  remap("gx", "<Leader>rx", { mode = "x", desc = "Open filepath or URI" })
+  require("mini.operators").setup()
+end)
+
+later(function()
+  -- disabled in options.lua, can be toggled with <Leader>op
+  require("mini.pairs").setup({
+    modes = {
+      insert = true,
+      command = false,
+      terminal = false,
+    },
+  })
+end)
+
+later(function()
+  source("config/mini.pick.lua")
+end)
+
+later(function()
+  require("mini.surround").setup({
+    search_method = "cover_or_next",
+    mappings = {
+      add = "gza",
+      delete = "gzd",
+      find = "gzf",
+      find_left = "gzf",
+      highlight = "gzh",
+      replace = "gzr",
+      update_n_lines = "gzn",
+    },
+  })
+end)
+
+later(function()
+  require("mini.trailspace").setup()
+end)
+
+later(function()
+  source("config/mini.visits.lua")
+end)

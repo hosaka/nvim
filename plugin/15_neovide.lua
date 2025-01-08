@@ -1,3 +1,7 @@
+if vim.g.neovide == nil then
+  return
+end
+
 -- fonts are configured in ~/.config/neovide/config.toml
 vim.opt.winblend = 30
 vim.opt.pumblend = 30

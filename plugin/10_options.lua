@@ -39,7 +39,7 @@ opt.pumheight = 10 -- Popup max number of entries
 opt.relativenumber = true -- Relative line numbers
 opt.ruler = false -- Don't show curor position
 opt.scrolloff = 4 -- Lines to keep above and below the cursor
-opt.shortmess = "aoOWFcS" -- Disable some messages from ins-completion-menu
+opt.shortmess = "FOSWaco" -- Disable some messages from ins-completion-menu
 opt.showmode = false -- Dont show mode since we have a statusline
 opt.sidescrolloff = 8 -- Columns to keep to the left and right around the cursor
 opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
@@ -51,7 +51,7 @@ opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 
 if vim.fn.has("nvim-0.10") == 0 then
-  opt.termguicolors = true -- Enable gui colors
+  opt.termguicolors = true -- Enable gui colors (>=0.10 enables this by default)
 end
 
 o.fillchars = table.concat({
@@ -64,8 +64,8 @@ o.fillchars = table.concat({
   "verthoriz:╬",
   "vertleft:╣",
   "vertright:╠",
-}, ",")
-o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",")
+}, ",") -- Special UI symbols
+o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",") -- Special text symbols
 o.cursorlineopt = table.concat({ "screenline", "number" }, ",") -- Do not show screen line when wrap is on
 o.breakindentopt = "list:-1" -- Add padding for lists when wrap is on
 
@@ -154,6 +154,31 @@ end
 if vim.fn.has("nvim-0.11") == 1 then
   opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
 end
+
+-- Diagnostics
+vim.diagnostic.config({
+  float = {
+    border = "rounded",
+  },
+  -- underline = false,
+  severity_sort = true,
+  -- Don't update diagnostics when typing
+  update_in_insert = false,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.HINT] = " ",
+      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+    },
+    numhl = {
+      [vim.diagnostic.severity.WARN] = "WarningMsg",
+    },
+  },
+})
 
 -- Clipboard
 if vim.fn.has("wsl") then
