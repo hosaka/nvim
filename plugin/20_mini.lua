@@ -54,11 +54,21 @@ end)
 
 now(function()
   local starter = require("mini.starter")
+  local pick = function()
+    local pickers = starter.sections.pick()()
+    table.insert(pickers, { name = "Sessions", action = "Pick sessions", section = "Pick" })
+    table.insert(pickers, { name = "Projects", action = "Pick projects", section = "Pick" })
+    table.sort(pickers, function(lhs, rhs)
+      return lhs.name < rhs.name
+    end)
+    return pickers
+  end
+
   starter.setup({
     items = {
       starter.sections.sessions(),
       starter.sections.recent_files(5, false, false),
-      starter.sections.pick(),
+      pick,
       starter.sections.builtin_actions(),
     },
     footer = "",

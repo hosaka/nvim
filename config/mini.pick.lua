@@ -125,6 +125,10 @@ minipick.registry.buf_lines_current = function()
   )
 end
 
+minipick.registry.sessions = function()
+  return require("mini.sessions").select()
+end
+
 minipick.registry.projects = function()
   local cwd = vim.fn.expand("~/wa")
   local choose = function(item)
