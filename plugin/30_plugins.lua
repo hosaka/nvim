@@ -1,5 +1,6 @@
 local deps = require("mini.deps")
 local add, now, later = deps.add, deps.now, deps.later
+local now_if_args = vim.fn.argc(-1) > 0 and now or later
 
 local source = function(path)
   return dofile(vim.fn.stdpath("config") .. "/" .. path)
@@ -29,7 +30,7 @@ later(function()
   source("config/dressing.lua")
 end)
 
-later(function()
+now_if_args(function()
   local ts_spec = {
     source = "nvim-treesitter/nvim-treesitter",
     hooks = {
@@ -55,10 +56,13 @@ later(function()
   source("config/nvim-treesitter-context.lua")
 end)
 
-later(function()
+now_if_args(function()
   add({
     source = "williamboman/mason.nvim",
-    depends = { "williamboman/mason-lspconfig.nvim" },
+    depends = {
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
+    },
   })
   require("mason").setup({
     -- prefer existing binaries over the ones installed by mason
@@ -67,6 +71,24 @@ later(function()
       border = "rounded",
     },
   })
+end)
+
+now_if_args(function()
+  add({
+    source = "neovim/nvim-lspconfig",
+    depends = {
+      "saghen/blink.cmp",
+    },
+  })
+  source("config/nvim-lspconfig.lua")
+end)
+
+later(function()
+  add({
+    source = "saghen/blink.cmp",
+    checkout = "v0.8.1",
+  })
+  source("config/blink.lua")
 end)
 
 later(function()
@@ -80,27 +102,11 @@ later(function()
 end)
 
 later(function()
-  add({
-    source = "saghen/blink.cmp",
-    checkout = "v0.8.1",
-  })
-  source("config/blink.lua")
-end)
-
-later(function()
   add("b0o/SchemaStore.nvim")
 end)
 
 later(function()
   add("mrcjkb/rustaceanvim")
-end)
-
-later(function()
-  add({
-    source = "neovim/nvim-lspconfig",
-    depends = { "williamboman/mason-lspconfig.nvim", "saghen/blink.cmp" },
-  })
-  source("config/nvim-lspconfig.lua")
 end)
 
 later(function()

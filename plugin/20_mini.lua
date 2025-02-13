@@ -27,8 +27,7 @@ now(function()
     local lua_ls = function(notif)
       return not (vim.startswith(notif.msg, "lua_ls: Diagnosing") or vim.startswith(notif.msg, "lua_ls: Processing"))
     end
-    notif_arr = vim.tbl_filter(lua_ls, notif_arr)
-    return notify.default_sort(notif_arr)
+    return notify.default_sort(vim.tbl_filter(lua_ls, notif_arr))
   end
   local window_config = function()
     local has_statusline = vim.o.laststatus > 0
