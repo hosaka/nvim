@@ -1,3 +1,7 @@
+local rounded_window = {
+  border = "rounded",
+  winblend = vim.o.pumblend,
+}
 require("blink.cmp").setup({
   completion = {
     accept = {
@@ -8,14 +12,11 @@ require("blink.cmp").setup({
     documentation = {
       -- triggered with <C-Space> by default
       -- auto_show = true,
-      window = {
-        border = "rounded",
-        winblend = vim.o.pumblend,
-      },
+      window = rounded_window,
     },
     menu = {
-      border = "rounded",
-      winblend = vim.o.pumblend,
+      border = rounded_window.border,
+      winblend = rounded_window.winblend,
       draw = {
         components = {
           -- kind_icon = {
@@ -45,10 +46,7 @@ require("blink.cmp").setup({
   },
   signature = {
     enabled = true,
-    window = {
-      winblend = vim.o.pumblend,
-      border = "rounded",
-    },
+    window = rounded_window,
   },
   sources = {
     default = { "lazydev", "lsp", "path", "snippets", "buffer", "cmdline" },
@@ -58,6 +56,20 @@ require("blink.cmp").setup({
         module = "lazydev.integrations.blink",
         -- prioritize lazydev completions
         score_offset = 100,
+      },
+      cmdline = {
+        -- ignore cmdline completions when executing shell commands (hangs in WSL)
+        enabled = function()
+          return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
+        end,
+      },
+      path = {
+        opts = {
+          -- path completion from cwd instead of current buffer's directory
+          get_cwd = function()
+            return vim.fn.getcwd()
+          end,
+        },
       },
     },
   },
