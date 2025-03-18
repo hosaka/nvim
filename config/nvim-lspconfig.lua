@@ -513,6 +513,20 @@ local handlers = {
       }),
     })
   end,
+
+  -- zig
+  zls = function()
+    require("lspconfig").zls.setup({
+      on_attach = default_on_attach,
+      capabilities = default_capabilities(),
+      settings = {
+        zls = {
+          -- neovim already provides basic syntax highlighting
+          semantic_tokens = "partial",
+        },
+      },
+    })
+  end,
 }
 
 require("mason-lspconfig").setup({
