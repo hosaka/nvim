@@ -83,6 +83,30 @@ now_if_args(function()
   source("config/nvim-lspconfig.lua")
 end)
 
+now_if_args(function()
+  add({
+    source = "Bekaboo/dropbar.nvim",
+  })
+  require("dropbar").setup({
+    bar = {
+      pick = {
+        pivots = "hjklasdfqweruiopzxcvm",
+      },
+    },
+    menu = {
+      win_configs = {
+        border = "rounded",
+      },
+      entry = {
+        padding = {
+          left = 0,
+          right = 1,
+        },
+      },
+    },
+  })
+end)
+
 later(function()
   add({
     source = "saghen/blink.cmp",
