@@ -1,5 +1,5 @@
 -- basic maps
--- note: a lot of mappings are defined by mini.basics, see `init.lua`
+-- note: a lot of mappings are defined by mini.basics, see `20_mini.lua`
 
 -- paste above/below linewise
 vim.keymap.set({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above", silent = true })
@@ -89,7 +89,7 @@ mapl("er", [[<cmd>lua Hosaka.lsp.rename_file()<cr>]], { desc = "Rename file" })
 mapl("ed", [[<cmd>lua MiniFiles.open()<cr>]], { desc = "Directory" })
 mapl("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], { desc = "Config" })
 mapl("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], { desc = "File directory" })
-mapl("es", [[<cmd>lua MiniSessions.select()<cr>]], { desc = "Select session" })
+mapl("es", [[<cmd>lua MiniSessions.select()<cr>]], { desc = "Sessions" })
 mapl("ew", function()
   vim.ui.input({ prompt = "Session name" }, function(input)
     if input then
@@ -183,7 +183,7 @@ option("relativenumber", { name = "'relativenumber'" }):mapl("or")
 option("spell", { name = "'spell'" }):mapl("os")
 option("wrap", { name = "'wrap'" }):mapl("ow")
 option("bg", { name = "'background'", on = "dark", off = "light" }):mapl("ob")
-mapl("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], { desc = "Toggle zoom" })
+mapl("oz", [[<cmd>lua MiniMisc.zoom(0, { border="rounded" })<cr>]], { desc = "Toggle zoom" })
 
 -- q is for quit
 mapl("qq", [[<cmd>quitall<cr>]], { desc = "Quit all" })
@@ -205,6 +205,7 @@ mapl("rdc", [[<cmd>DepsClean<cr>]], { desc = "Clean" })
 
 -- t is for terminal
 mapl("tt", [[<cmd>execute v:count1 . "ToggleTerm"<cr>]], { desc = "Toggle" })
+mapl("tn", [[<cmd>TermNew <cr>]], { desc = "New" })
 mapl("tf", [[<cmd>ToggleTerm direction=float<cr>]], { desc = "Float" })
 mapl("th", [[<cmd>ToggleTerm size=10 direction=horizontal<cr>]], { desc = "Horizontal" })
 mapl("tv", [[<cmd>ToggleTerm size=80 direction=vertical<cr>]], { desc = "Vertical" })
@@ -213,8 +214,8 @@ mapl("tr", [[<cmd>ToggleTermSetName<cr>]], { desc = "Rename" })
 mapl("tT", [[<cmd>ToggleTermToggleAll<cr>]], { desc = "Toggle all" })
 mapl("tl", [[<cmd>ToggleTermSendCurrentLine<cr>]], { desc = "Send line" })
 mapl("tl", [[<cmd>ToggleTermSendVisualSelection<cr><esc>]], { mode = "x", desc = "Send selection" })
-mapl("tp", [[<cmd>lua Hosaka.toggle_python()<cr>]], { desc = "Python REPL" })
-mapl("tn", [[<cmd>lua Hosaka.toggle_node()<cr>]], { desc = "Node REPL" })
+mapl("tP", [[<cmd>lua Hosaka.toggle_python()<cr>]], { desc = "Python REPL" })
+mapl("tN", [[<cmd>lua Hosaka.toggle_node()<cr>]], { desc = "Node REPL" })
 
 -- v is for visits
 -- also see `plugins/mini.visits.lua`

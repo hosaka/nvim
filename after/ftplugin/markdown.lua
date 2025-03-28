@@ -10,3 +10,7 @@ if has_miniai then
     },
   }
 end
+
+-- disable "show table of contents" on nvim>=0.11 in favour
+-- of `gO` from 'mini.basics'
+pcall(vim.keymap.del, "n", "gO", { buffer = 0 })

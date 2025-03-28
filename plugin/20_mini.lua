@@ -12,11 +12,17 @@ add({ name = "mini.nvim", checkout = "main" })
 now(function()
   require("mini.basics").setup({
     options = {
-      -- manage options manually, see `options.lua`
+      -- manage options manually, see `10_options.lua`
       basic = false,
     },
     mappings = {
+      basic = true,
+      -- C-hjkl to focus, C-arrows to resize
+      windows = true,
       option_toggle_prefix = "",
+    },
+    autocommands = {
+      basic = true,
     },
   })
 end)
@@ -25,7 +31,10 @@ now(function()
   local notify = require("mini.notify")
   local notify_filter = function(notif_arr)
     local lua_ls = function(notif)
-      return not (vim.startswith(notif.msg, "lua_ls: Diagnosing") or vim.startswith(notif.msg, "lua_ls: Processing"))
+      if not (notif.data.source == "lsp_progress" and notif.data.client_name == "lua_ls") then
+        return true
+      end
+      return notif.msg:find("Diagnosing") == nil and notif.msg:find("semantic tokens") == nil
     end
     return notify.default_sort(vim.tbl_filter(lua_ls, notif_arr))
   end
@@ -313,8 +322,8 @@ end)
 later(function()
   local remap = Hosaka.keymap.remap
   -- remap built-in open filepath/URI keymap before setup
-  remap("gx", "<Leader>rx", { desc = "Open filepath or URI" })
-  remap("gx", "<Leader>rx", { mode = "x", desc = "Open filepath or URI" })
+  remap("gx", "gX", { desc = "Open filepath or URI" })
+  remap("gx", "gX", { mode = "x", desc = "Open filepath or URI" })
   require("mini.operators").setup()
 end)
 
