@@ -109,8 +109,13 @@ end)
 
 later(function()
   add({
-    source = "saghen/blink.cmp",
-    checkout = "v0.8.1",
+    source = "Saghen/blink.cmp",
+    checkout = "v1.0.0",
+    depends = {
+      "rafamadriz/friendly-snippets",
+      -- (optional) use treesitter to highlight completion items
+      "xzbdmw/colorful-menu.nvim",
+    },
   })
   source("config/blink.lua")
 end)

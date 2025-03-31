@@ -14,34 +14,55 @@ require("blink.cmp").setup({
       -- auto_show = true,
       window = rounded_window,
     },
+    list = {
+      selection = {
+        preselect = true,
+        auto_insert = false,
+      },
+    },
     menu = {
       border = rounded_window.border,
       winblend = rounded_window.winblend,
       draw = {
+        columns = {
+          { "kind_icon" },
+          -- label and label_description are combined by colorful-menu.nvim
+          { "label", gap = 1 },
+        },
         components = {
-          -- kind_icon = {
-          --   text = function(ctx)
-          --     local icon = ctx.kind_icon
-          --     local source = ctx.item.source_name
-          --     if source == "LSP" then
-          --       icon = MiniIcons.get("lsp", ctx.kind)
-          --     elseif source == "Path" then
-          --       local label = ctx.item.label
-          --       if ctx.kind == "File" then
-          --         icon = MiniIcons.get("file", label)
-          --       elseif ctx.kind == "Folder" then
-          --         icon = MiniIcons.get("directory", label)
-          --       end
-          --     end
-          --     return icon .. ctx.icon_gap
-          --   end,
-          --   highlight = function(ctx)
-          --     local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
-          --     return hl
-          --   end,
-          -- },
+          label = {
+            text = function(ctx)
+              return require("colorful-menu").blink_components_text(ctx)
+            end,
+            highlight = function(ctx)
+              return require("colorful-menu").blink_components_highlight(ctx)
+            end,
+          },
+          kind_icon = {
+            text = function(ctx)
+              local icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+              return icon
+            end,
+            -- (optional) use highlights from mini.icons
+            highlight = function(ctx)
+              local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+              return hl
+            end,
+          },
+          kind = {
+            -- (optional) use highlights from mini.icons
+            highlight = function(ctx)
+              local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+              return hl
+            end,
+          },
         },
       },
+    },
+  },
+  fuzzy = {
+    prebuilt_binaries = {
+      force_version = "v1.0.0",
     },
   },
   signature = {
@@ -70,6 +91,12 @@ require("blink.cmp").setup({
             return vim.fn.getcwd()
           end,
         },
+      },
+      snippets = {
+        -- hide snippets after trigger character such as dot
+        should_show_items = function(ctx)
+          return ctx.trigger.initial_kind ~= "trigger_character"
+        end,
       },
     },
   },
