@@ -155,6 +155,10 @@ if vim.fn.has("nvim-0.11") == 1 then
   opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
 end
 
+if vim.fn.has("nvim-0.11") == 1 then
+  vim.o.winborder = "rounded"
+end
+
 -- Diagnostics
 vim.diagnostic.config({
   float = {
