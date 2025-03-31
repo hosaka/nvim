@@ -62,11 +62,6 @@ mapl("d", [["_d]], { mode = "x", desc = "Delete to blackhole" })
 -- mapl("n", "<Tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 -- a is for assist
-mapl("aa", "[[<cmd>AvanteAsk<cr>]]", { mode = { "n", "x" }, desc = "Avante: Ask" })
-mapl("ad", "[[<cmd>AvanteToggleDebug<cr>]]", { desc = "Avante: Debug toggle" })
-mapl("ah", "[[<cmd>AvanteToggleHint<cr>]]", { desc = "Avante: Hint toggle" })
-mapl("ar", "[[<cmd>AvanteRefresh<cr>]]", { desc = "Avante: Refresh" })
-mapl("ae", "[[<cmd>AvanteEdit<cr>]]", { mode = "x", desc = "Avante: Edit" })
 
 -- b is for buffer
 mapl("bb", [[<cmd>b#<cr>]], { desc = "Other" })

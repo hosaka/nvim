@@ -197,7 +197,7 @@ later(function()
     },
     hooks = {
       post_checkout = function()
-        vim.cmd("AvanteBuild source=false")
+        vim.cmd([[make]])
       end,
     },
   })
