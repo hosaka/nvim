@@ -16,6 +16,7 @@ later(function()
   add({ source = "folke/lazydev.nvim" })
   require("lazydev").setup({
     library = {
+      "nvim-dap-ui",
       -- load luvit types when `vim.uv` or `vim.loop` word is found
       { path = "${3rd}/luv/library", words = { "vim%.uv", "vim%.loop" } },
     },
@@ -105,6 +106,17 @@ now_if_args(function()
       },
     },
   })
+end)
+
+later(function()
+  add({
+    source = "mfussenegger/nvim-dap",
+    depends = {
+      "rcarriga/nvim-dap-ui",
+      "nvim-neotest/nvim-nio",
+    },
+  })
+  source("config/dap.lua")
 end)
 
 later(function()

@@ -24,6 +24,7 @@ Config.mini.clues = {
   { mode = "n", keys = "<Leader>a", desc = "+Assist" },
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
+  { mode = "n", keys = "<Leader>d", desc = "+Debug" },
   { mode = "n", keys = "<Leader>e", desc = "+Edit" },
   { mode = "n", keys = "<Leader>f", desc = "+Find" },
   { mode = "n", keys = "<Leader>g", desc = "+Git" },
@@ -77,6 +78,26 @@ mapl("bW", [[<cmd>lua MiniBufremove.wipeout(0, true)<cr>]], { desc = "Wipeout!" 
 -- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
 mapl("cl", [[<cmd>lua require("quicker").toggle({ loclist=true })<cr>]], { desc = "Toggle loclist" })
 mapl("cq", [[<cmd>lua require("quicker").toggle()<cr>]], { desc = "Toggle quickfix" })
+
+-- d is for debug
+-- also see `plugins/dap.lua` for DAP specific keymaps
+mapl("db", [[<cmd>lua require("dap").toggle_breakpoint()<cr>]], { desc = "Toggle breakpoint" })
+mapl("dB", [[<cmd>lua require("dap").clear_breakpoints()<cr>]], { desc = "Clear breakpoints" })
+mapl("dr", [[<cmd>lua require("dap").continue()<cr>]], { desc = "Run" })
+mapl("dR", [[<cmd>lua require("dap").restart()<cr>]], { desc = "Restart" })
+mapl("dl", [[<cmd>lua require("dap").run_last()<cr>]], { desc = "Run last" })
+mapl("da", [[<cmd>lua require("dap").continue()<cr>]], { desc = "Run with args" })
+mapl("dc", [[<cmd>lua require("dap").run_to_cursor()<cr>]], { desc = "Continue to cursor" })
+mapl("di", [[<cmd>lua require("dap").step_into()<cr>]], { desc = "Step into" })
+mapl("do", [[<cmd>lua require("dap").step_out()<cr>]], { desc = "Step out" })
+mapl("dn", [[<cmd>lua require("dap").step_over()<cr>]], { desc = "Step over" })
+mapl("dj", [[<cmd>lua require("dap").up()<cr>]], { desc = "Up stacktrace" })
+mapl("dk", [[<cmd>lua require("dap").down()<cr>]], { desc = "Down stacktrace" })
+mapl("ds", [[<cmd>lua require("dap").session()<cr>]], { desc = "Session" })
+mapl("dt", [[<cmd>lua require("dap").terminate()<cr>]], { desc = "Terminate" })
+mapl("dh", [[<cmd>lua require("dap.ui.widgets").hover()<cr>]], { desc = "Hover" })
+mapl("du", [[<cmd>lua require("dapui").toggle()<cr>]], { desc = "Toggle UI" })
+mapl("dw", [[<cmd>lua require("dapui").elements.watches.add(vim.fn.expand("<cword>"))<cr>]], { desc = "Watch" })
 
 -- e is for edit
 mapl("en", [[<cmd>enew<cr>]], { desc = "New file" })
