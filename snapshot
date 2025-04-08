@@ -14,7 +14,6 @@ return {
   ["mason-lspconfig.nvim"] = "1a31f824b9cd5bc6f342fc29e9a53b60d74af245",
   ["mason.nvim"] = "fc98833b6da5de5a9c5b1446ac541577059555be",
   ["mini.nvim"] = "d0464ced00abfd9bbed196fa36ccf3b1691c6b2c",
-  neogit = "6d1bd94f7fca92a50a892f494920696b5defa8c8",
   ["nui.nvim"] = "8d3bce9764e627b62b07424e0df77f680d47ffdb",
   ["nvim-bqf"] = "e20417d5e589e03eaaaadc4687904528500608be",
   ["nvim-dap"] = "7aade9e99bef5f0735cf966e715b3ce45515d786",

@@ -152,7 +152,6 @@ mapl("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], { desc = "Symbol buffe
 -- g is for git
 local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ |\ \%s --topo-order]]
 mapl("gg", [[<cmd>lua Hosaka.toggle_lazygit()<cr>]], { desc = "Lazygit" })
-mapl("gG", [[<cmd>lua require('neogit').open()<cr>]], { desc = "Neogit" })
 mapl("gd", [[<cmd>DiffviewOpen<cr>]], { desc = "Diffview" })
 -- mapl("ga", [[<cmd>Git diff --cached<cr>]], { desc = "Added diff" })
 -- mapl("gA", [[<cmd>Git diff --cached -- %<cr>]], { desc = "Added diff buffer" })

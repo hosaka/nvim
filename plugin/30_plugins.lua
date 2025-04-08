@@ -165,11 +165,6 @@ later(function()
 end)
 
 later(function()
-  add({ source = "NeogitOrg/neogit", depends = { "nvim-lua/plenary.nvim" } })
-  source("config/neogit.lua")
-end)
-
-later(function()
   add("sindrets/diffview.nvim")
   source("config/diffview.lua")
 end)
