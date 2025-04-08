@@ -13,11 +13,11 @@ now(function()
 end)
 
 later(function()
-  add({ source = "folke/lazydev.nvim", depends = { "Bilal2453/luvit-meta" } })
+  add({ source = "folke/lazydev.nvim" })
   require("lazydev").setup({
     library = {
       -- load luvit types when `vim.uv` or `vim.loop` word is found
-      { path = "luvit-meta/library", words = { "vim%.uv", "vim%.loop" } },
+      { path = "${3rd}/luv/library", words = { "vim%.uv", "vim%.loop" } },
     },
     integrations = {
       lspconfig = true,
