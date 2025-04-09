@@ -25,7 +25,7 @@ NVIM_APPNAME=hosaka/nvim/ nvim
 - **Required**:
 
   - neovim>=0.9.4, git
-  - C compiler (gcc, clang, zig) as required by the tree-sitter plugin. On Alpine Lunux `musl-dev` is needed for header files.
+  - C compiler (gcc, clang, zig) as required by the tree-sitter plugin. On Alpine Lunux `musl-dev` is needed for header files. On Windows MSVC caused issues so Zig can be used instead.
 
 - **Optional**:
   - **Fonts**: A [Nerd Font](https://www.nerdfonts.com/).
@@ -46,7 +46,7 @@ Plugins are handled by the [mini.deps](https://github.com/echasnovski/mini.nvim/
 
 - [x] Keep quickfix in focus when navigating items, until closed with `q`
 - [x] Make use of some opensource code assistance ([avante](https://github.com/yetone/avante.nvim) with [ollama](https://ollama.ai))
-- [ ] Try setting up [nvim-dap](https://github.com/mfussenegger/nvim-dap) for some LSPs
+- [x] Try setting up [nvim-dap](https://github.com/mfussenegger/nvim-dap) for some LSPs
 - [ ] Replace tokyonight colorscheme with a base16 generated one
 
 ### Repo
