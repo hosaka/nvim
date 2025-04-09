@@ -88,24 +88,7 @@ now_if_args(function()
   add({
     source = "Bekaboo/dropbar.nvim",
   })
-  require("dropbar").setup({
-    bar = {
-      pick = {
-        pivots = "hjklasdfqweruiopzxcvm",
-      },
-    },
-    menu = {
-      win_configs = {
-        border = "rounded",
-      },
-      entry = {
-        padding = {
-          left = 0,
-          right = 1,
-        },
-      },
-    },
-  })
+  source("config/dropbar.lua")
 end)
 
 later(function()
