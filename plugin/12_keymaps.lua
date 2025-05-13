@@ -2,8 +2,19 @@
 -- note: a lot of mappings are defined by mini.basics, see `20_mini.lua`
 
 -- paste above/below linewise
-vim.keymap.set({ "n", "x" }, "[p", [[<cmd>exe 'put! ' . v:register<cr>]], { desc = "Paste above", silent = true })
-vim.keymap.set({ "n", "x" }, "]p", [[<cmd>exe 'put ' . v:register<cr>]], { desc = "Paste below", silent = true })
+local pastecmd = vim.fn.has("nvim-0.12") == 1 and "iput" or "put"
+vim.keymap.set(
+  { "n", "x" },
+  "[p",
+  "<cmd>exe '" .. pastecmd .. "! ' . v:register<cr>",
+  { desc = "Paste above", silent = true }
+)
+vim.keymap.set(
+  { "n", "x" },
+  "]p",
+  "[[<cmd>exe '" .. pastecmd .. " ' . v:register<cr>",
+  { desc = "Paste below", silent = true }
+)
 
 -- search highlight
 vim.keymap.set("n", [[\h]], [[:let v:hlsearch = 1 - v:hlsearch<cr>]], { desc = "Toggle hlsearch", silent = true })
@@ -116,7 +127,7 @@ end, { desc = "Write session" })
 
 -- f is for find
 map(",", [[<cmd>Pick buf_lines_current<cr>]], { mode = { "n", "x" }, desc = "Buffer lines", nowait = true })
-mapl("<Space>", [[<cmd>Pick files<cr>]], { desc = "Files" })
+mapl("<Space>", [[<cmd>Pick files<cr>]], { desc = "Files (cwd)" })
 mapl(",", [[<cmd>Pick open_buffers<cr>]], { desc = "Open buffers" })
 mapl("?", [[<cmd>Pick oldfiles<cr>]], { desc = "Recent files" })
 mapl("f/", [[<cmd>Pick history scope="/"<cr>]], { desc = "/ history" })
@@ -198,7 +209,7 @@ option("relativenumber", { name = "'relativenumber'" }):mapl("or")
 option("spell", { name = "'spell'" }):mapl("os")
 option("wrap", { name = "'wrap'" }):mapl("ow")
 option("bg", { name = "'background'", on = "dark", off = "light" }):mapl("ob")
-mapl("oz", [[<cmd>lua MiniMisc.zoom(0, { border="rounded" })<cr>]], { desc = "Toggle zoom" })
+mapl("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], { desc = "Toggle zoom" })
 
 -- q is for quit
 mapl("qq", [[<cmd>quitall<cr>]], { desc = "Quit all" })

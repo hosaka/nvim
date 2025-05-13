@@ -43,15 +43,6 @@ local set_cwd = function()
   end
 end
 
--- change the border
-vim.api.nvim_create_autocmd("User", {
-  group = augroup("mini_files_border"),
-  pattern = "MiniFilesWindowOpen",
-  callback = function(args)
-    vim.api.nvim_win_set_config(args.data.win_id, { border = "rounded" })
-  end,
-})
-
 -- additional key mappings
 vim.api.nvim_create_autocmd("User", {
   group = augroup("mini_files_extra_mappings"),

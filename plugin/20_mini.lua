@@ -41,7 +41,7 @@ now(function()
   local window_config = function()
     local has_statusline = vim.o.laststatus > 0
     local padding = vim.o.cmdheight + (has_statusline and 1 or 0)
-    return { anchor = "SE", col = vim.o.columns, row = vim.o.lines - padding, border = "rounded" }
+    return { anchor = "SE", col = vim.o.columns, row = vim.o.lines - padding }
   end
   notify.setup({
     content = {
@@ -103,7 +103,7 @@ now(function()
       return suf3 ~= "scm" and suf3 ~= "txt" and suf3 ~= "yml" and suf4 ~= "json" and suf4 ~= "yaml"
     end,
   })
-  miniicons.mock_nvim_web_devicons()
+  later(miniicons.mock_nvim_web_devicons)
   -- note: enable if using mini.completion
   -- later(miniicons.tweak_lsp_kind)
 end)
@@ -190,7 +190,6 @@ later(function()
     window = {
       config = {
         width = "auto",
-        border = "rounded",
       },
       scroll_down = "<c-n>",
       scroll_up = "<c-p>",
@@ -216,10 +215,6 @@ end)
 --         end, items)
 --         return minicomplete.default_process_items(items, base)
 --       end,
---     },
---     window = {
---       info = { border = "rounded" },
---       signature = { border = "rounded" },
 --     },
 --   })
 -- end)
@@ -344,7 +339,6 @@ end)
 
 later(function()
   require("mini.surround").setup({
-    search_method = "cover_or_next",
     mappings = {
       add = "gza",
       delete = "gzd",

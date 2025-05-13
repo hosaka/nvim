@@ -152,11 +152,8 @@ if vim.treesitter.foldtext then
 end
 
 if vim.fn.has("nvim-0.11") == 1 then
+  o.winborder = "rounded" -- Use rounded border by default
   opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
-end
-
-if vim.fn.has("nvim-0.11") == 1 then
-  vim.o.winborder = "rounded"
 end
 
 -- Diagnostics
