@@ -156,30 +156,31 @@ if vim.fn.has("nvim-0.11") == 1 then
   opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
 end
 
--- Diagnostics
-vim.diagnostic.config({
-  float = {
-    border = "rounded",
-  },
-  -- underline = false,
-  severity_sort = true,
-  -- Don't update diagnostics when typing
-  update_in_insert = false,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "󰅚 ",
-      [vim.diagnostic.severity.HINT] = " ",
-      [vim.diagnostic.severity.INFO] = " ",
-      [vim.diagnostic.severity.WARN] = "󰀪 ",
+-- Diagnostics (delayed to avoid sourcing `vim.diagnostic` on startup)
+require("mini.deps").later(function()
+  vim.diagnostic.config({
+    -- underline = false,
+    severity_sort = true,
+    -- Don't update diagnostics when typing
+    update_in_insert = false,
+    signs = {
+      -- Always highest priority
+      priority = 9999,
+      text = {
+        [vim.diagnostic.severity.ERROR] = "󰅚 ",
+        [vim.diagnostic.severity.HINT] = " ",
+        [vim.diagnostic.severity.INFO] = " ",
+        [vim.diagnostic.severity.WARN] = "󰀪 ",
+      },
+      linehl = {
+        [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+      },
+      numhl = {
+        [vim.diagnostic.severity.WARN] = "WarningMsg",
+      },
     },
-    linehl = {
-      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-    },
-    numhl = {
-      [vim.diagnostic.severity.WARN] = "WarningMsg",
-    },
-  },
-})
+  })
+end)
 
 -- Clipboard
 if vim.fn.has("wsl") then
