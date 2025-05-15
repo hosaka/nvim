@@ -26,11 +26,16 @@ H.default_config = {
 function H:_clue(keys, mode, toggle)
   local on_name = toggle.opts.on_name or "on"
   local off_name = toggle.opts.off_name or "off"
-  require("mini.clue").set_mapping_desc(
-    mode,
-    keys,
-    "Toggle " .. toggle.opts.name .. " " .. (toggle:get() and off_name or on_name)
-  )
+  -- note: even though set_mapping desc does this check internally
+  -- we want to suppress the error message and just ignore clue setup
+  local ok, map = pcall(vim.fn.maparg, keys, mode, false, true)
+  if ok and vim.tbl_count(map) ~= 0 then
+    require("mini.clue").set_mapping_desc(
+      mode,
+      keys,
+      "Toggle " .. toggle.opts.name .. " " .. (toggle:get() and off_name or on_name)
+    )
+  end
 end
 
 ---@param msg string
@@ -63,7 +68,7 @@ end
 
 -- Get this toggle state
 function HosakaToggle:get()
-  local ok, ret = pcall(self.opts.get)
+  local ok, ret = pcall(self.opts.get) ---@type boolean, any
   if not ok then
     H.error("failed to get state for " .. self.opts.name .. ": " .. ret)
     return false
@@ -146,14 +151,15 @@ function HosakaToggle:map(keys, opts)
   local mode = opts.mode or "n"
   opts.mode = nil
   opts.desc = opts.desc or ("Toggle " .. self.opts.name)
+  local with_clue = self.opts.clue and pcall(require, "mini.clue")
 
   self.opts.map(mode, keys, function()
     self:toggle()
-    if self.opts.clue and pcall(require, "mini.clue") then
+    if with_clue then
       H:_clue(keys, mode, self)
     end
   end, opts)
-  if self.opts.clue and pcall(require, "mini.clue") then
+  if with_clue then
     H:_clue(keys, mode, self)
   end
 end
