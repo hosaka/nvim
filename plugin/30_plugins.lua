@@ -57,7 +57,7 @@ now_if_args(function()
   source("config/nvim-treesitter-context.lua")
 end)
 
-now_if_args(function()
+later(function()
   add({
     source = "williamboman/mason.nvim",
     depends = {
@@ -68,13 +68,17 @@ now_if_args(function()
   require("mason").setup({
     -- prefer existing binaries over the ones installed by mason
     -- PATH = "append",
-    ui = {
-      border = "rounded",
+  })
+  require("mason-lspconfig").setup({
+    -- automatic_installation = true,
+    ensure_installed = {
+      "lua_ls",
+      "marksman",
     },
   })
 end)
 
-now_if_args(function()
+later(function()
   add({
     source = "neovim/nvim-lspconfig",
     depends = {
@@ -84,7 +88,7 @@ now_if_args(function()
   source("config/nvim-lspconfig.lua")
 end)
 
-now_if_args(function()
+later(function()
   add({
     source = "Bekaboo/dropbar.nvim",
   })
@@ -123,10 +127,6 @@ end)
 later(function()
   add("stevearc/conform.nvim")
   source("config/conform.lua")
-end)
-
-later(function()
-  add("b0o/SchemaStore.nvim")
 end)
 
 later(function()
