@@ -1,7 +1,3 @@
-local rounded_window = {
-  border = "rounded",
-  winblend = vim.o.pumblend,
-}
 require("blink.cmp").setup({
   completion = {
     accept = {
@@ -12,7 +8,9 @@ require("blink.cmp").setup({
     documentation = {
       -- triggered with <C-Space> by default
       -- auto_show = true,
-      window = rounded_window,
+      window = {
+        winblend = vim.o.winblend,
+      },
     },
     list = {
       selection = {
@@ -21,8 +19,7 @@ require("blink.cmp").setup({
       },
     },
     menu = {
-      border = rounded_window.border,
-      winblend = rounded_window.winblend,
+      winblend = vim.o.winblend,
       draw = {
         columns = {
           { "kind_icon" },
@@ -62,12 +59,14 @@ require("blink.cmp").setup({
   },
   fuzzy = {
     prebuilt_binaries = {
-      force_version = "v1.0.0",
+      force_version = "v1.3.1",
     },
   },
   signature = {
     enabled = true,
-    window = rounded_window,
+    window = {
+      winblend = vim.o.winblend,
+    },
   },
   sources = {
     default = { "lazydev", "lsp", "path", "snippets", "buffer", "cmdline" },
