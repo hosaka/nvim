@@ -76,15 +76,6 @@ later(function()
       "marksman",
     },
   })
-end)
-
-later(function()
-  add({
-    source = "neovim/nvim-lspconfig",
-    depends = {
-      "saghen/blink.cmp",
-    },
-  })
   source("config/nvim-lspconfig.lua")
 end)
 
@@ -108,8 +99,8 @@ end)
 
 later(function()
   add({
-    source = "Saghen/blink.cmp",
-    checkout = "v1.0.0",
+    source = "saghen/blink.cmp",
+    checkout = "v1.3.1",
     depends = {
       "rafamadriz/friendly-snippets",
       -- (optional) use treesitter to highlight completion items
@@ -143,7 +134,7 @@ later(function()
     depends = { "neovim/nvim-lspconfig" },
   })
   require("lsp_lines").setup()
-  -- disabled by default, see `leadermaps.lua` for keymaps
+  -- disabled by default, see `nvim-lspconfig.lua` for keymaps
   vim.diagnostic.config({ virtual_lines = false })
 end)
 

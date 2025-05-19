@@ -107,22 +107,13 @@ vim.api.nvim_create_autocmd("LspDetach", {
   end,
 })
 
--- Default LSP capabilities
----@param override? lsp.ClientCapabilities
----@return lsp.ClientCapabilities
-local default_capabilities = function(override)
-  return require("blink.cmp").get_lsp_capabilities(override)
-end
-
 if vim.fn.has("nvim-0.11") == 0 then
   -- todo: fallback to nvim-lspconfig?
   return
 end
 
 -- all clients
-vim.lsp.config("*", {
-  capabilities = default_capabilities(),
-})
+-- vim.lsp.config("*", {})
 
 vim.lsp.enable({
   "bashls",
