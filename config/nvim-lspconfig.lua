@@ -1,6 +1,6 @@
 -- Default attach for all lsp servers
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = Hosaka.augroup("lsp"),
+  group = Hosaka.augroup("lsp_attach"),
   callback = function(event)
     local buffer = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -100,7 +100,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.api.nvim_create_autocmd("LspDetach", {
-  group = Hosaka.augroup("lsp"),
+  group = Hosaka.augroup("lsp_detach"),
   callback = function(event)
     local buffer = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
