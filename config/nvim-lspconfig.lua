@@ -1,25 +1,112 @@
+local map = Hosaka.keymap.map
+local mapl = Hosaka.keymap.mapl
+
+--- LSP keybind.
+---@class LspKeybind
+---@field mapper fun(lhs: string, rhs: string, opts?: vim.keymap.set.Opts | {mode: string | string[]}) Function used to register the keybinding
+---@field lhs string Binding LHS
+---@field rhs string Binding RHS
+---@field opts? vim.keymap.set.Opts | {mode: string | string[]}
+
+--- Toggle LSP keybind. Default description is "Toggle `name`".
+---@class LspToggleKeybind
+---@field toggle boolean Marker to identify toggle bindings
+---@field lhs string Binding LHS
+---@field name string Toggle name
+---@field get fun(buffer: integer):fun() Passed current LSP buffer to create a getter
+---@field set fun(buffer: integer):fun(state: boolean) Passed current LSP buffer to create a setter
+---@field opts? vim.keymap.set.Opts | { mode: string | string[] }
+
+--- Key bindings to be created on `LspAttach` and removed on `LspDetach`.
+--- Entries can contain:
+--- - A numeric key containing uncoditional bindings applied to all LSP clients.
+--- - A string key corresponding to an LSP capability (e.g "textDocument/definition"), containing
+---   bindings that are only applied if the LSP client supports that method.
+---@type table<string|integer, (LspKeybind|LspToggleKeybind)[]>
+local bindings = {
+  {
+    { mapper = map, lhs = "K", rhs = "<cmd>lua vim.lsp.buf.hover()<cr>", opts = { desc = "Hover popup" } },
+  },
+  ["textDocument/definition"] = {
+    { mapper = map, lhs = "gd", rhs = "<cmd>lua vim.lsp.buf.definition()<cr>", opts = { desc = "Go to definition" } },
+  },
+  ["textDocument/declaration"] = {
+    {
+      mapper = map,
+      lhs = "gD",
+      rhs = "<cmd>lua vim.lsp.buf.declaration()<cr>",
+      opts = { desc = "Go to declaration" },
+    },
+  },
+  ["textDocument/implementation"] = {
+    {
+      mapper = map,
+      lhs = "gI",
+      rhs = "<cmd>lua vim.lsp.buf.implementation()<cr>",
+      opts = { desc = "Go to implementation" },
+    },
+  },
+  ["textDocument/typeDefinition"] = {
+    {
+      mapper = map,
+      lhs = "gY",
+      rhs = "<cmd>lua vim.lsp.buf.type_definition()<cr>",
+      opts = { desc = "Go to type definition" },
+    },
+  },
+  ["textDocument/signatureHelp"] = {
+    {
+      mapper = map,
+      lhs = "gK",
+      rhs = "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+      opts = { desc = "Signature help" },
+    },
+    {
+      mapper = map,
+      lhs = "<C-k>",
+      rhs = "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+      opts = { desc = "Signature help", mode = "i" },
+    },
+  },
+  ["textDocument/codeAction"] = {
+    {
+      mapper = mapl,
+      lhs = "ca",
+      rhs = "<cmd>lua vim.lsp.buf.code_action()<cr>",
+      opts = { desc = "Action", mode = { "n", "x" } },
+    },
+  },
+  ["textDocument/rename"] = {
+    { mapper = mapl, lhs = "cr", rhs = "<cmd>lua vim.lsp.buf.rename()<cr>", opts = { desc = "Rename symbol" } },
+  },
+  ["textDocument/references"] = {
+    { mapper = mapl, lhs = "cR", rhs = "<cmd>lua vim.lsp.buf.references()<cr>", opts = { desc = "Find references" } },
+  },
+  ["textDocument/inlayHint"] = {
+    {
+      toggle = true,
+      lhs = "oh",
+      name = "inlay hints",
+      get = function(buffer)
+        return function()
+          return vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
+        end
+      end,
+      set = function(buffer)
+        return function(state)
+          vim.lsp.inlay_hint.enable(state, { bufnr = buffer })
+        end
+      end,
+    },
+  },
+}
+
 -- Default attach for all lsp servers
 vim.api.nvim_create_autocmd("LspAttach", {
   group = Hosaka.augroup("lsp_attach"),
   callback = function(event)
     local buffer = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-
-    local map = function(lhs, rhs, opts)
-      opts.buffer = buffer
-      Hosaka.keymap.map(lhs, rhs, opts)
-    end
-    local mapl = function(lhs, rhs, opts)
-      opts.buffer = buffer
-      Hosaka.keymap.mapl(lhs, rhs, opts)
-    end
-    local mapt = function(lhs, name, get, set)
-      Hosaka.toggle({
-        name = name,
-        get = get,
-        set = set,
-      }):mapl(lhs, { buffer = buffer })
-    end
 
     -- use mini.completion
     -- vim.bo[buffer].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
@@ -30,70 +117,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
     end
 
-    map("K", [[<cmd>lua vim.lsp.buf.hover()<cr>]], { desc = "Hover popup" })
-
-    if client:supports_method("textDocument/definition") then
-      map("gd", [[<cmd>lua vim.lsp.buf.definition()<cr>]], { desc = "Go to definition" })
-    end
-
-    if client:supports_method("textDocument/declaration") then
-      map("gD", [[<cmd>lua vim.lsp.buf.declaration()<cr>]], { desc = "Go to declaration" })
-    end
-
-    if client:supports_method("textDocument/implementation") then
-      map("gI", [[<cmd>lua vim.lsp.buf.implementation()<cr>]], { desc = "Go to implementation" })
-    end
-
-    if client:supports_method("textDocument/typeDefinition") then
-      map("gY", [[<cmd>lua vim.lsp.buf.type_definition()<cr>]], { desc = "Go to type definition" })
-    end
-
-    if client:supports_method("textDocument/signatureHelp") then
-      map("gK", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], { desc = "Signature help" })
-      map("<C-k>", [[<cmd>lua vim.lsp.buf.signature_help()<cr>]], { mode = "i", desc = "Signature help" })
-    end
-
-    if client:supports_method("textDocument/codeAction") then
-      mapl("ca", [[<cmd>lua vim.lsp.buf.code_action()<cr>]], { mode = { "n", "x" }, desc = "Action popup" })
-    end
-
-    if client:supports_method("textDocument/rename") then
-      mapl("cr", [[<cmd>lua vim.lsp.buf.rename()<cr>]], { desc = "Rename symbol" })
-    end
-
-    if client:supports_method("textDocument/references") then
-      mapl("cR", [[<cmd>lua vim.lsp.buf.references()<cr>]], { desc = "Find references" })
-    end
-
-    if client:supports_method("textDocument/publishDiagnostics") then
-      mapl("cd", [[<cmd>lua vim.diagnostic.open_float()<cr>]], { desc = "Diagnostic popup" })
-      mapl("cD", function()
-        vim.diagnostic.setqflist()
-        -- expand source lines in for quickfix items
-        require("quicker").refresh()
-      end, { desc = "Diagnostic quickfix" })
-
-      mapt("od", "diagnostics", function()
-        return vim.diagnostic.is_enabled()
-      end, function()
-        require("mini.basics").toggle_diagnostic()
-      end)
-
-      -- note: assuming using lsp_lines plugin
-      mapt("oD", "line diagnostics", function()
-        return not vim.diagnostic.config().virtual_lines
-      end, function(state)
-        vim.diagnostic.config({ virtual_text = state, virtual_lines = not state })
-      end)
-    end
-
-    if client:supports_method("textDocument/inlayHint") then
-      if vim.lsp.inlay_hint then
-        mapt("oh", "inlay hints", function()
-          return vim.lsp.inlay_hint.is_enabled({ bufnr = buffer })
-        end, function(state)
-          vim.lsp.inlay_hint.enable(state, { bufnr = buffer })
-        end)
+    -- create keybindings
+    for capability, binding in pairs(bindings) do
+      if type(capability) ~= "string" or client:supports_method(capability) then
+        for _, keybind in ipairs(binding) do
+          local opts = keybind.opts or {}
+          opts.buffer = buffer
+          if keybind.toggle then
+            Hosaka.toggle({
+              name = keybind.name,
+              get = keybind.get(buffer),
+              set = keybind.set(buffer),
+            }):mapl(keybind.lhs, opts)
+          else
+            opts.buffer = buffer
+            keybind.mapper(keybind.lhs, keybind.rhs, opts)
+          end
+        end
       end
     end
   end,
