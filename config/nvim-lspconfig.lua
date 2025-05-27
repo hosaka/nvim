@@ -82,6 +82,40 @@ local bindings = {
   ["textDocument/references"] = {
     { mapper = mapl, lhs = "cR", rhs = "<cmd>lua vim.lsp.buf.references()<cr>", opts = { desc = "Find references" } },
   },
+  ["textDocument/publishDiagnostics"] = {
+    {
+      mapper = mapl,
+      lhs = "cd",
+      rhs = "<cmd>lua vim.diagnostic.open_float()<cr>",
+      opts = { desc = "Diagnostic popup" },
+    },
+    {
+      mapper = mapl,
+      lhs = "cD",
+      rhs = function()
+        vim.diagnostic.setqflist()
+        -- expand source lines in quickfix items
+        require("quicker").refresh()
+      end,
+      opts = { desc = "Diagnostic quickfix" },
+    },
+    {
+      toggle = true,
+      lhs = "od",
+      name = "line diagnostics",
+      get = function(buffer)
+        -- note: assuming using lsp_lines plugin
+        return function()
+          return not vim.diagnostic.config().virtual_lines
+        end
+      end,
+      set = function(buffer)
+        return function(state)
+          vim.diagnostic.config({ virtual_text = state, virtual_lines = not state })
+        end
+      end,
+    },
+  },
   ["textDocument/inlayHint"] = {
     {
       toggle = true,
