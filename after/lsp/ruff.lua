@@ -13,4 +13,7 @@ return {
       })
     end, { buffer = buffer, desc = "Organize imports" })
   end,
+  -- init_options = {
+  --   settings = {},
+  -- },
 }
