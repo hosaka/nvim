@@ -10,6 +10,7 @@ local ensure_installed = {
   "javascript",
   "jsdoc",
   "json",
+  "just",
   "lua",
   "luadoc",
   "luap",
@@ -34,59 +35,55 @@ if #to_install > 0 then
   require("nvim-treesitter").install(to_install)
 end
 
--- justfile
-vim.api.nvim_create_autocmd("User", {
-  pattern = "TSUpdate",
-  callback = function()
-    require("nvim-treesitter.parsers").just = {
-      install_info = {
-        url = "https://github.com/IndianBoy42/tree-sitter-just",
-        files = { "src/parser.c", "src/scanner.c" },
-        branch = "main",
-      },
-      maintainers = { "@IndianBoy42" },
-    }
-  end,
-})
-
--- todo: need to manually bind all the keymaps
 -- nvim-treesitter-textobjects
 require("nvim-treesitter-textobjects").setup({
   select = {
-    enable = true,
     lookahead = true,
-    keymaps = {
-      -- most keymaps are already handled by mini.ai
-      ["l="] = { query = "@assignment.lhs", desc = "Left hand side of an assignment" },
-      ["r="] = { query = "@assignment.rhs", desc = "Right hand side of an assignment" },
-    },
   },
   move = {
-    enable = true,
     set_jumps = true, -- updates jumplist (go back with C-o)
-    goto_next_start = {
-      ["]m"] = { query = "@function.outer", desc = "Function start forward" },
-    },
-    goto_next_end = {
-      ["]M"] = { query = "@function.outer", desc = "Function end forward" },
-    },
-    goto_previous_start = {
-      ["[m"] = { query = "@function.outer", desc = "Function start backward" },
-    },
-    goto_previous_end = {
-      ["[M"] = { query = "@function.outer", desc = "Function end backward" },
-    },
-  },
-  swap = {
-    enable = true,
-    swap_next = {
-      ["<leader>cp"] = { query = "@parameter.inner", desc = "Swap next parameter" },
-    },
-    swap_previous = {
-      ["<leader>cP"] = { query = "@parameter.inner", desc = "Swap prev parameter" },
-    },
   },
 })
+
+local map = Hosaka.keymap.map
+local mapl = Hosaka.keymap.mapl
+
+-- selecting textobjects
+-- most are already handled by mini.ai (e.g. `vam` to select around function)
+local select = require("nvim-treesitter-textobjects.select")
+
+map("l=", function()
+  select.select_textobject("@assignment.lhs")
+end, { mode = { "x", "o" }, desc = "Left hand side of an assignment" })
+map("r=", function()
+  select.select_textobject("@assignment.rhs")
+end, { mode = { "x", "o" }, desc = "Right hand side of an assignment" })
+
+-- moving textobjects
+local move = require("nvim-treesitter-textobjects.move")
+
+map("]m", function()
+  move.goto_next_start("@function.outer")
+end, { mode = { "n", "x", "o" }, desc = "Function start forward" })
+map("]M", function()
+  move.goto_next_end("@function.outer")
+end, { mode = { "n", "x", "o" }, desc = "Function end forward" })
+map("[m", function()
+  move.goto_previous_start("@function.outer")
+end, { mode = { "n", "x", "o" }, desc = "Function start backward" })
+map("[M", function()
+  move.goto_previous_end("@function.outer")
+end, { mode = { "n", "x", "o" }, desc = "Function end backward" })
+
+-- swapping textobjects
+local swap = require("nvim-treesitter-textobjects.swap")
+
+mapl("cp", function()
+  swap.swap_next("@parameter.inner")
+end, { desc = "Swap next parameter" })
+mapl("cP", function()
+  swap.swap_previous("@parameter.inner")
+end, { desc = "Swap prev parameter" })
 
 -- nvim-ts-autotag
 require("nvim-ts-autotag").setup({
