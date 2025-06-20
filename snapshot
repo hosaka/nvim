@@ -1,5 +1,5 @@
 return {
-  ["avante.nvim"] = "25be6663771807e0169b4e8ace4b9b0ab7b743a0",
+  ["avante.nvim"] = "babb114bc463aa153fa96388fd807afa44c3e7d1",
   ["blink.cmp"] = "022521a8910a5543b0251b21c9e1a1e989745796",
   ["colorful-menu.nvim"] = "bc3e82609f2fcf7dad7ca87c20e65e51d5d9d87c",
   ["conform.nvim"] = "8132ec733eed3bf415b97b76797ca41b59f51d7d",
@@ -20,9 +20,9 @@ return {
   ["nvim-lint"] = "2b0039b8be9583704591a13129c600891ac2c596",
   ["nvim-lspconfig"] = "314b35335cc84bc2a085c84c69da955ba22da163",
   ["nvim-nio"] = "21f5324bfac14e22ba26553caf69ec76ae8a7662",
-  ["nvim-treesitter"] = "42fc28ba918343ebfd5565147a42a26580579482",
+  ["nvim-treesitter"] = "2a677dede2ea45d872ee32ea55e2f93bec0b0f4f",
   ["nvim-treesitter-context"] = "1a1a7c5d6d75cb49bf64049dafab15ebe294a79f",
-  ["nvim-treesitter-textobjects"] = "89ebe73cd2836db80a22d9748999ace0241917a5",
+  ["nvim-treesitter-textobjects"] = "fa32a45fdbab9c9c3bda9ecec9b12dddb221b927",
   ["nvim-ts-autotag"] = "a1d526af391f6aebb25a8795cbc05351ed3620b5",
   ["plenary.nvim"] = "857c5ac632080dba10aae49dba902ce3abf91b35",
   ["quicker.nvim"] = "51d3926f183c2d98fbc237cc237ae0926839af3a",

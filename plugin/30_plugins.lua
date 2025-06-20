@@ -34,13 +34,14 @@ end)
 now_if_args(function()
   local ts_spec = {
     source = "nvim-treesitter/nvim-treesitter",
+    checkout = "main",
     hooks = {
       post_checkout = function()
         vim.cmd([[silent TSUpdate]])
       end,
     },
   }
-  add({ source = "nvim-treesitter/nvim-treesitter-textobjects", depends = { ts_spec } })
+  add({ source = "nvim-treesitter/nvim-treesitter-textobjects", checkout = "main", depends = { ts_spec } })
   add({ source = "nvim-treesitter/nvim-treesitter-context", depends = { ts_spec } })
   add({ source = "windwp/nvim-ts-autotag", depends = { ts_spec } })
   add({ source = "andymass/vim-matchup", depends = { ts_spec } })
@@ -54,7 +55,6 @@ now_if_args(function()
   miniclue.set_mapping_desc("n", "z%", "Jump inside a match")
 
   source("config/nvim-treesitter.lua")
-  source("config/nvim-treesitter-context.lua")
 end)
 
 later(function()
