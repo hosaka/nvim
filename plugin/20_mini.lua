@@ -268,6 +268,7 @@ end)
 
 later(function()
   require("mini.jump2d").setup({
+    labels = "asdfghjkl'",
     view = {
       dim = true,
       n_steps_ahead = 2,
