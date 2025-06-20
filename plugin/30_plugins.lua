@@ -175,6 +175,7 @@ later(function()
   add({
     source = "yetone/avante.nvim",
     depends = {
+      "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",

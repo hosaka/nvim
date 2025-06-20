@@ -311,7 +311,14 @@ later(function()
 end)
 
 later(function()
-  require("mini.move").setup()
+  require("mini.move").setup({
+    mappings = {
+      left = "",
+      right = "",
+      down = "<C-M-Down>",
+      up = "<C-M-Up>",
+    },
+  })
 end)
 
 later(function()
