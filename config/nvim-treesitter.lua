@@ -25,6 +25,7 @@ local ensure_installed = {
   "vim",
   "vimdoc",
   "yaml",
+  "zig",
 }
 
 local not_installed = function(lang)

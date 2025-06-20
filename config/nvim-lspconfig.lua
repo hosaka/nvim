@@ -5,7 +5,7 @@ local mapl = Hosaka.keymap.mapl
 ---@class LspKeybind
 ---@field mapper fun(lhs: string, rhs: string, opts?: vim.keymap.set.Opts | {mode: string | string[]}) Function used to register the keybinding
 ---@field lhs string Binding LHS
----@field rhs string Binding RHS
+---@field rhs string|function Binding RHS
 ---@field opts? vim.keymap.set.Opts | {mode: string | string[]}
 
 --- Toggle LSP keybind. Default description is "Toggle `name`".
