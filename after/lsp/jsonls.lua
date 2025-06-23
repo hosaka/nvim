@@ -1,4 +1,3 @@
-local blink = require("blink.cmp")
 return {
   capabilities = {
     textDocument = {
