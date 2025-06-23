@@ -28,13 +28,58 @@ local ensure_installed = {
   "zig",
 }
 
-local not_installed = function(lang)
-  return #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".*", false) == 0
+local treesitter = require("nvim-treesitter")
+local treesitter_config = require("nvim-treesitter.config")
+local parsers_installed = treesitter_config.get_installed("parsers")
+local parsers_to_install = vim
+  .iter(ensure_installed)
+  :filter(function(parser)
+    return not vim.tbl_contains(parsers_installed, parser)
+  end)
+  :totable()
+if #parsers_to_install > 0 then
+  treesitter.install(parsers_to_install)
 end
-local to_install = vim.tbl_filter(not_installed, ensure_installed)
-if #to_install > 0 then
-  require("nvim-treesitter").install(to_install)
+
+local function treesitter_start(buffer, lang)
+  vim.treesitter.start(buffer, lang)
+  vim.bo[buffer].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 end
+
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Enable Treesitter",
+  group = Hosaka.augroup("enable_treesitter"),
+  callback = function(event)
+    local buffer = event.buf
+    local filetype = event.match
+
+    if filetype == "" then
+      return
+    end
+
+    local lang = vim.treesitter.language.get_lang(filetype)
+    if not lang then
+      vim.notify(string.format("No treesitter language found for %s", filetype), vim.log.levels.WARN)
+      return
+    end
+
+    if not vim.tbl_contains(treesitter_config.get_available(), lang) then
+      return
+    end
+
+    -- if parser is available but not installed, install it first
+    if not vim.tbl_contains(parsers_installed, lang) then
+      vim.notify(string.format("Installing treesitter parser for %s", lang), vim.log.levels.INFO)
+      treesitter.install({ lang }):await(function()
+        treesitter_start(buffer, lang)
+      end)
+      return
+    end
+
+    -- start treesitter as usual
+    treesitter_start(buffer, lang)
+  end,
+})
 
 -- nvim-treesitter-textobjects
 require("nvim-treesitter-textobjects").setup({
