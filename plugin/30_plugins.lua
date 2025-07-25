@@ -121,10 +121,6 @@ later(function()
 end)
 
 later(function()
-  add("mrcjkb/rustaceanvim")
-end)
-
-later(function()
   add("rafamadriz/friendly-snippets")
 end)
 
