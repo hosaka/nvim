@@ -166,23 +166,3 @@ later(function()
   })
   source("config/render-markdown.lua")
 end)
-
-later(function()
-  add({
-    source = "yetone/avante.nvim",
-    depends = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      -- optional
-      "MeanderingProgrammer/render-markdown.nvim",
-    },
-    hooks = {
-      post_checkout = function()
-        vim.cmd([[make]])
-      end,
-    },
-  })
-  source("config/avante.lua")
-end)

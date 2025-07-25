@@ -1,5 +1,4 @@
 return {
-  ["avante.nvim"] = "bd69ae14f6f1f21642e16c16cbd18954f62365aa",
   ["blink.cmp"] = "022521a8910a5543b0251b21c9e1a1e989745796",
   ["colorful-menu.nvim"] = "bc3e82609f2fcf7dad7ca87c20e65e51d5d9d87c",
   ["conform.nvim"] = "973f3cb73887d510321653044791d7937c7ec0fa",
@@ -13,7 +12,6 @@ return {
   ["mason-lspconfig.nvim"] = "bb3a17efc797c34c054463174e5522442576ebd8",
   ["mason.nvim"] = "8024d64e1330b86044fed4c8494ef3dcd483a67c",
   ["mini.nvim"] = "c122e852517adaf7257688e435369c050da113b1",
-  ["nui.nvim"] = "de740991c12411b663994b2860f1a4fd0937c130",
   ["nvim-bqf"] = "dd17c73912487dccb372deff85d4262d2b89bc2b",
   ["nvim-dap"] = "5dd4d50f2e6a2eaf9e57fad023d294ef371bda35",
   ["nvim-dap-ui"] = "cf91d5e2d07c72903d052f5207511bf7ecdb7122",
@@ -24,7 +22,6 @@ return {
   ["nvim-treesitter-context"] = "59f318a65d42a5c4037796886a8874fd57f774fc",
   ["nvim-treesitter-textobjects"] = "b54cec389e98c5b0babbe618773acec927437cab",
   ["nvim-ts-autotag"] = "a1d526af391f6aebb25a8795cbc05351ed3620b5",
-  ["plenary.nvim"] = "857c5ac632080dba10aae49dba902ce3abf91b35",
   ["quicker.nvim"] = "51d3926f183c2d98fbc237cc237ae0926839af3a",
   ["render-markdown.nvim"] = "5c0e241bdbd208b7ae546009378d6bc93c083ef3",
   ["toggleterm.nvim"] = "9a88eae817ef395952e08650b3283726786fb5fb",
