@@ -140,7 +140,12 @@ require("nvim-ts-autotag").setup({
   },
 })
 
--- todo: andymass/vim-matchup
+-- vim-matchup
+require("match-up").setup({
+  treesitter = {
+    enabled = true,
+  },
+})
 
 -- nvim-treesitter-context
 local context = require("treesitter-context")
