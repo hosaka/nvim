@@ -267,8 +267,10 @@ later(function()
 end)
 
 later(function()
-  require("mini.jump2d").setup({
+  local jump2d = require("mini.jump2d")
+  jump2d.setup({
     labels = "asdfghjkl'",
+    spotter = jump2d.gen_spotter.pattern("[^%s%p]+"),
     view = {
       dim = true,
       n_steps_ahead = 2,
@@ -277,8 +279,7 @@ later(function()
       start_jumping = "",
     },
   })
-  -- disable s shortcut (use cl instead) in order to use mini.jump2d
-  vim.keymap.set({ "n", "x", "o" }, "s", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
+  vim.keymap.set({ "n", "x", "o" }, "sj", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
 end)
 
 later(function()
