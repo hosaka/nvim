@@ -3,6 +3,7 @@ local ensure_installed = {
   "c",
   "cpp",
   "css",
+  "diff",
   "dockerfile",
   "go",
   "gomod",
@@ -28,6 +29,7 @@ local ensure_installed = {
   "zig",
 }
 
+-- ensure installed
 local treesitter = require("nvim-treesitter")
 local treesitter_config = require("nvim-treesitter.config")
 local parsers_installed = treesitter_config.get_installed("parsers")
