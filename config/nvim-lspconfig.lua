@@ -68,6 +68,13 @@ local bindings = {
       opts = { desc = "Signature help", mode = "i" },
     },
   },
+  -- ["textDocument/documentHighlight"] = {
+  --   mapper = mapl,
+  --   lhs = "ch",
+  --   rhs = "<cmd>lua vim.lsp.buf.document_highlight()<cr>",
+  --   rhs = "<cmd>lua vim.lsp.buf.clear_references()<cr>",
+  --   opts = { desc = "Highlight symbol" }
+  -- },
   ["textDocument/codeAction"] = {
     {
       mapper = mapl,
