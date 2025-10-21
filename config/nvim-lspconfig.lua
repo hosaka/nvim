@@ -197,6 +197,7 @@ end
 -- vim.lsp.config("*", {})
 
 vim.lsp.enable({
+  "basedpyright",
   "bashls",
   "clangd",
   "eslint",
@@ -204,12 +205,12 @@ vim.lsp.enable({
   "jsonls",
   "lua_ls",
   "marksman",
-  "pyright",
   "ruff",
   "rust_analyzer",
   "solidity_ls_nomicfoundation",
   "taplo",
   "ts_ls",
+  "ty",
   "yamlls",
   "zls",
 })
