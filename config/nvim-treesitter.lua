@@ -2,10 +2,17 @@
 -- any others supported by tree-sitter will be installed when a filetype is opened and no compatible
 -- parser is bundled with neovim
 local languages = {
+  "bash",
   "diff",
+  "dockerfile",
+  "git_config",
+  "gitcommit",
+  "html",
+  "ini",
   "json",
   "just",
   "toml",
+  "yaml",
 }
 
 local treesitter = require("nvim-treesitter")
