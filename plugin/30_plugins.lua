@@ -121,10 +121,6 @@ later(function()
 end)
 
 later(function()
-  add("rafamadriz/friendly-snippets")
-end)
-
-later(function()
   add({
     source = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     depends = { "neovim/nvim-lspconfig" },
@@ -165,4 +161,12 @@ later(function()
     depends = { "nvim-treesitter/nvim-treesitter" },
   })
   source("config/render-markdown.lua")
+end)
+
+later(function()
+  add({
+    source = "kevinhwang91/nvim-ufo",
+    depends = { "kevinhwang91/promise-async" },
+  })
+  source("config/nvim-ufo.lua")
 end)

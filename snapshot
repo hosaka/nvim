@@ -22,6 +22,8 @@ return {
   ["nvim-treesitter-context"] = "41847d3dafb5004464708a3db06b14f12bde548a",
   ["nvim-treesitter-textobjects"] = "1b2d85d3de6114c4bcea89ffb2cd1ce9e3a19931",
   ["nvim-ts-autotag"] = "c4ca798ab95b316a768d51eaaaee48f64a4a46bc",
+  ["nvim-ufo"] = "72d54c31079d38d8dfc5456131b1d0fb5c0264b0",
+  ["promise-async"] = "119e8961014c9bfaf1487bf3c2a393d254f337e2",
   ["quicker.nvim"] = "12a2291869a326424b1cbee937f4f80334433012",
   ["render-markdown.nvim"] = "475d3ad8cae486b0df6fc6050cf5b5ea1de42db8",
   ["toggleterm.nvim"] = "9a88eae817ef395952e08650b3283726786fb5fb",
