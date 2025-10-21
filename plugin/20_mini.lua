@@ -68,7 +68,6 @@ now(function()
       config = window_config,
     },
   })
-  vim.notify = notify.make_notify()
 end)
 
 now(function()
@@ -127,6 +126,7 @@ later(function()
         i = { "@block.inner", "@conditional.inner", "@loop.inner" },
       }),
     },
+    search_method = "cover",
   })
 end)
 
@@ -294,9 +294,26 @@ later(function()
     },
   })
   vim.keymap.set({ "n" }, [[<Esc>]], [[:nohlsearch<cr>]], { desc = "Cancel hlsearch", silent = true })
-  for _, key in ipairs({ "n", "N", "*" }) do
+  for _, key in ipairs({ "n", "N", "*", "%" }) do
     vim.keymap.set("n", key, key .. "zv<cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<cr>")
   end
+end)
+
+later(function()
+  local keymap = require("mini.keymap")
+  keymap.setup()
+
+  local notify_many_keys = function(key)
+    local lhs = string.rep(key, 6)
+    local action = function()
+      vim.notify(string.format("Too many %s keys!", key), vim.log.levels.WARN)
+    end
+    keymap.map_combo({ "n", "x" }, lhs, action)
+  end
+  notify_many_keys("h")
+  notify_many_keys("j")
+  notify_many_keys("k")
+  notify_many_keys("l")
 end)
 
 later(function()
@@ -328,7 +345,13 @@ later(function()
   -- remap built-in open filepath/URI keymap before setup
   remap("gx", "gX", { desc = "Open filepath or URI" })
   remap("gx", "gX", { mode = "x", desc = "Open filepath or URI" })
+
   require("mini.operators").setup()
+
+  -- note: already using treesitter for this, but this is another alternative
+  -- local map = Hosaka.keymap.map
+  -- map("(", "<Cmd>normal gxiagxila<CR>", { desc = "Move arg left" })
+  -- map(")", "<Cmd>normal gxiagxina<CR>", { desc = "Move arg right" })
 end)
 
 later(function()

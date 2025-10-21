@@ -23,7 +23,7 @@ vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
 -- Appearance
 o.breakindent = true -- Indent wrapped lines to match line start
-o.breakindentopt = "list:-1" -- Add padding for lists when wrap is on
+o.breakindentopt = "list:-1" -- Add padding for lists (if 'wrap' is set)
 o.colorcolumn = "+1" -- Draw column on the right of maximum width
 o.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 o.cursorline = true -- Enable highlighting of the current line
@@ -35,7 +35,7 @@ o.number = true -- Show line numbers
 o.pumblend = 10 -- Popup transparency
 o.pumheight = 10 -- Popup max number of entries
 o.relativenumber = true -- Relative line numbers
-o.ruler = false -- Don't show curor position
+o.ruler = false -- Don't show curor coordinates
 o.scrolloff = 4 -- Lines to keep above and below the cursor
 o.shortmess = "FOSWaco" -- Disable some messages from ins-completion-menu
 o.showmode = false -- Don't show mode since we have a statusline
@@ -162,6 +162,11 @@ end
 if vim.fn.has("nvim-0.11") == 1 then
   o.winborder = "rounded" -- Use rounded border by default
   opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
+end
+
+if vim.fn.has("nvim-0.12") == 1 then
+  o.pummaxwidth = 100 -- Popup menu maximum width
+  o.pumborder = "rounded" -- Use rounded border for popup menus
 end
 
 -- Diagnostics (delayed to avoid sourcing `vim.diagnostic` on startup)

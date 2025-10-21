@@ -20,8 +20,6 @@ minipick.setup({
     end,
   },
 })
--- use as a default selector
-vim.ui.select = minipick.ui_select
 
 -- same as default buf_lines picker but with treesitter highlight preserved
 local pick_buffer_lines = function(buffer, items, query, opts)
