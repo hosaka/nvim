@@ -28,6 +28,16 @@ if #parsers_to_install > 0 then
   treesitter.install(parsers_to_install)
 end
 
+-- better filetypes
+vim.filetype.add({
+  pattern = {
+    ["compose.*%.ya?ml"] = "yaml.docker-compose",
+    ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
+    [".*/%.github/workflows/.*%.ya?ml"] = "yaml.github-actions",
+    ["%.env.*"] = "sh.env",
+  },
+})
+
 local function treesitter_start(buffer, lang)
   vim.treesitter.start(buffer, lang)
   vim.bo[buffer].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
