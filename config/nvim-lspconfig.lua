@@ -193,24 +193,11 @@ if vim.fn.has("nvim-0.11") == 0 then
   return
 end
 
--- all clients
--- vim.lsp.config("*", {})
-
-vim.lsp.enable({
-  "basedpyright",
-  "bashls",
-  "clangd",
-  "eslint",
-  "gopls",
-  "jsonls",
-  "lua_ls",
-  "marksman",
-  "ruff",
-  "rust_analyzer",
-  "solidity_ls_nomicfoundation",
-  "taplo",
-  "ts_ls",
-  "ty",
-  "yamlls",
-  "zls",
-})
+-- vim.lsp.enable({
+--   "clangd",
+--   "eslint",
+--   "gopls",
+--   "jsonls",
+--   "rust_analyzer",
+--   "ts_ls",
+-- })

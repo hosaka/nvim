@@ -28,6 +28,7 @@ local luals_on_list = function(args)
   show_location(items[1])
 end
 
+---@type vim.lsp.Config
 return {
   on_attach = function(client, buffer)
     -- note: don't open quickfix list in case of multiple definitions

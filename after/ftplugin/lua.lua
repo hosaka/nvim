@@ -14,3 +14,9 @@ vim.b.minisurround_config = {
     s = { input = { "%[%[().-()%]%]" }, output = { left = "[[", right = "]]" } },
   },
 }
+
+local lsp = "lua_ls"
+if not vim.lsp.is_enabled(lsp) then
+  vim.notify("Enabling " .. lsp .. " LSP")
+  vim.lsp.enable(lsp)
+end
