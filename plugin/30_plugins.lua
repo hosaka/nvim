@@ -58,26 +58,31 @@ now_if_args(function()
 end)
 
 later(function()
-  add({
-    source = "williamboman/mason.nvim",
-    depends = {
-      "williamboman/mason-lspconfig.nvim",
-      "neovim/nvim-lspconfig",
-    },
-  })
-  require("mason").setup({
-    -- prefer existing binaries over the ones installed by mason
-    -- PATH = "append",
-  })
-  require("mason-lspconfig").setup({
-    -- automatic_installation = true,
-    ensure_installed = {
-      "lua_ls",
-      "marksman",
-    },
-  })
+  add("neovim/nvim-lspconfig")
   source("config/nvim-lspconfig.lua")
 end)
+
+-- later(function()
+--   add({
+--     source = "williamboman/mason.nvim",
+--     depends = {
+--       "williamboman/mason-lspconfig.nvim",
+--       "neovim/nvim-lspconfig",
+--     },
+--   })
+--   require("mason").setup({
+--     -- prefer existing binaries over the ones installed by mason
+--     -- PATH = "append",
+--   })
+--   require("mason-lspconfig").setup({
+--     -- automatic_installation = true,
+--     ensure_installed = {
+--       "lua_ls",
+--       "marksman",
+--     },
+--   })
+--   source("config/nvim-lspconfig.lua")
+-- end)
 
 later(function()
   add({
