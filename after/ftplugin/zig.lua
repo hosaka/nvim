@@ -1,5 +1,4 @@
 local lsp = "zls"
 if not vim.lsp.is_enabled(lsp) then
-  vim.notify("Enabling " .. lsp .. " LSP")
-  vim.lsp.enable(lsp)
+  vim.lsp.enable({ lsp })
 end
