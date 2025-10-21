@@ -1,40 +1,18 @@
-local ensure_installed = {
-  "bash",
-  "c",
-  "cpp",
-  "css",
+-- these parsers will always be installed
+-- any others supported by tree-sitter will be installed when a filetype is opened and no compatible
+-- parser is bundled with neovim
+local languages = {
   "diff",
-  "dockerfile",
-  "go",
-  "gomod",
-  "html",
-  "javascript",
-  "jsdoc",
   "json",
   "just",
-  "lua",
-  "luadoc",
-  "luap",
-  "markdown",
-  "markdown_inline",
-  "python",
-  "query",
-  "regex",
-  "rust",
   "toml",
-  "typescript",
-  "vim",
-  "vimdoc",
-  "yaml",
-  "zig",
 }
 
--- ensure installed
 local treesitter = require("nvim-treesitter")
 local treesitter_config = require("nvim-treesitter.config")
 local parsers_installed = treesitter_config.get_installed("parsers")
 local parsers_to_install = vim
-  .iter(ensure_installed)
+  .iter(languages)
   :filter(function(parser)
     return not vim.tbl_contains(parsers_installed, parser)
   end)
@@ -65,17 +43,22 @@ vim.api.nvim_create_autocmd("FileType", {
       return
     end
 
-    if not vim.tbl_contains(treesitter_config.get_available(), lang) then
+    local config = require("nvim-treesitter.config")
+
+    if not vim.tbl_contains(config.get_available(), lang) then
       return
     end
 
-    -- if parser is available but not installed, install it first
-    if not vim.tbl_contains(parsers_installed, lang) then
-      vim.notify(string.format("Installing treesitter parser for %s", lang), vim.log.levels.INFO)
-      treesitter.install({ lang }):await(function()
-        treesitter_start(buffer, lang)
-      end)
-      return
+    -- if neovim treesitter already has a bundled parser, no need to install it again
+    if vim.treesitter.get_parser(buffer, lang, { error = false }) == nil then
+      -- if parser is available but not installed, install it first
+      if not vim.tbl_contains(config.get_installed("parsers"), lang) then
+        vim.notify(string.format("Installing treesitter parser for %s", lang), vim.log.levels.INFO)
+        treesitter.install({ lang }):await(function()
+          treesitter_start(buffer, lang)
+        end)
+        return
+      end
     end
 
     -- start treesitter as usual
