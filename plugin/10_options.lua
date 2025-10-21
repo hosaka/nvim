@@ -4,57 +4,55 @@ vim.g.maplocalleader = " "
 
 local o, opt = vim.o, vim.opt
 
+local function concat(tbl)
+  return table.concat(tbl, ",")
+end
+
 -- General
-opt.autowrite = true -- Enable auto write
-opt.backup = false -- Don't store backups
-opt.confirm = true -- Confirm to save changes before exiting modified buffer
-opt.mouse = "a" -- Enable mouse for all available modes
-opt.sessionoptions = {
-  "buffers",
-  "curdir",
-  "tabpages",
-  "winsize",
-  "help",
-  "globals",
-  "skiprtp",
-  "folds",
-} -- Defines what needs to be saved in a session
-opt.switchbuf = "usetab" -- Use already opened buffers when switching
-opt.undofile = true -- Enable persistent undo
-opt.wildmode = "longest:full,full" -- Command-line completion mode
-opt.writebackup = false -- Don't store backups while overwriting the file
-opt.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit stored shared data
+o.autowrite = true -- Enable auto write
+o.backup = false -- Don't store backups
+o.confirm = true -- Confirm to save changes before exiting modified buffer
+o.mouse = "a" -- Enable mouse for all available modes
+o.sessionoptions = concat({ "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }) -- Defines what needs to be saved in a session
+o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit stored shared data
+o.switchbuf = "usetab" -- Use already opened buffers when switching
+o.undofile = true -- Enable persistent undo
+o.wildmode = "longest:full,full" -- Command-line completion mode
+o.writebackup = false -- Don't store backups while overwriting the file
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
 -- Appearance
-opt.breakindent = true -- Indent wrapped lines to match line start
-opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
-opt.cursorline = true -- Enable highlighting of the current line
-opt.laststatus = 3 -- Always show statusline in the last window only
-opt.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
-opt.list = true -- Show whitespaces and helper symbols
-opt.number = true -- Show line numbers
-opt.pumblend = 10 -- Popup transparency
-opt.pumheight = 10 -- Popup max number of entries
-opt.relativenumber = true -- Relative line numbers
-opt.ruler = false -- Don't show curor position
-opt.scrolloff = 4 -- Lines to keep above and below the cursor
-opt.shortmess = "FOSWaco" -- Disable some messages from ins-completion-menu
-opt.showmode = false -- Dont show mode since we have a statusline
-opt.sidescrolloff = 8 -- Columns to keep to the left and right around the cursor
-opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
-opt.splitbelow = true -- Put new windows below current
-opt.splitright = true -- Put new windows right of current
-opt.virtualedit = "block" -- Allow cursor to move to virtual space in visual block mode
-opt.winblend = 10 -- Floating windows transparency
-opt.winminwidth = 5 -- Minimum window width
-opt.wrap = false -- Disable line wrap
+o.breakindent = true -- Indent wrapped lines to match line start
+o.breakindentopt = "list:-1" -- Add padding for lists when wrap is on
+o.colorcolumn = "+1" -- Draw column on the right of maximum width
+o.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
+o.cursorline = true -- Enable highlighting of the current line
+o.cursorlineopt = concat({ "screenline", "number" }) -- Show cursor line per screen line
+o.laststatus = 3 -- Always show statusline in the last window only
+o.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
+o.list = true -- Show whitespaces and helper symbols
+o.number = true -- Show line numbers
+o.pumblend = 10 -- Popup transparency
+o.pumheight = 10 -- Popup max number of entries
+o.relativenumber = true -- Relative line numbers
+o.ruler = false -- Don't show curor position
+o.scrolloff = 4 -- Lines to keep above and below the cursor
+o.shortmess = "FOSWaco" -- Disable some messages from ins-completion-menu
+o.showmode = false -- Don't show mode since we have a statusline
+o.sidescrolloff = 8 -- Columns to keep to the left and right around the cursor
+o.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+o.splitbelow = true -- Put new windows below current
+o.splitright = true -- Put new windows right of current
+o.virtualedit = "block" -- Allow cursor to move to virtual space in visual block mode
+o.winblend = 10 -- Floating windows transparency
+o.winminwidth = 5 -- Minimum window width
+o.wrap = false -- Disable line wrap
 
 if vim.fn.has("nvim-0.10") == 0 then
-  opt.termguicolors = true -- Enable gui colors (>=0.10 enables this by default)
+  o.termguicolors = true -- Enable gui colors (>=0.10 enables this by default)
 end
 
-o.fillchars = table.concat({
+o.fillchars = concat({
   "eob: ",
   "fold:╌",
   "horiz:═",
@@ -64,20 +62,18 @@ o.fillchars = table.concat({
   "verthoriz:╬",
   "vertleft:╣",
   "vertright:╠",
-}, ",") -- Special UI symbols
-o.listchars = table.concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }, ",") -- Special text symbols
-o.cursorlineopt = table.concat({ "screenline", "number" }, ",") -- Do not show screen line when wrap is on
-o.breakindentopt = "list:-1" -- Add padding for lists when wrap is on
+}) -- Special UI symbols
+o.listchars = concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }) -- Special text symbols
 
 if vim.fn.has("nvim-0.9") == 1 then
-  opt.splitkeep = "screen" -- Reduce scroll during window split
+  o.splitkeep = "screen" -- Reduce scroll during window split
   opt.shortmess:append("WcC") -- Reduce command line messages
 else
   opt.shortmess:append("Wc") -- Reduce command line messages
 end
 
 if vim.fn.has("nvim-0.10") == 1 then
-  opt.smoothscroll = true
+  o.smoothscroll = true
 end
 
 -- enable syntax highlight if it wasn't already (as it is time consuming)
@@ -88,67 +84,79 @@ end
 vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
 
 -- Editing
-opt.autoindent = true -- Use auto indent
-opt.completeopt = { "menuone", "noinsert", "noselect" } -- Customize completions
-opt.expandtab = true -- Use spaces instead of tabs
-opt.formatoptions = "rnqjl1" -- Improve comment editing
-opt.grepformat = "%f:%l:%c:%m" -- Grep formatting
-opt.grepprg = "rg --vimgrep --smart-case" -- Set rg as grep
-opt.ignorecase = true -- Ignore case
-opt.inccommand = "nosplit" -- Preview incremental substitute
-opt.incsearch = true -- Show search results while typing
-opt.infercase = true -- Infer letter cases
+o.autoindent = true -- Use auto indent
+o.completeopt = concat({ "menuone", "noinsert", "noselect" }) -- Customize completions
+o.expandtab = true -- Use spaces instead of tabs
+o.formatoptions = "rnqjl1" -- Improve comment editing
+o.grepformat = "%f:%l:%c:%m" -- Grep formatting
+o.grepprg = "rg --vimgrep --smart-case" -- Set rg as grep
+o.ignorecase = true -- Ignore case
+o.inccommand = "nosplit" -- Preview incremental substitute
+o.incsearch = true -- Show search results while typing
+o.infercase = true -- Infer letter cases
 opt.iskeyword:append("-") -- Treat dash-separated-words as a word text object
-opt.jumpoptions = "stack" -- Jump list behaves like a stack
-opt.shiftround = true -- Round indent
-opt.shiftwidth = 2 -- Size of an indent
-opt.smartcase = true -- Don't ignore case with capitals
-opt.smartindent = true -- Insert indents automatically
-opt.tabstop = 2 -- Number of spaces tabs count for
-opt.updatetime = 200 -- Save swap file and trigger CursorHold
-opt.virtualedit = "block" -- Allow going past the end line in visual block mode
+o.jumpoptions = "stack" -- Jump list behaves like a stack
+o.shiftround = true -- Round indent
+o.shiftwidth = 2 -- Size of an indent
+o.smartcase = true -- Don't ignore case with capitals
+o.smartindent = true -- Insert indents automatically
+o.tabstop = 2 -- Number of spaces tabs count for
+o.updatetime = 200 -- Save swap file and trigger CursorHold
+o.virtualedit = "block" -- Allow going past the end line in visual block mode
 
 -- `bigfile` filetype
--- some plugins will be disabled for files larger than this size
+-- some plugins will be disabled for files larger than this size, see `after/ftplugin/bigfile.lua`
 vim.g.bigfile_size = 1024 * 1024 * 1 -- 1MB
+vim.g.bigfile_line_length = 1000
 vim.filetype.add({
   pattern = {
     [".*"] = {
       function(path, buf)
-        return vim.bo[buf]
-            and vim.bo[buf].filetype ~= "bigfile"
-            and path
-            and vim.fn.getfsize(path) > vim.g.bigfile_size
-            and "bigfile"
-          or nil
+        if not path or not buf or vim.bo[buf].filetype == "bigfile" then
+          return
+        end
+        if path ~= vim.fs.normalize(vim.api.nvim_buf_get_name(buf)) then
+          return
+        end
+        local size = vim.fn.getfsize(path)
+        if size <= 0 then
+          return
+        end
+        if size > vim.g.bigfile_size then
+          return "bigfile"
+        end
+        local lines = vim.api.nvim_buf_line_count(buf)
+        return (size - lines) / lines > vim.g.bigfile_line_length and "bigfile" or nil
       end,
     },
   },
 })
 
--- Pattern for a start of 'numbered' list.
+-- Pattern for a start of 'numbered' list (used in `gw`).
 -- At least one special character (0-9, -, +, *) optionally followed by some
 -- punctuation (. or ')') followed by at least one space.
-opt.formatlistpat = [[^s\*[0-9\-\+\*]\+[\.\)]*\s\+]]
+o.formatlistpat = [[^s\*[0-9\-\+\*]\+[\.\)]*\s\+]]
 
 -- Spelling
 opt.complete:append("kspell") -- Add spellcheck options for autocomplete
 opt.complete:remove("t") -- Don't use tags for completion
-opt.dictionary = vim.fn.stdpath("config") .. "/misc/dict/english.txt"
-opt.spelllang = "en" -- Define spelling dictionaries
-opt.spelloptions = { "camel", "noplainbuffer" } -- Treat parts of calemCase words as separate words, only ffor buffers with syntax
+o.dictionary = vim.fn.stdpath("config") .. "/misc/dict/english.txt"
+o.spelllang = "en" -- Define spelling dictionaries
+o.spelloptions = concat({ "camel", "noplainbuffer" }) -- Treat parts of calemCase words as separate words, only for buffers with syntax
 
 -- Folding
-opt.foldenable = true -- Enable folding
-opt.foldlevel = 99 -- Higher fold level
-opt.foldmethod = "indent" -- Set indent folding method
+o.foldcolumn = "0" -- No need to see the fold column
+o.foldenable = true -- Enable folding
+o.foldlevel = 99 -- Higher fold level
+o.foldlevelstart = 99 -- Higher fold level
+o.foldmethod = "indent" -- Set indent folding method
 
 if vim.treesitter.foldexpr then
-  opt.foldmethod = "expr" -- Set expr folding methond
-  opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use tresitter as folding expr
+  o.foldmethod = "expr" -- Set expr folding methond
+  o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Use tresitter as folding expr
 end
 if vim.treesitter.foldtext then
-  opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+  o.foldtext = "v:lua.vim.treesitter.foldtext()"
 end
 
 if vim.fn.has("nvim-0.11") == 1 then
