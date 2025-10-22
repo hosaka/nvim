@@ -1,5 +1,5 @@
 -- these parsers will always be installed
--- any others supported by tree-sitter will be installed when a filetype is opened and no compatible
+-- any others supported by treesitter will be installed when a filetype is opened and no compatible
 -- parser is bundled with neovim
 local languages = {
   "bash",
@@ -7,6 +7,7 @@ local languages = {
   "dockerfile",
   "git_config",
   "gitcommit",
+  "gitignore",
   "html",
   "ini",
   "json",
@@ -38,9 +39,16 @@ vim.filetype.add({
   },
 })
 
-local function treesitter_start(buffer, lang)
+vim.treesitter.language.register("yaml", "yaml.docker-compose")
+vim.treesitter.language.register("yaml", "yaml.github-actions")
+
+-- indentexpr should not be changed for parsers bundled with nvim
+local function nvim_treesitter_start(buffer, lang, indent)
   vim.treesitter.start(buffer, lang)
-  vim.bo[buffer].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  indent = indent == nil and true or indent
+  if indent then
+    vim.bo[buffer].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+  end
 end
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -56,30 +64,25 @@ vim.api.nvim_create_autocmd("FileType", {
 
     local lang = vim.treesitter.language.get_lang(filetype)
     if not lang then
-      vim.notify(string.format("No treesitter language found for %s", filetype), vim.log.levels.WARN)
+      vim.notify(string.format("No TS language found for %s", filetype), vim.log.levels.WARN)
       return
     end
 
     local config = require("nvim-treesitter.config")
 
-    if not vim.tbl_contains(config.get_available(), lang) then
-      return
+    -- if a parser is already installed, start it as usual
+    -- if there is a parser bundled with nvim, no need to install it again
+    -- otherwise, if parser is available, try to install it
+    if vim.tbl_contains(config.get_installed("parsers"), lang) then
+      nvim_treesitter_start(buffer, lang)
+    elseif vim.treesitter.language.add(lang) then
+      nvim_treesitter_start(buffer, lang, false)
+    elseif vim.tbl_contains(config.get_available(), lang) then
+      vim.notify(string.format("Installing TS parser for %s", lang), vim.log.levels.INFO)
+      treesitter.install({ lang }):await(function()
+        nvim_treesitter_start(buffer, lang)
+      end)
     end
-
-    -- if neovim treesitter already has a bundled parser, no need to install it again
-    if vim.treesitter.get_parser(buffer, lang, { error = false }) == nil then
-      -- if parser is available but not installed, install it first
-      if not vim.tbl_contains(config.get_installed("parsers"), lang) then
-        vim.notify(string.format("Installing treesitter parser for %s", lang), vim.log.levels.INFO)
-        treesitter.install({ lang }):await(function()
-          treesitter_start(buffer, lang)
-        end)
-        return
-      end
-    end
-
-    -- start treesitter as usual
-    treesitter_start(buffer, lang)
   end,
 })
 

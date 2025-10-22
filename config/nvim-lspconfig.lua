@@ -185,6 +185,7 @@ vim.api.nvim_create_autocmd("LspDetach", {
   callback = function(event)
     local buffer = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
+    -- todo: unmap bindings
   end,
 })
 
