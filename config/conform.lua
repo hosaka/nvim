@@ -25,21 +25,10 @@ require("conform").setup({
     }
   end,
   formatters_by_ft = {
-    css = { "biome" },
-    go = { "goimports" },
-    graphql = { "biome" },
-    handlebars = { "biome" },
-    html = { "biome" },
-    javascript = { "biome" },
-    json = { "biome" },
     lua = { "stylua" },
-    markdown = { "biome", "injected" },
+    markdown = { "injected" },
     python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
     sh = { "shfmt" },
-    typescript = { "biome" },
-    typescriptreact = { "biome" },
-    vue = { "biome" },
-    yaml = { "biome" },
   },
   -- custom formatters
   formatters = {
