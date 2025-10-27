@@ -35,12 +35,13 @@ vim.filetype.add({
     ["compose.*%.ya?ml"] = "yaml.docker-compose",
     ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
     [".*/%.github/workflows/.*%.ya?ml"] = "yaml.github-actions",
-    ["%.env.*"] = "sh.env",
+    ["%.env.*"] = "dotenv",
   },
 })
 
 vim.treesitter.language.register("yaml", "yaml.docker-compose")
 vim.treesitter.language.register("yaml", "yaml.github-actions")
+vim.treesitter.language.register("bash", "dotenv")
 
 -- indentexpr should not be changed for parsers bundled with nvim
 local function nvim_treesitter_start(buffer, lang, indent)

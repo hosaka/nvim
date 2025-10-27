@@ -28,13 +28,9 @@ require("conform").setup({
     lua = { "stylua" },
     markdown = { "injected" },
     python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-    sh = { "shfmt" },
   },
   -- custom formatters
   formatters = {
-    shfmt = {
-      prepend_args = { "-i", "2" },
-    },
     injected = {
       ignore_errors = false,
     },
