@@ -29,3 +29,6 @@ deps.setup({
     snapshot = Config.mini.snapshot,
   },
 })
+
+-- custom `now` or `later` helper
+_G.Config.now_if_args = vim.fn.argc(-1) > 0 and deps.now or deps.later

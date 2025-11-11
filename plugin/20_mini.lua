@@ -1,5 +1,6 @@
 local deps = require("mini.deps")
 local add, now, later = deps.add, deps.now, deps.later
+local now_if_args = _G.Config.now_if_args
 
 local source = function(path)
   return dofile(vim.fn.stdpath("config") .. "/" .. path)
@@ -101,6 +102,19 @@ now(function()
   require("mini.statusline").setup()
 end)
 
+now_if_args(function()
+  local minimisc = require("mini.misc")
+  minimisc.setup({
+    make_global = { "put", "put_text" },
+  })
+  -- chdir to root directory containing these files
+  minimisc.setup_auto_root({ ".git", "Makefile" })
+  -- restore cursor position on open files
+  minimisc.setup_restore_cursor()
+  -- terminal background synchronization
+  minimisc.setup_termbg_sync()
+end)
+
 now(function()
   require("mini.tabline").setup({
     tabpage_section = "right",
@@ -186,6 +200,9 @@ later(function()
       -- z key
       { mode = "n", keys = "z" },
       { mode = "x", keys = "z" },
+      -- s key
+      { mode = "n", keys = "s" },
+      { mode = "x", keys = "s" },
     },
     window = {
       config = {
@@ -276,10 +293,16 @@ later(function()
       n_steps_ahead = 2,
     },
     mappings = {
+      -- disable built-in <CR> to start jumping, use the keymap below
       start_jumping = "",
     },
   })
-  vim.keymap.set({ "n", "x", "o" }, "sj", [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]])
+  vim.keymap.set(
+    { "n", "x", "o" },
+    "sj",
+    [[<cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<cr>]],
+    { desc = "Jump" }
+  )
 end)
 
 later(function()
@@ -314,19 +337,6 @@ later(function()
   notify_many_keys("j")
   notify_many_keys("k")
   notify_many_keys("l")
-end)
-
-later(function()
-  local minimisc = require("mini.misc")
-  minimisc.setup({
-    make_global = { "put", "put_text" },
-  })
-  -- chdir to root directory containing these files
-  minimisc.setup_auto_root({ ".git", "Makefile" })
-  -- restore cursor position on open files
-  minimisc.setup_restore_cursor()
-  -- terminal background synchronization
-  minimisc.setup_termbg_sync()
 end)
 
 later(function()
