@@ -140,7 +140,7 @@ later(function()
         i = { "@block.inner", "@conditional.inner", "@loop.inner" },
       }),
     },
-    search_method = "cover",
+    -- search_method = "cover",
   })
 end)
 
