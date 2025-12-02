@@ -175,3 +175,9 @@ later(function()
   })
   source("config/nvim-ufo.lua")
 end)
+
+later(function()
+  add({
+    source = "wakatime/vim-wakatime",
+  })
+end)
