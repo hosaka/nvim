@@ -193,12 +193,3 @@ if vim.fn.has("nvim-0.11") == 0 then
   -- todo: fallback to nvim-lspconfig?
   return
 end
-
--- vim.lsp.enable({
---   "clangd",
---   "eslint",
---   "gopls",
---   "jsonls",
---   "rust_analyzer",
---   "ts_ls",
--- })
