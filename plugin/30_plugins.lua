@@ -86,13 +86,6 @@ end)
 
 later(function()
   add({
-    source = "Bekaboo/dropbar.nvim",
-  })
-  source("config/dropbar.lua")
-end)
-
-later(function()
-  add({
     source = "mfussenegger/nvim-dap",
     depends = {
       "rcarriga/nvim-dap-ui",

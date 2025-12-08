@@ -4,7 +4,6 @@ return {
   ["conform.nvim"] = "ffe26e8df8115c9665d24231f8a49fadb2d611ce",
   ["diffview.nvim"] = "4516612fe98ff56ae0415a259ff6361a89419b0a",
   ["dressing.nvim"] = "2d7c2db2507fa3c4956142ee607431ddb2828639",
-  ["dropbar.nvim"] = "ce202248134e3949aac375fd66c28e5207785b10",
   ["friendly-snippets"] = "572f5660cf05f8cd8834e096d7b4c921ba18e175",
   ["indent-blankline.nvim"] = "005b56001b2cb30bfa61b7986bc50657816ba4ba",
   ["lazydev.nvim"] = "5231c62aa83c2f8dc8e7ba957aa77098cda1257d",
