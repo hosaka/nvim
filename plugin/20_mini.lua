@@ -237,6 +237,10 @@ end)
 -- end)
 
 later(function()
+  require("mini.cmdline").setup()
+end)
+
+later(function()
   require("mini.cursorword").setup()
 end)
 

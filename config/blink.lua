@@ -68,8 +68,12 @@ require("blink.cmp").setup({
       winblend = vim.o.winblend,
     },
   },
+  cmdline = {
+    -- mini.cmdline is good enough
+    enabled = false,
+  },
   sources = {
-    default = { "lsp", "buffer", "path", "snippets", "cmdline" },
+    default = { "lsp", "buffer", "path", "snippets" },
     per_filetype = {
       lua = { inherit_defaults = true, "lazydev" },
     },
