@@ -25,6 +25,6 @@ end)
 
 -- read mise env and append it to vim.ENV
 -- can be done automatically or using Mise command
-require("hosaka.mise").setup({
+require("mise").setup({
   autoload = true,
 })
