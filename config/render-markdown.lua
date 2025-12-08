@@ -1,6 +1,6 @@
 require("render-markdown").setup({
   render_modes = { "n", "i", "c" },
-  file_types = { "markdown", "Avante" },
+  file_types = { "markdown" },
   completions = {
     lsp = { enabled = true },
     -- blink = { enabled = true },
