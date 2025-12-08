@@ -84,6 +84,7 @@ mapl("bd", [[<cmd>lua MiniBufremove.delete()<cr>]], { desc = "Delete" })
 mapl("bD", [[<cmd>lua MiniBufremove.delete(0, true)<cr>]], { desc = "Delete!" })
 mapl("bw", [[<cmd>lua MiniBufremove.wipeout()<cr>]], { desc = "Wipeout" })
 mapl("bW", [[<cmd>lua MiniBufremove.wipeout(0, true)<cr>]], { desc = "Wipeout!" })
+mapl("by", [[<cmd>lua Hosaka.copy_relative_filepath()<cr>]], { desc = "Yank filepath" })
 
 -- c is for code
 -- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps

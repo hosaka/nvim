@@ -55,4 +55,10 @@ function Hosaka.new_scratch_buffer()
   return buffer
 end
 
+function Hosaka.copy_relative_filepath()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  vim.notify(path)
+end
+
 return Hosaka
