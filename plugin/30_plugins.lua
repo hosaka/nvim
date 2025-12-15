@@ -12,6 +12,11 @@ now(function()
   vim.cmd([[colorscheme tokyonight]])
 end)
 
+now(function()
+  add({ source = "b0o/incline.nvim" })
+  source("config/incline.lua")
+end)
+
 later(function()
   add({ source = "folke/lazydev.nvim" })
   require("lazydev").setup({

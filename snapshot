@@ -5,6 +5,7 @@ return {
   ["diffview.nvim"] = "4516612fe98ff56ae0415a259ff6361a89419b0a",
   ["dressing.nvim"] = "2d7c2db2507fa3c4956142ee607431ddb2828639",
   ["friendly-snippets"] = "572f5660cf05f8cd8834e096d7b4c921ba18e175",
+  ["incline.nvim"] = "6a3b0635bcd2490dbb1fa124217d41bf69ca0fa2",
   ["indent-blankline.nvim"] = "005b56001b2cb30bfa61b7986bc50657816ba4ba",
   ["lazydev.nvim"] = "5231c62aa83c2f8dc8e7ba957aa77098cda1257d",
   ["lsp_lines.nvim"] = "a92c755f182b89ea91bd8a6a2227208026f27b4d",
