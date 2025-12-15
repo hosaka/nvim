@@ -237,7 +237,14 @@ end)
 -- end)
 
 later(function()
-  require("mini.cmdline").setup()
+  local block_compltype = { shellcmd = true }
+  require("mini.cmdline").setup({
+    autocomplete = {
+      predicate = function()
+        return not block_compltype[vim.fn.getcmdcompltype()]
+      end,
+    },
+  })
 end)
 
 later(function()

@@ -17,7 +17,8 @@ o.sessionoptions = concat({ "buffers", "curdir", "tabpages", "winsize", "help", 
 o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit stored shared data
 o.switchbuf = "usetab" -- Use already opened buffers when switching
 o.undofile = true -- Enable persistent undo
-o.wildmode = "longest:full,full" -- Command-line completion mode
+o.wildmode = "noselect,full" -- Command-line completion mode, do not preselect matches
+o.wildoptions = "pum,fuzzy" -- Command-line completion, enable fuzzy matching
 o.writebackup = false -- Don't store backups while overwriting the file
 vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
