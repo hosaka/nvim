@@ -16,17 +16,15 @@ local languages = {
   "yaml",
 }
 
-local treesitter = require("nvim-treesitter")
-local treesitter_config = require("nvim-treesitter.config")
-local parsers_installed = treesitter_config.get_installed("parsers")
+local ts = require("nvim-treesitter")
 local parsers_to_install = vim
   .iter(languages)
   :filter(function(parser)
-    return not vim.tbl_contains(parsers_installed, parser)
+    return not vim.tbl_contains(ts.get_installed("parsers"), parser)
   end)
   :totable()
 if #parsers_to_install > 0 then
-  treesitter.install(parsers_to_install)
+  ts.install(parsers_to_install)
 end
 
 -- better filetypes
@@ -69,16 +67,16 @@ vim.api.nvim_create_autocmd("FileType", {
       return
     end
 
-    local config = require("nvim-treesitter.config")
+    local ts = require("nvim-treesitter")
 
     -- if a parser is already installed, start it as usual
     -- if there is a parser bundled with nvim, no need to install it again
     -- otherwise, if parser is available, try to install it
-    if vim.tbl_contains(config.get_installed("parsers"), lang) then
+    if vim.tbl_contains(ts.get_installed("parsers"), lang) then
       nvim_treesitter_start(buffer, lang)
     elseif vim.treesitter.language.add(lang) then
       nvim_treesitter_start(buffer, lang, false)
-    elseif vim.tbl_contains(config.get_available(), lang) then
+    elseif vim.tbl_contains(ts.get_available(), lang) then
       vim.notify(string.format("Installing TS parser for %s", lang), vim.log.levels.INFO)
       treesitter.install({ lang }):await(function()
         nvim_treesitter_start(buffer, lang)
