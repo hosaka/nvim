@@ -174,7 +174,10 @@ later(function()
 end)
 
 later(function()
-  add({
-    source = "wakatime/vim-wakatime",
-  })
+  add({ source = "wakatime/vim-wakatime" })
+end)
+
+later(function()
+  add({ source = "stevearc/overseer.nvim" })
+  source("config/overseer.lua")
 end)

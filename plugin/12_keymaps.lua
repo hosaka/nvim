@@ -159,7 +159,7 @@ mapl("fp", [[<cmd>Pick projects<cr>]], { desc = "Projects" })
 mapl("fz", [[<cmd>Pick spellsuggest<cr>]], { desc = "Spelling suggestions" })
 mapl("fR", [[<cmd>Pick lsp scope="references"<cr>]], { desc = "References (LSP)" })
 mapl("fs", [[<cmd>Pick lsp scope="workspace_symbol"<cr>]], { desc = "Symbol workspace (LSP)" })
-mapl("fS", [[<cmd>Pick lsp scope="document_symbol"<cr>]], { desc = "Symbol buffer (LSP)" })
+mapl("fS", [[<cmd>Pick lsp scope="document_symbol_live"<cr>]], { desc = "Symbol buffer (LSP)" })
 
 -- g is for git
 local git_log_cmd = [[Git log --pretty=format:\%h\ \%as\ |\ \%s --topo-order]]
@@ -229,6 +229,8 @@ mapl("rdu", [[<cmd>DepsUpdate<cr>]], { desc = "Update" })
 mapl("rds", [[<cmd>DepsSnapSave<cr>]], { desc = "Save snapshot" })
 mapl("rdl", [[<cmd>DepsSnapLoad<cr>]], { desc = "Load snapshot" })
 mapl("rdc", [[<cmd>DepsClean<cr>]], { desc = "Clean" })
+mapl("rr", [[<cmd>OverseerRun<cr>]], { desc = "Run" })
+mapl("rt", [[<cmd>OverseerToggle<cr>]], { desc = "Toggle" })
 
 -- t is for terminal
 mapl("tt", [[<cmd>execute v:count1 . "ToggleTerm"<cr>]], { desc = "Toggle" })
