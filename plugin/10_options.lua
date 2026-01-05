@@ -167,7 +167,11 @@ end
 
 if vim.fn.has("nvim-0.12") == 1 then
   o.pummaxwidth = 100 -- Popup menu maximum width
+  o.completetimeout = 100
   o.pumborder = "rounded" -- Use rounded border for popup menus
+
+  -- Enable experimental UI grid
+  require("vim._extui").enable({ enable = true })
 end
 
 -- Diagnostics (delayed to avoid sourcing `vim.diagnostic` on startup)
