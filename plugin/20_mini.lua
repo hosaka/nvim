@@ -165,6 +165,7 @@ later(function()
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
       miniclue.gen_clues.registers(),
+      miniclue.gen_clues.square_brackets(),
       miniclue.gen_clues.windows({
         submode_move = true,
         submode_resize = true,
@@ -173,36 +174,28 @@ later(function()
     },
     triggers = {
       -- leader
-      { mode = "n", keys = "<leader>" },
-      { mode = "x", keys = "<leader>" },
+      { mode = { "n", "x" }, keys = "<leader>" },
+      -- options (mini.basics) disabled in favour of <Leader>o
+      -- { mode = "n", keys = "\\" },
       -- built-in
       { mode = "i", keys = "<c-x>" },
       -- goto
-      { mode = "n", keys = "g" },
-      { mode = "x", keys = "g" },
+      { mode = { "n", "x" }, keys = "g" },
       -- marks
-      { mode = "n", keys = "'" },
-      { mode = "x", keys = "'" },
-      { mode = "n", keys = "`" },
-      { mode = "x", keys = "`" },
-      -- nav
-      { mode = "n", keys = "[" },
-      { mode = "n", keys = "]" },
-      { mode = "x", keys = "[" },
-      { mode = "x", keys = "]" },
+      { mode = { "n", "x" }, keys = "'" },
+      { mode = { "n", "x" }, keys = "`" },
+      -- nav (mini.bracketed)
+      { mode = { "n", "x" }, keys = "[" },
+      { mode = { "n", "x" }, keys = "]" },
       -- registers
-      { mode = "n", keys = '"' },
-      { mode = "x", keys = '"' },
-      { mode = "i", keys = "<c-r>" },
-      { mode = "c", keys = "<c-r>" },
+      { mode = { "n", "x" }, keys = '"' },
+      { mode = { "i", "c" }, keys = "<c-r>" },
       -- window
       { mode = "n", keys = "<c-w>" },
       -- z key
-      { mode = "n", keys = "z" },
-      { mode = "x", keys = "z" },
+      { mode = { "n", "x" }, keys = "z" },
       -- s key
-      { mode = "n", keys = "s" },
-      { mode = "x", keys = "s" },
+      { mode = { "n", "x" }, keys = "s" },
     },
     window = {
       config = {

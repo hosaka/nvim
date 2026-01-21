@@ -32,7 +32,6 @@ end, { expr = true })
 
 -- global table for mini.clue groups
 Config.mini.clues = {
-  { mode = "n", keys = "<Leader>a", desc = "+Assist" },
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
   { mode = "n", keys = "<Leader>d", desc = "+Debug" },
@@ -47,7 +46,6 @@ Config.mini.clues = {
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
-  { mode = "x", keys = "<Leader>a", desc = "+Assist" },
   { mode = "x", keys = "<Leader>c", desc = "+Code" },
   { mode = "x", keys = "<Leader>g", desc = "+Git" },
   { mode = "x", keys = "<Leader>r", desc = "+Run" },
@@ -85,6 +83,7 @@ mapl("bD", [[<cmd>lua MiniBufremove.delete(0, true)<cr>]], { desc = "Delete!" })
 mapl("bw", [[<cmd>lua MiniBufremove.wipeout()<cr>]], { desc = "Wipeout" })
 mapl("bW", [[<cmd>lua MiniBufremove.wipeout(0, true)<cr>]], { desc = "Wipeout!" })
 mapl("by", [[<cmd>lua Hosaka.copy_relative_filepath()<cr>]], { desc = "Yank filepath" })
+mapl("bo", [[<cmd>%bdelete|edit#<cr>]], { desc = "Close others" })
 
 -- c is for code
 -- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
@@ -111,7 +110,15 @@ mapl("dh", [[<cmd>lua require("dap.ui.widgets").hover()<cr>]], { desc = "Hover" 
 mapl("du", [[<cmd>lua require("dapui").toggle()<cr>]], { desc = "Toggle UI" })
 mapl("dw", [[<cmd>lua require("dapui").elements.watches.add(vim.fn.expand("<cword>"))<cr>]], { desc = "Watch" })
 
--- e is for edit
+-- e is for edit/explore
+local explore_locations = function()
+  vim.cmd(vim.fn.getloclist(0, { winid = true }).winid ~= 0 and "lclose" or "lopen")
+end
+
+local explore_quickfix = function()
+  vim.cmd(vim.fn.getqflist({ winid = true }).winid ~= 0 and "cclose" or "copen")
+end
+
 mapl("en", [[<cmd>enew<cr>]], { desc = "New file" })
 mapl("er", [[<cmd>lua Hosaka.lsp.rename_file()<cr>]], { desc = "Rename file" })
 mapl("ed", [[<cmd>lua MiniFiles.open()<cr>]], { desc = "Directory" })
@@ -125,6 +132,8 @@ mapl("ew", function()
     end
   end)
 end, { desc = "Write session" })
+mapl("eq", explore_quickfix, { desc = "Quickfix" })
+mapl("eQ", explore_locations, { desc = "Locations" })
 
 -- f is for find
 map(",", [[<cmd>Pick buf_lines_current<cr>]], { mode = { "n", "x" }, desc = "Buffer lines", nowait = true })
