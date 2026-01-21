@@ -51,7 +51,7 @@ Config.mini.clues = {
   { mode = "x", keys = "<Leader>r", desc = "+Run" },
   { mode = "x", keys = "<Leader>t", desc = "+Terminal" },
 
-  -- see `config/mini.surround.lua`
+  -- see `20_mini.lua`
   { mode = "n", keys = "gz", desc = "Surround" },
   { mode = "x", keys = "gz", desc = "Surround selection" },
 }
