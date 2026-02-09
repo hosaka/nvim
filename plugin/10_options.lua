@@ -171,7 +171,7 @@ if vim.fn.has("nvim-0.12") == 1 then
   o.pumborder = "rounded" -- Use rounded border for popup menus
 
   -- Enable experimental UI grid
-  require("vim._extui").enable({ enable = true })
+  require("vim._core.ui2").enable({ enable = true })
 end
 
 -- Diagnostics (delayed to avoid sourcing `vim.diagnostic` on startup)
