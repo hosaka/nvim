@@ -9,7 +9,6 @@ end
 now(function()
   add("folke/tokyonight.nvim")
   source("config/tokyonight.lua")
-  vim.cmd([[colorscheme tokyonight]])
 end)
 
 now(function()
