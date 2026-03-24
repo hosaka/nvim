@@ -28,6 +28,7 @@ require("conform").setup({
     lua = { "stylua" },
     markdown = { "injected" },
     python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+    json = { "jq" },
   },
   -- custom formatters
   formatters = {
