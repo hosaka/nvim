@@ -1,4 +1,4 @@
-local lsp = "just"
+local lsp = "just-lsp"
 if not vim.lsp.is_enabled(lsp) then
   vim.lsp.enable({ lsp })
 end
