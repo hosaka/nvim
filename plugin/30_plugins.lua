@@ -1,6 +1,5 @@
-local deps = require("mini.deps")
-local add, now, later = deps.add, deps.now, deps.later
-local now_if_args = _G.Config.now_if_args
+local add = require("mini.deps").add
+local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
 
 local source = function(path)
   return dofile(vim.fn.stdpath("config") .. "/" .. path)

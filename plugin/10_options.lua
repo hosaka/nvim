@@ -175,7 +175,7 @@ if vim.fn.has("nvim-0.12") == 1 then
 end
 
 -- Diagnostics (delayed to avoid sourcing `vim.diagnostic` on startup)
-require("mini.deps").later(function()
+Config.later(function()
   vim.diagnostic.config({
     -- underline = false,
     severity_sort = true,

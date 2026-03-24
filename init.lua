@@ -22,13 +22,19 @@ _G.Config = {
   },
 }
 
--- setup mini.deps immediately to use in during plugin config
-local deps = require("mini.deps")
-deps.setup({
+-- setup mini.deps immediately
+require("mini.deps").setup({
   path = {
     snapshot = Config.mini.snapshot,
   },
 })
 
--- custom `now` or `later` helper
-_G.Config.now_if_args = vim.fn.argc(-1) > 0 and deps.now or deps.later
+-- loading helpers
+local misc = require("mini.misc")
+-- stylua: ignore start
+Config.now = function(f) misc.safely("now", f) end
+Config.later = function(f) misc.safely("later", f) end
+Config.now_if_args = vim.fn.argc(-1) > 0 and Config.now or Config.later
+Config.on_event = function(ev, f) misc.safely("event:" .. ev, f) end
+Config.on_filetype = function(ft, f) misc.safely("filetype:" .. ft, f) end
+-- stylua: ignore end
