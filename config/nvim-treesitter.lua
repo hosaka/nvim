@@ -1,7 +1,7 @@
--- these parsers will always be installed
--- any others supported by treesitter will be installed when a filetype is opened and no compatible
--- parser is bundled with neovim
-local languages = {
+-- these parsers will always be installed if not yet installed
+-- any others supported by treesitter will be installed when a filetype is opened
+-- and no compatible parser is bundled with neovim
+local ts_parsers = {
   "bash",
   "diff",
   "dockerfile",
@@ -18,7 +18,7 @@ local languages = {
 
 local ts = require("nvim-treesitter")
 local parsers_to_install = vim
-  .iter(languages)
+  .iter(ts_parsers)
   :filter(function(parser)
     return not vim.tbl_contains(ts.get_installed("parsers"), parser)
   end)
@@ -67,18 +67,18 @@ vim.api.nvim_create_autocmd("FileType", {
       return
     end
 
-    local ts = require("nvim-treesitter")
-
     -- if a parser is already installed, start it as usual
-    -- if there is a parser bundled with nvim, no need to install it again
-    -- otherwise, if parser is available, try to install it
     if vim.tbl_contains(ts.get_installed("parsers"), lang) then
       nvim_treesitter_start(buffer, lang)
+
+    -- if there is a parser bundled with nvim, no need to install it again
     elseif vim.treesitter.language.add(lang) then
       nvim_treesitter_start(buffer, lang, false)
+
+    -- otherwise, if parser is available, try to install it
     elseif vim.tbl_contains(ts.get_available(), lang) then
       vim.notify(string.format("Installing TS parser for %s", lang), vim.log.levels.INFO)
-      treesitter.install({ lang }):await(function()
+      ts.install({ lang }):await(function()
         nvim_treesitter_start(buffer, lang)
       end)
     end
