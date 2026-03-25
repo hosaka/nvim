@@ -31,7 +31,7 @@ end, { expr = true })
 -- leader maps
 
 -- global table for mini.clue groups
-Config.mini.clues = {
+Config.miniclues = {
   { mode = "n", keys = "<Leader>b", desc = "+Buffer" },
   { mode = "n", keys = "<Leader>c", desc = "+Code" },
   { mode = "n", keys = "<Leader>d", desc = "+Debug" },
@@ -42,7 +42,7 @@ Config.mini.clues = {
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
-  { mode = "n", keys = "<Leader>rd", desc = "+Deps" },
+  { mode = "n", keys = "<Leader>rp", desc = "+Plugins" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
@@ -234,10 +234,8 @@ mapl("rc", function()
     vim.cmd("source" .. config_path)
   end
 end, { desc = "Config reload" })
-mapl("rdu", [[<cmd>DepsUpdate<cr>]], { desc = "Update" })
-mapl("rds", [[<cmd>DepsSnapSave<cr>]], { desc = "Save snapshot" })
-mapl("rdl", [[<cmd>DepsSnapLoad<cr>]], { desc = "Load snapshot" })
-mapl("rdc", [[<cmd>DepsClean<cr>]], { desc = "Clean" })
+mapl("rpu", [[<cmd><cr>]], { desc = "Update" })
+mapl("rpl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List plugins" })
 mapl("rr", [[<cmd>OverseerRun<cr>]], { desc = "Run" })
 mapl("rt", [[<cmd>OverseerToggle<cr>]], { desc = "Toggle" })
 

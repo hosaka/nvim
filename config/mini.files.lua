@@ -71,8 +71,8 @@ vim.api.nvim_create_autocmd("User", {
   pattern = "MiniFilesExplorerOpen",
   callback = function()
     MiniFiles.set_bookmark("c", vim.fn.stdpath("config"), { desc = "Config" })
-    MiniFiles.set_bookmark("m", vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim", { desc = "mini.nvim" })
-    MiniFiles.set_bookmark("p", vim.fn.stdpath("data") .. "/site/pack/deps/opt", { desc = "Plugins" })
+    MiniFiles.set_bookmark("m", vim.fn.stdpath("data") .. "/site/pack/core/opt/mini.nvim", { desc = "mini.nvim" })
+    MiniFiles.set_bookmark("p", vim.fn.stdpath("data") .. "/site/pack/core/opt", { desc = "Plugins" })
     MiniFiles.set_bookmark("w", vim.fn.getcwd, { desc = "Working directory" })
   end,
 })
@@ -97,7 +97,7 @@ require("mini.files").setup({
     width_preview = 100,
   },
   options = {
-    -- replacing netrw breaks nvim scp://user@host//path/to/file
+    -- replacing netrw breaks nvim scp://user@host:path/to/file
     use_as_default_explorer = false,
   },
   mappings = {

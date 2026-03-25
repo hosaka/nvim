@@ -1,5 +1,3 @@
-local deps = require("mini.deps")
-
-deps.now(function()
+Config.now(function()
   require("hosaka").setup()
 end)

@@ -1,14 +1,11 @@
-local add = require("mini.deps").add
 local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
 
 local source = function(path)
   return dofile(vim.fn.stdpath("config") .. "/" .. path)
 end
 
--- make mini.nvim part of the deps snapshot
-add({ name = "mini.nvim", checkout = "main" })
+-- immediate config ------------------------------------------------------------
 
--- immediate config
 now(function()
   require("mini.basics").setup({
     options = {
@@ -101,6 +98,14 @@ now(function()
   require("mini.statusline").setup()
 end)
 
+now(function()
+  require("mini.tabline").setup({
+    tabpage_section = "right",
+  })
+end)
+
+-- immediate or delayed config -------------------------------------------------
+
 now_if_args(function()
   local minimisc = require("mini.misc")
   minimisc.setup({
@@ -114,13 +119,26 @@ now_if_args(function()
   minimisc.setup_termbg_sync()
 end)
 
-now(function()
-  require("mini.tabline").setup({
-    tabpage_section = "right",
-  })
-end)
+-- now_if_args(function()
+--   local minicomplete = require("mini.completion")
+--   minicomplete.setup({
+--     lsp_completion = {
+--       source_func = "omnifunc",
+--       -- omnifunc is set per buffer in LSP on_attach
+--       auto_setup = false,
+--       process_items = function(items, base)
+--         -- don't show Text suggestions
+--         items = vim.tbl_filter(function(item)
+--           return item.kind ~= 1
+--         end, items)
+--         return minicomplete.default_process_items(items, base)
+--       end,
+--     },
+--   })
+-- end)
 
--- delayed config
+-- delayed config --------------------------------------------------------------
+
 later(function()
   require("mini.extra").setup()
 end)
@@ -159,7 +177,7 @@ later(function()
   local miniclue = require("mini.clue")
   miniclue.setup({
     clues = {
-      Config.mini.clues,
+      Config.miniclues,
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
       miniclue.gen_clues.marks(),
@@ -207,28 +225,6 @@ later(function()
 end)
 
 later(function()
-  require("mini.comment").setup()
-end)
-
--- later(function()
---   local minicomplete = require("mini.completion")
---   minicomplete.setup({
---     lsp_completion = {
---       source_func = "omnifunc",
---       -- omnifunc is set per buffer in LSP on_attach
---       auto_setup = false,
---       process_items = function(items, base)
---         -- don't show Text suggestions
---         items = vim.tbl_filter(function(item)
---           return item.kind ~= 1
---         end, items)
---         return minicomplete.default_process_items(items, base)
---       end,
---     },
---   })
--- end)
-
-later(function()
   local block_compltype = { shellcmd = true }
   require("mini.cmdline").setup({
     autocomplete = {
@@ -237,6 +233,10 @@ later(function()
       end,
     },
   })
+end)
+
+later(function()
+  require("mini.comment").setup()
 end)
 
 later(function()

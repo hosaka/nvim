@@ -2,10 +2,16 @@
 ---@class hosaka.keymap
 local HosakaKeymap = {}
 
+---@alias hosaka.keymap.MapOpts
+---| (vim.keymap.set.Opts | {mode: string | string[]})
+
+---@alias hosaka.keymap.Mapper
+---| fun(lhs: string, rhs: string|function, opts?: hosaka.keymap.MapOpts)
+
 --- Map a key in normal mode or use `opts.mode`.
 ---@param lhs string
 ---@param rhs string|function
----@param opts? vim.keymap.set.Opts | { mode: string | string[] }
+---@param opts? hosaka.keymap.MapOpts
 function HosakaKeymap.map(lhs, rhs, opts)
   opts = opts or {}
   local mode = opts.mode or "n"
@@ -16,7 +22,7 @@ end
 --- Map a key with <Leader> prefix in normal mode or use `opts.mode`
 ---@param lhs string
 ---@param rhs string|function
----@param opts? vim.keymap.set.Opts | { mode: string | string[] }
+---@param opts? hosaka.keymap.MapOpts
 function HosakaKeymap.mapl(lhs, rhs, opts)
   HosakaKeymap.map("<Leader>" .. lhs, rhs, opts)
 end

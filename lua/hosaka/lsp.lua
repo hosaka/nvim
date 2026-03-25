@@ -12,8 +12,6 @@ function H.realpath(path)
   return vim.fs.normalize(H.uv.fs_realpath(path) or path)
 end
 
---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: vim.lsp.Client):boolean}
-
 --- Trigger LSP rename on clients that support it
 ---@param from string
 ---@param to string

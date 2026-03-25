@@ -3,10 +3,10 @@ local mapl = Hosaka.keymap.mapl
 
 --- LSP keybind.
 ---@class LspKeybind
----@field mapper fun(lhs: string, rhs: string, opts?: vim.keymap.set.Opts | {mode: string | string[]}) Function used to register the keybinding
+---@field mapper hosaka.keymap.Mapper
 ---@field lhs string Binding LHS
 ---@field rhs string|function Binding RHS
----@field opts? vim.keymap.set.Opts | {mode: string | string[]}
+---@field opts? hosaka.keymap.MapOpts
 
 --- Toggle LSP keybind. Default description is "Toggle `name`".
 ---@class LspToggleKeybind
@@ -15,16 +15,15 @@ local mapl = Hosaka.keymap.mapl
 ---@field name string Toggle name
 ---@field get fun(buffer: integer):fun() Passed current LSP buffer to create a getter
 ---@field set fun(buffer: integer):fun(state: boolean) Passed current LSP buffer to create a setter
----@field opts? vim.keymap.set.Opts | { mode: string | string[] }
+---@field opts? hosaka.keymap.MapOpts
 
 --- Key bindings to be created on `LspAttach` and removed on `LspDetach`.
 --- Entries can contain:
---- - A numeric key containing uncoditional bindings applied to all LSP clients.
 --- - A string key corresponding to an LSP capability (e.g "textDocument/definition"), containing
 ---   bindings that are only applied if the LSP client supports that method.
----@type table<string|integer, (LspKeybind|LspToggleKeybind)[]>
+---@type table<vim.lsp.protocol.Method.ClientToServer | vim.lsp.protocol.Method.Registration, (LspKeybind|LspToggleKeybind)[]>
 local bindings = {
-  {
+  ["textDocument/hover"] = {
     { mapper = map, lhs = "K", rhs = "<cmd>lua vim.lsp.buf.hover()<cr>", opts = { desc = "Hover popup" } },
   },
   ["textDocument/definition"] = {
@@ -89,7 +88,11 @@ local bindings = {
   ["textDocument/references"] = {
     { mapper = mapl, lhs = "cR", rhs = "<cmd>lua vim.lsp.buf.references()<cr>", opts = { desc = "Find references" } },
   },
-  ["textDocument/publishDiagnostics"] = {
+  -- fixme: this should be behind textDocument/publishDiagnostics capability
+  -- in nvim 0.12 nightlies, the LSP client:supports_method() no longer accepts this capability and
+  -- always returns false, preventing us from adding these bindings, this will likely have a solution
+  -- in the stable 0.12 release
+  ["textDocument/hover"] = {
     {
       mapper = mapl,
       lhs = "cd",
@@ -149,6 +152,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local buffer = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
 
+    if client == nil then
+      return
+    end
+
     -- use mini.completion
     -- vim.bo[buffer].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
 
@@ -160,10 +167,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- create keybindings
     for capability, binding in pairs(bindings) do
-      if type(capability) ~= "string" or client:supports_method(capability) then
+      if client:supports_method(capability) then
         for _, keybind in ipairs(binding) do
           local opts = keybind.opts or {}
-          opts.buffer = buffer
+          opts.buf = buffer
+
           if keybind.toggle then
             Hosaka.toggle({
               name = keybind.name,
@@ -171,7 +179,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
               set = keybind.set(buffer),
             }):mapl(keybind.lhs, opts)
           else
-            opts.buffer = buffer
             keybind.mapper(keybind.lhs, keybind.rhs, opts)
           end
         end
@@ -180,16 +187,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.api.nvim_create_autocmd("LspDetach", {
-  group = Hosaka.augroup("lsp_detach"),
-  callback = function(event)
-    local buffer = event.buf
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    -- todo: unmap bindings
-  end,
-})
-
-if vim.fn.has("nvim-0.11") == 0 then
-  -- todo: fallback to nvim-lspconfig?
-  return
-end
+-- todo: unmap bindings
+-- vim.api.nvim_create_autocmd("LspDetach", {
+--   group = Hosaka.augroup("lsp_detach"),
+--   callback = function(event)
+--     local buffer = event.buf
+--     local client = vim.lsp.get_client_by_id(event.data.client_id)
+--   end,
+-- })

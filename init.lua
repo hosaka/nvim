@@ -1,33 +1,24 @@
--- bootstrap mini.nvim manually so it gets managed by mini.deps
-local mini_path = vim.fn.stdpath("data") .. "/site/pack/deps/start/mini.nvim"
-if not vim.loop.fs_stat(mini_path) then
-  vim.cmd([[echo "Installing `mini.nvim`" | redraw]])
-  local clone_cmd = {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/nvim-mini/mini.nvim",
-    mini_path,
-  }
-  vim.fn.system(clone_cmd)
-  vim.cmd([[packadd mini.nvim | helptags ALL]])
-  vim.cmd([[echo "Installed `mini.nvim`" | redraw]])
+if vim.fn.has("nvim-0.12") == 0 then
+  vim.pack = {}
+  vim.pack.add = function(specs, opts)
+    specs = vim.tbl_map(function(s)
+      return type(s) == "string" and { src = s } or s
+    end, specs)
+    opts = vim.tbl_extend("force", { load = vim.v.did_init == 1 }, opts or {})
+
+    local cmd_prefix = "packadd" .. (opts.load and "" or "!")
+    for _, s in ipairs(specs) do
+      local name = s.name or s.src:match("/([^/]+)$")
+      vim.cmd(cmd_prefix .. name)
+    end
+  end
 end
 
 -- global config table
-_G.Config = {
-  mini = {
-    -- default path for mini.deps to save snapshots
-    snapshot = vim.fn.stdpath("config") .. "/snapshot",
-  },
-}
+_G.Config = {}
 
--- setup mini.deps immediately
-require("mini.deps").setup({
-  path = {
-    snapshot = Config.mini.snapshot,
-  },
-})
+-- install 'mini.nvim'
+vim.pack.add({ "https://github.com/nvim-mini/mini.nvim" })
 
 -- loading helpers
 local misc = require("mini.misc")
