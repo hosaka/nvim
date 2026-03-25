@@ -111,6 +111,10 @@ mapl("du", [[<cmd>lua require("dapui").toggle()<cr>]], { desc = "Toggle UI" })
 mapl("dw", [[<cmd>lua require("dapui").elements.watches.add(vim.fn.expand("<cword>"))<cr>]], { desc = "Watch" })
 
 -- e is for edit/explore
+local edit_config_file = function(filename)
+  return string.format("<cmd>edit %s/plugin/%s<cr>", vim.fn.stdpath("config"), filename)
+end
+
 local explore_locations = function()
   vim.cmd(vim.fn.getloclist(0, { winid = true }).winid ~= 0 and "lclose" or "lopen")
 end
@@ -119,10 +123,13 @@ local explore_quickfix = function()
   vim.cmd(vim.fn.getqflist({ winid = true }).winid ~= 0 and "cclose" or "copen")
 end
 
-mapl("en", [[<cmd>enew<cr>]], { desc = "New file" })
 mapl("er", [[<cmd>lua Hosaka.lsp.rename_file()<cr>]], { desc = "Rename file" })
 mapl("ed", [[<cmd>lua MiniFiles.open()<cr>]], { desc = "Directory" })
 mapl("ec", [[<cmd>lua MiniFiles.open(vim.fn.stdpath("config"))<cr>]], { desc = "Config" })
+mapl("eo", edit_config_file("10_options"), { desc = "Options config" })
+mapl("ek", edit_config_file("12_keymaps.lua"), { desc = "Keymaps config" })
+mapl("ep", edit_config_file("30_plugins"), { desc = "Plugins config" })
+mapl("en", [[<cmd>lua MiniNotify.show_history()<cr>]], { desc = "Notifications" })
 mapl("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], { desc = "File directory" })
 mapl("es", [[<cmd>lua MiniSessions.select()<cr>]], { desc = "Sessions" })
 mapl("ew", function()
