@@ -79,12 +79,33 @@ now_if_args(function()
 end)
 
 now_if_args(function()
-  -- neovim >= 0.11 introduced vim.lsp.config which we use
+  -- neovim >= 0.11 introduced vim.lsp.enable
   if vim.fn.has("nvim-0.11") == 0 then
     return
   end
+
   add({ "https://github.com/neovim/nvim-lspconfig" })
   source("config/nvim-lspconfig.lua")
+
+  -- enable all LSPs
+  vim.lsp.enable({
+    "bashls",
+    "clangd",
+    "dockerls",
+    "eslint",
+    "gopls",
+    "jsonls",
+    "just",
+    "lua_ls",
+    "marksman",
+    "ruff",
+    "rust_analyzer",
+    "taplo",
+    "ty",
+    "vtsls",
+    "yamlls",
+    "zls",
+  })
 end)
 
 now_if_args(function()
@@ -93,20 +114,6 @@ now_if_args(function()
 end)
 
 -- delayed config --------------------------------------------------------------
-
-later(function()
-  add({ "https://github.com/folke/lazydev.nvim" })
-  require("lazydev").setup({
-    library = {
-      "nvim-dap-ui",
-      -- load luvit types when `vim.uv` or `vim.loop` word is found
-      { path = "${3rd}/luv/library", words = { "vim%.uv", "vim%.loop" } },
-    },
-    integrations = {
-      lspconfig = true,
-    },
-  })
-end)
 
 later(function()
   add({ "https://github.com/stevearc/dressing.nvim" })
@@ -197,4 +204,18 @@ end)
 on_filetype("markdown", function()
   add({ "https://github.com/MeanderingProgrammer/render-markdown.nvim" })
   source("config/render-markdown.lua")
+end)
+
+on_filetype("lua", function()
+  add({ "https://github.com/folke/lazydev.nvim" })
+  require("lazydev").setup({
+    library = {
+      "nvim-dap-ui",
+      -- load luvit types when `vim.uv` or `vim.loop` word is found
+      { path = "${3rd}/luv/library", words = { "vim%.uv", "vim%.loop" } },
+    },
+    integrations = {
+      lspconfig = true,
+    },
+  })
 end)
