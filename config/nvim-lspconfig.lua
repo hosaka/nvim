@@ -82,6 +82,9 @@ local bindings = {
       opts = { desc = "Action", mode = { "n", "x" } },
     },
   },
+  ["textDocument/codeLens"] = {
+    { mapper = mapl, lhs = "cc", rhs = "<cmd>lua vim.lsp.codelens.run()<cr>", opts = { desc = "Codelens" } },
+  },
   ["textDocument/rename"] = {
     { mapper = mapl, lhs = "cr", rhs = "<cmd>lua vim.lsp.buf.rename()<cr>", opts = { desc = "Rename symbol" } },
   },
@@ -113,13 +116,13 @@ local bindings = {
       toggle = true,
       lhs = "od",
       name = "line diagnostics",
-      get = function(buffer)
+      get = function()
         -- note: assuming using lsp_lines plugin
         return function()
           return not vim.diagnostic.config().virtual_lines
         end
       end,
-      set = function(buffer)
+      set = function()
         return function(state)
           vim.diagnostic.config({ virtual_text = state, virtual_lines = not state })
         end
