@@ -241,8 +241,8 @@ mapl("rc", function()
     vim.cmd("source" .. config_path)
   end
 end, { desc = "Config reload" })
-mapl("rpu", [[<cmd><cr>]], { desc = "Update" })
-mapl("rpl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List plugins" })
+mapl("rpu", [[<cmd>lua vim.pack.update()<cr>]], { desc = "Update" })
+mapl("rpl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List" })
 mapl("rr", [[<cmd>OverseerRun<cr>]], { desc = "Run" })
 mapl("rt", [[<cmd>OverseerToggle<cr>]], { desc = "Toggle" })
 
