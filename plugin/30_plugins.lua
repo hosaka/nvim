@@ -79,7 +79,10 @@ now_if_args(function()
 end)
 
 now_if_args(function()
-  add({ "https://github.com/neovim/nvim-lspconfig" })
+  add({
+    "https://github.com/neovim/nvim-lspconfig",
+    "https://github.com/b0o/SchemaStore.nvim",
+  })
   source("config/nvim-lspconfig.lua")
 
   -- enable all LSPs
