@@ -1,27 +1,19 @@
+local map = Hosaka.keymap.map
+local mapl = Hosaka.keymap.mapl
+
 -- basic maps
 -- note: a lot of mappings are defined by mini.basics, see `20_mini.lua`
 
 -- paste above/below linewise
-local pastecmd = vim.fn.has("nvim-0.12") == 1 and "iput" or "put"
-vim.keymap.set(
-  { "n", "x" },
-  "[p",
-  "<cmd>exe '" .. pastecmd .. "! ' . v:register<cr>",
-  { desc = "Paste above", silent = true }
-)
-vim.keymap.set(
-  { "n", "x" },
-  "]p",
-  "[[<cmd>exe '" .. pastecmd .. " ' . v:register<cr>",
-  { desc = "Paste below", silent = true }
-)
+map("]p", [[<cmd>exe 'iput ' . v:register<cr>]], { mode = { "n", "x" }, desc = "Paste below", silent = true })
+map("[p", [[<cmd>exe 'iput!' . v:register<cr>]], { mode = { "n", "x" }, desc = "Paste above", silent = true })
 
 -- search highlight
-vim.keymap.set("n", [[\h]], [[:let v:hlsearch = 1 - v:hlsearch<cr>]], { desc = "Toggle hlsearch", silent = true })
-vim.keymap.set({ "i", "n" }, [[<Esc>]], [[<cmd>nohlsearch<cr><esc>]], { desc = "Cancel hlsearch", silent = true })
+map([[\h]], [[:let v:hlsearch = 1 - v:hlsearch<cr>]], { desc = "Toggle hlsearch", silent = true })
+map([[<Esc>]], [[<cmd>nohlsearch<cr><esc>]], { mode = { "i", "n" }, desc = "Cancel hlsearch", silent = true })
 
 -- delete empty lines to blackhole
-vim.keymap.set("n", "dd", function()
+map("dd", function()
   if vim.fn.getline(".") == "" then
     return '"_dd'
   end
@@ -55,9 +47,6 @@ Config.miniclues = {
   { mode = "n", keys = "gz", desc = "Surround" },
   { mode = "x", keys = "gz", desc = "Surround selection" },
 }
-
-local map = Hosaka.keymap.map
-local mapl = Hosaka.keymap.mapl
 
 -- registers
 mapl("p", [["_dP]], { mode = "x", desc = "Paste to blackhole" })

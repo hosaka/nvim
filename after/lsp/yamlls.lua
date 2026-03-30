@@ -1,8 +1,9 @@
 return {
   on_attach = function(client, buffer)
-    if vim.fn.has("nvim-0.10") == 0 then
-      client.server_capabilities.documentFormattingProvider = true
-    end
+    --- Since formatting is disabled by default if you check `client:supports_method('textDocument/formatting')`
+    --- during `LspAttach` it will return `false`. This hack sets the capability to `true` to facilitate
+    --- autocmd's which check this capability
+    client.server_capabilities.documentFormattingProvider = true
   end,
   settings = {
     yaml = {

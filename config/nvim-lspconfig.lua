@@ -83,7 +83,7 @@ local bindings = {
     },
   },
   ["textDocument/codeLens"] = {
-    { mapper = mapl, lhs = "cc", rhs = "<cmd>lua vim.lsp.codelens.run()<cr>", opts = { desc = "Codelens" } },
+    { mapper = mapl, lhs = "cx", rhs = "<cmd>lua vim.lsp.codelens.run()<cr>", opts = { desc = "Codelens" } },
   },
   ["textDocument/rename"] = {
     { mapper = mapl, lhs = "cr", rhs = "<cmd>lua vim.lsp.buf.rename()<cr>", opts = { desc = "Rename symbol" } },
@@ -91,11 +91,8 @@ local bindings = {
   ["textDocument/references"] = {
     { mapper = mapl, lhs = "cR", rhs = "<cmd>lua vim.lsp.buf.references()<cr>", opts = { desc = "Find references" } },
   },
-  -- fixme: this should be behind textDocument/publishDiagnostics capability
-  -- in nvim 0.12 nightlies, the LSP client:supports_method() no longer accepts this capability and
-  -- always returns false, preventing us from adding these bindings, this will likely have a solution
-  -- in the stable 0.12 release
-  ["textDocument/hover"] = {
+  -- int nvim 0.12 the LSP client:supports_method() no longer accepts this capability but it still works
+  ["textDocument/publishDiagnostic"] = {
     {
       mapper = mapl,
       lhs = "cd",

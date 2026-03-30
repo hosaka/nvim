@@ -34,24 +34,26 @@ o.linebreak = true -- Wrap long lines at 'breakat' if 'wrap' is set
 o.list = true -- Show whitespaces and helper symbols
 o.number = true -- Show line numbers
 o.pumblend = 10 -- Popup transparency
+o.pumborder = "rounded" -- Use rounded border for popup menus
 o.pumheight = 10 -- Popup max number of entries
+o.pummaxwidth = 100 -- Popup menu maximum width
 o.relativenumber = true -- Relative line numbers
 o.ruler = false -- Don't show curor coordinates
 o.scrolloff = 4 -- Lines to keep above and below the cursor
-o.shortmess = "FOSWaco" -- Disable some messages from ins-completion-menu
+o.shortmess = "FOSWaCco" -- Disable some messages from ins-completion-menu
 o.showmode = false -- Don't show mode since we have a statusline
 o.sidescrolloff = 8 -- Columns to keep to the left and right around the cursor
 o.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+o.smoothscroll = true -- Scrolling works with screen lines
 o.splitbelow = true -- Put new windows below current
+o.splitkeep = "screen" -- Reduce scroll during window split
 o.splitright = true -- Put new windows right of current
+o.termguicolors = true -- Enable gui colors (>=0.10 enables this by default)
 o.virtualedit = "block" -- Allow cursor to move to virtual space in visual block mode
 o.winblend = 10 -- Floating windows transparency
+o.winborder = "rounded" -- Use rounded border by default
 o.winminwidth = 5 -- Minimum window width
 o.wrap = false -- Disable line wrap
-
-if vim.fn.has("nvim-0.10") == 0 then
-  o.termguicolors = true -- Enable gui colors (>=0.10 enables this by default)
-end
 
 o.fillchars = concat({
   "eob: ",
@@ -66,15 +68,9 @@ o.fillchars = concat({
 }) -- Special UI symbols
 o.listchars = concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }) -- Special text symbols
 
-if vim.fn.has("nvim-0.9") == 1 then
-  o.splitkeep = "screen" -- Reduce scroll during window split
-  opt.shortmess:append("WcC") -- Reduce command line messages
-else
-  opt.shortmess:append("Wc") -- Reduce command line messages
-end
-
-if vim.fn.has("nvim-0.10") == 1 then
-  o.smoothscroll = true
+if vim.fn.has("nvim-0.12") == 1 then
+  -- Enable experimental UI grid
+  require("vim._core.ui2").enable({ enable = true })
 end
 
 -- enable syntax highlight if it wasn't already (as it is time consuming)
@@ -86,7 +82,8 @@ vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
 
 -- Editing
 o.autoindent = true -- Use auto indent
-o.completeopt = concat({ "menuone", "noinsert", "noselect" }) -- Customize completions
+o.completeopt = concat({ "menuone", "noinsert", "noselect", "fuzzy" }) -- Customize completions
+o.completetimeout = 100 -- Auto completion timeout
 o.expandtab = true -- Use spaces instead of tabs
 o.formatoptions = "rnqjl1" -- Improve comment editing
 o.grepformat = "%f:%l:%c:%m" -- Grep formatting
@@ -158,20 +155,6 @@ if vim.treesitter.foldexpr then
 end
 if vim.treesitter.foldtext then
   o.foldtext = "v:lua.vim.treesitter.foldtext()"
-end
-
-if vim.fn.has("nvim-0.11") == 1 then
-  o.winborder = "rounded" -- Use rounded border by default
-  opt.completeopt:append("fuzzy") -- Use fuzzy matching for built-in completion
-end
-
-if vim.fn.has("nvim-0.12") == 1 then
-  o.pummaxwidth = 100 -- Popup menu maximum width
-  o.completetimeout = 100
-  o.pumborder = "rounded" -- Use rounded border for popup menus
-
-  -- Enable experimental UI grid
-  require("vim._core.ui2").enable({ enable = true })
 end
 
 -- Diagnostics (delayed to avoid sourcing `vim.diagnostic` on startup)

@@ -8,7 +8,7 @@ local error = vim.health.error or vim.health.report_error
 function M.check()
   start("Version")
 
-  M.neovim("0.9.4", "0.10")
+  M.neovim("0.12", "0.12")
 
   start("Tools")
   M.executable("git")
@@ -16,7 +16,6 @@ function M.check()
   start("Tools (optional)")
   M.executable("rg", "See https://github.com/BurntSushi/ripgrep")
   M.executable("lazygit", "See https://github.com/jesseduffield/lazygit")
-  M.executable("lazydocker", "See https://github.com/jesseduffield/lazydocker")
 end
 
 ---@private
