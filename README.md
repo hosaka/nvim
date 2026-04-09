@@ -53,3 +53,9 @@ I have previously used [mini.deps](https://github.com/nvim-mini/mini.nvim/blob/m
 ### Repo
 
 - [ ] Setup [pre-commit](https://pre-commit.com/) hooks
+
+## Mirrors
+This repository is hosted on [Forgejo](https://code.hosaka.cc/hosaka/nvim) which mirrors to the following git forges:
+- https://codeberg.org/hosaka/nvim
+- https://github.com/hosaka/nvim
+
