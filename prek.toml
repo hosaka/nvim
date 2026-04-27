@@ -1,0 +1,7 @@
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "check-toml" },
+  { id = "check-json" },
+  { id = "trailing-whitespace" },
+]
