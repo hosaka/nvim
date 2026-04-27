@@ -5,3 +5,8 @@ hooks = [
   { id = "check-json" },
   { id = "trailing-whitespace" },
 ]
+
+[[repos]]
+repo = "https://github.com/JohnnyMorganz/StyLua"
+rev = "v2.4.1"
+hooks = [{ id = "stylua-github", files = '\.lua$' }]

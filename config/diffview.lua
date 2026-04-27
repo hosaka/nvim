@@ -3,10 +3,10 @@ local tabclose = { "n", "<leader>q", [[<cmd>tabclose<cr>]], { desc = "Close Diff
 require("diffview").setup({
   keymaps = {
     view = {
-      tabclose
+      tabclose,
     },
     file_panel = {
-      tabclose
-    }
-  }
+      tabclose,
+    },
+  },
 })
