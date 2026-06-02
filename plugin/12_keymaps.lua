@@ -35,6 +35,7 @@ Config.miniclues = {
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
   { mode = "n", keys = "<Leader>rp", desc = "+Plugins" },
+  { mode = "n", keys = "<Leader>s", desc = "+Session" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
 
@@ -120,14 +121,6 @@ mapl("ek", edit_config_file("12_keymaps.lua"), { desc = "Keymaps config" })
 mapl("ep", edit_config_file("30_plugins"), { desc = "Plugins config" })
 mapl("en", [[<cmd>lua MiniNotify.show_history()<cr>]], { desc = "Notifications" })
 mapl("ef", [[<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<cr>]], { desc = "File directory" })
-mapl("es", [[<cmd>lua MiniSessions.select()<cr>]], { desc = "Sessions" })
-mapl("ew", function()
-  vim.ui.input({ prompt = "Session name" }, function(input)
-    if input then
-      require("mini.sessions").write(input)
-    end
-  end)
-end, { desc = "Write session" })
 mapl("eq", explore_quickfix, { desc = "Quickfix" })
 mapl("eQ", explore_locations, { desc = "Locations" })
 
@@ -148,7 +141,7 @@ mapl("fd", [[<cmd>Pick diagnostic scope="all"<cr>]], { desc = "Diagnostic (all)"
 mapl("fD", [[<cmd>Pick diagnostic scope="current"<cr>]], { desc = "Diagnostic (current)" })
 mapl("ff", [[<cmd>Pick files<cr>]], { desc = "Files" })
 mapl("fF", [[<cmd>Pick git_files<cr>]], { desc = "Git files" })
-mapl("fg", [[<cmd>Pick grep_live<cr>]], { desc = "Grep live" })
+mapl("fg", [[<cmd>Pick grep_live method="plain"<cr>]], { desc = "Grep live" })
 mapl("fw", [[<cmd>Pick grep pattern="<cword>"<cr>]], { desc = "Grep current word" })
 mapl("fW", [[<cmd>Pick grep pattern="<cWORD>"<cr>]], { desc = "Grep current WORD" })
 mapl("fh", [[<cmd>Pick help<cr>]], { desc = "Help" })
@@ -234,6 +227,13 @@ mapl("rpu", [[<cmd>lua vim.pack.update()<cr>]], { desc = "Update" })
 mapl("rpl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List" })
 mapl("rr", [[<cmd>OverseerRun<cr>]], { desc = "Run" })
 mapl("rt", [[<cmd>OverseerToggle<cr>]], { desc = "Toggle" })
+
+-- s is for session
+mapl("sd", [[<cmd>lua MiniSessions.select("delete")<cr>]], { desc = "Delete" })
+mapl("sn", [[<cmd>lua vim.ui.input({ prompt = "Session name"}, MiniSessions.write) <cr>]], { desc = "New" })
+mapl("sr", [[<cmd>lua MiniSessions.select("read")<cr>]], { desc = "Read" })
+mapl("sR", [[<cmd>lua MiniSessions.restart()<cr>]], { desc = "Restart" })
+mapl("sw", [[<cmd>lua MiniSessions.write()<cr>]], { desc = "Write current" })
 
 -- t is for terminal
 mapl("tt", [[<cmd>execute v:count1 . "ToggleTerm"<cr>]], { desc = "Toggle" })
