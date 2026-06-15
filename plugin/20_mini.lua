@@ -275,6 +275,10 @@ later(function()
 end)
 
 later(function()
+  require("mini.input").setup()
+end)
+
+later(function()
   require("mini.jump").setup()
 end)
 
