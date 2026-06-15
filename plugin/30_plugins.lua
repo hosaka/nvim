@@ -53,14 +53,7 @@ end)
 
 now_if_args(function()
   add({
-    {
-      src = "https://github.com/nvim-treesitter/nvim-treesitter",
-      data = {
-        on_update = function()
-          vim.cmd([[TSUpdate]])
-        end,
-      },
-    },
+    "https://github.com/romus204/tree-sitter-manager.nvim",
     "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
     "https://github.com/nvim-treesitter/nvim-treesitter-context",
     "https://github.com/windwp/nvim-ts-autotag",
@@ -75,7 +68,7 @@ now_if_args(function()
   miniclue.set_mapping_desc("n", "]%", "Match last")
   miniclue.set_mapping_desc("n", "z%", "Jump inside a match")
 
-  source("config/nvim-treesitter.lua")
+  source("config/tree-sitter.lua")
 end)
 
 now_if_args(function()
