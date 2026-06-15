@@ -24,17 +24,17 @@ NVIM_APPNAME=hosaka/nvim/ nvim
 
 - **Required**:
 
-  - neovim>=0.12, git
-  - C compiler (gcc, clang, zig) as required by the tree-sitter plugin. On Alpine Lunux `musl-dev` is needed for header files. On Windows MSVC caused issues so Zig can be used instead.
+  - neovim>=0.12, tree-sitter>=0.25, git
+  - C compiler (gcc, clang, zig) as required by tree-sitter. On Alpine Lunux `musl-dev` is needed for header files. If MSVC on Windows causes issues, Zig can be used instead.
 
 - **Optional**:
-  - **Fonts**: A [Nerd Font](https://www.nerdfonts.com/).
+  - **Fonts**: Any [Nerd Font](https://www.nerdfonts.com/).
   - **LSPs**: Language servers are not automatically installed. Use your OS package manager or [mise](https://mise.jdx.dev/dev-tools/) to install them. See `nvim-lspconfig.lua` for a list of included settings.
-  - **Linters**: When an LSP does not provide diagnostic messages, a linter can be used with. See `nvim-lint.lua` for a list of included settings.
+  - **Linters**: When an LSP does not provide diagnostic messages, a linter can be used with nvim-lint. See `nvim-lint.lua` for a list of included settings.
   - **Formatters**: When an LSP does not provide a formatter, one can be defined manually with Conform. See `conform.lua` for a list of included settings.
   - **Tools**:
-    - [ripgrep](https://github.com/BurntSushi/ripgrep)
-    - [lazygit](https://github.com/jesseduffield/lazygit)
+    - [ripgrep](https://github.com/BurntSushi/ripgrep): plugins like `mini.pick` use this for faster grep.
+    - [lazygit](https://github.com/jesseduffield/lazygit): a default `<Leader>gg` is mapped to open lazygit.
 
 ## Plugins
 

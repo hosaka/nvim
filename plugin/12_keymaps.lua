@@ -193,7 +193,7 @@ mapl("mm", [[<cmd>lua MiniMap.toggle()<cr>]], { desc = "Toggle" })
 
 -- o is for options
 -- also see `plugins/nvim-lspconfig.lua`
--- also see `plugins/nvim-treesitter-context.lua`
+-- also see `plugins/tree-sitter.lua`
 local option = Hosaka.toggle.option
 local global = Hosaka.toggle.global
 
