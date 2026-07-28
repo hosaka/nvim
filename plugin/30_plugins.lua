@@ -92,6 +92,7 @@ now_if_args(function()
     "ruff",
     "rust_analyzer",
     "taplo",
+    "tofu_ls",
     "ty",
     "vtsls",
     "yamlls",
