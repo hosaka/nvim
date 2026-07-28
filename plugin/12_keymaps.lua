@@ -72,7 +72,8 @@ mapl("bd", [[<cmd>lua MiniBufremove.delete()<cr>]], { desc = "Delete" })
 mapl("bD", [[<cmd>lua MiniBufremove.delete(0, true)<cr>]], { desc = "Delete!" })
 mapl("bw", [[<cmd>lua MiniBufremove.wipeout()<cr>]], { desc = "Wipeout" })
 mapl("bW", [[<cmd>lua MiniBufremove.wipeout(0, true)<cr>]], { desc = "Wipeout!" })
-mapl("by", [[<cmd>lua Hosaka.copy_relative_filepath()<cr>]], { desc = "Yank filepath" })
+mapl("by", [[<cmd>lua Hosaka.copy_relative_filepath()<cr>]], { desc = "Yank filepath (relative)" })
+mapl("bY", [[<cmd>lua Hosaka.copy_absolute_filepath()<cr>]], { desc = "Yank filepath (absolute)" })
 mapl("bo", [[<cmd>%bdelete|edit#<cr>]], { desc = "Close others" })
 
 -- c is for code

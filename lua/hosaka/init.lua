@@ -61,4 +61,10 @@ function Hosaka.copy_relative_filepath()
   vim.notify(path)
 end
 
+function Hosaka.copy_absolute_filepath()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  vim.notify(path)
+end
+
 return Hosaka
