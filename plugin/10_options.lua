@@ -20,7 +20,6 @@ o.undofile = true -- Enable persistent undo
 o.wildmode = "noselect,full" -- Command-line completion mode, do not preselect matches
 o.wildoptions = "pum,fuzzy" -- Command-line completion, enable fuzzy matching
 o.writebackup = false -- Don't store backups while overwriting the file
-vim.cmd("filetype plugin indent on") -- Enable all filetype plugins
 
 -- Appearance
 o.breakindent = true -- Indent wrapped lines to match line start
@@ -71,11 +70,6 @@ o.listchars = concat({ "extends:…", "nbsp:␣", "precedes:…", "tab:> " }) --
 if vim.fn.has("nvim-0.12") == 1 then
   -- Enable experimental UI grid
   require("vim._core.ui2").enable({ enable = true })
-end
-
--- enable syntax highlight if it wasn't already (as it is time consuming)
-if vim.fn.exists("syntax_on") ~= 1 then
-  vim.cmd([[syntax enable]])
 end
 
 vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
