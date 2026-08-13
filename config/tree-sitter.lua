@@ -31,18 +31,22 @@ require("tree-sitter-manager").setup({
 })
 
 -- better filetypes
--- vim.filetype.add({
---   pattern = {
---     ["compose.*%.ya?ml"] = "yaml.docker-compose",
---     ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
---     [".*/%.github/workflows/.*%.ya?ml"] = "yaml.github-actions",
---     ["%.env.*"] = "dotenv",
---   },
--- })
+vim.filetype.add({
+  pattern = {
+    ["compose.*%.ya?ml"] = "yaml.docker-compose",
+    ["docker%-compose.*%.ya?ml"] = "yaml.docker-compose",
+    [".*/%.github/workflows/.*%.ya?ml"] = "yaml.github-actions",
+    [".*/%.forgejo/workflows/.*%.ya?ml"] = "yaml.forgejo-actions",
+    [".*/srcpkgs/.*/template"] = "void-package",
+    ["%.env.*"] = "dotenv",
+  },
+})
 
--- vim.treesitter.language.register("yaml", "yaml.docker-compose")
--- vim.treesitter.language.register("yaml", "yaml.github-actions")
--- vim.treesitter.language.register("bash", "dotenv")
+vim.treesitter.language.register("yaml", "yaml.docker-compose")
+vim.treesitter.language.register("yaml", "yaml.github-actions")
+vim.treesitter.language.register("yaml", "yaml.forgejo-actions")
+vim.treesitter.language.register("bash", "void-package")
+vim.treesitter.language.register("bash", "dotenv")
 
 -- nvim-treesitter-textobjects
 require("nvim-treesitter-textobjects").setup({
