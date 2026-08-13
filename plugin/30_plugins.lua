@@ -42,10 +42,14 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 
+local gh = function(x)
+  return "https://github.com/" .. x
+end
+
 -- immediate config ------------------------------------------------------------
 
 now(function()
-  add({ "https://github.com/folke/tokyonight.nvim" })
+  add({ gh("folke/tokyonight.nvim") })
   source("config/tokyonight.lua")
 end)
 
@@ -53,11 +57,11 @@ end)
 
 now_if_args(function()
   add({
-    "https://github.com/romus204/tree-sitter-manager.nvim",
-    "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
-    "https://github.com/nvim-treesitter/nvim-treesitter-context",
-    "https://github.com/windwp/nvim-ts-autotag",
-    "https://github.com/andymass/vim-matchup",
+    gh("romus204/tree-sitter-manager.nvim"),
+    gh("nvim-treesitter/nvim-treesitter-textobjects"),
+    gh("nvim-treesitter/nvim-treesitter-context"),
+    gh("windwp/nvim-ts-autotag"),
+    gh("andymass/vim-matchup"),
   })
 
   -- matchup desc
@@ -73,8 +77,8 @@ end)
 
 now_if_args(function()
   add({
-    "https://github.com/neovim/nvim-lspconfig",
-    "https://github.com/b0o/SchemaStore.nvim",
+    gh("neovim/nvim-lspconfig"),
+    gh("b0o/SchemaStore.nvim"),
   })
   source("config/nvim-lspconfig.lua")
 
@@ -101,22 +105,22 @@ now_if_args(function()
 end)
 
 now_if_args(function()
-  add({ "https://github.com/b0o/incline.nvim" })
+  add({ gh("b0o/incline.nvim") })
   source("config/incline.lua")
 end)
 
 -- delayed config --------------------------------------------------------------
 
 later(function()
-  add({ "https://github.com/stevearc/dressing.nvim" })
+  add({ gh("stevearc/dressing.nvim") })
   source("config/dressing.lua")
 end)
 
 later(function()
   add({
-    "https://github.com/mfussenegger/nvim-dap",
-    "https://github.com/rcarriga/nvim-dap-ui",
-    "https://github.com/nvim-neotest/nvim-nio",
+    gh("mfussenegger/nvim-dap"),
+    gh("rcarriga/nvim-dap-ui"),
+    gh("nvim-neotest/nvim-nio"),
   })
   source("config/dap.lua")
 end)
@@ -124,21 +128,21 @@ end)
 later(function()
   add({
     -- fixme: anything above this version will crash neovim, wait till v2 release
-    { src = "https://github.com/saghen/blink.cmp", version = "v1.3.1" },
-    "https://github.com/rafamadriz/friendly-snippets",
+    { src = gh("saghen/blink.cmp"), version = "v1.3.1" },
+    gh("rafamadriz/friendly-snippets"),
     -- (optional) use treesitter to highlight completion items
-    "https://github.com/xzbdmw/colorful-menu.nvim",
+    gh("xzbdmw/colorful-menu.nvim"),
   })
   source("config/blink.lua")
 end)
 
 later(function()
-  add({ "https://github.com/mfussenegger/nvim-lint" })
+  add({ gh("mfussenegger/nvim-lint") })
   source("config/nvim-lint.lua")
 end)
 
 later(function()
-  add({ "https://github.com/stevearc/conform.nvim" })
+  add({ gh("stevearc/conform.nvim") })
   source("config/conform.lua")
 end)
 
@@ -150,56 +154,56 @@ later(function()
 end)
 
 later(function()
-  add({ "https://github.com/sindrets/diffview.nvim" })
+  add({ gh("sindrets/diffview.nvim") })
   source("config/diffview.lua")
 end)
 
 later(function()
-  add({ "https://github.com/akinsho/toggleterm.nvim" })
+  add({ gh("akinsho/toggleterm.nvim") })
   source("config/toggleterm.lua")
 end)
 
 later(function()
-  add({ "https://github.com/stevearc/quicker.nvim" })
+  add({ gh("stevearc/quicker.nvim") })
   source("config/quicker.lua")
 end)
 
 later(function()
-  add({ "https://github.com/kevinhwang91/nvim-bqf" })
+  add({ gh("kevinhwang91/nvim-bqf") })
   source("config/nvim-bqf.lua")
 end)
 
 later(function()
-  add({ "https://github.com/lukas-reineke/indent-blankline.nvim" })
+  add({ gh("lukas-reineke/indent-blankline.nvim") })
   source("config/indent-blankline.lua")
 end)
 
 later(function()
   add({
-    "https://github.com/kevinhwang91/nvim-ufo",
-    "https://github.com/kevinhwang91/promise-async",
+    gh("kevinhwang91/nvim-ufo"),
+    gh("kevinhwang91/promise-async"),
   })
   source("config/nvim-ufo.lua")
 end)
 
 later(function()
-  add({ "https://github.com/wakatime/vim-wakatime" })
+  add({ gh("wakatime/vim-wakatime") })
 end)
 
 later(function()
-  add({ "https://github.com/stevearc/overseer.nvim" })
+  add({ gh("stevearc/overseer.nvim") })
   source("config/overseer.lua")
 end)
 
 -- conditional config ----------------------------------------------------------
 
 on_filetype("markdown", function()
-  add({ "https://github.com/MeanderingProgrammer/render-markdown.nvim" })
+  add({ gh("MeanderingProgrammer/render-markdown.nvim") })
   source("config/render-markdown.lua")
 end)
 
 on_filetype("lua", function()
-  add({ "https://github.com/folke/lazydev.nvim" })
+  add({ gh("folke/lazydev.nvim") })
   require("lazydev").setup({
     library = {
       "nvim-dap-ui",
