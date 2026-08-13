@@ -77,12 +77,12 @@ mapl("bY", [[<cmd>lua Hosaka.copy_absolute_filepath()<cr>]], { desc = "Yank file
 mapl("bo", [[<cmd>%bdelete|edit#<cr>]], { desc = "Close others" })
 
 -- c is for code
--- also see `plugins/nvim-lspconfig.lua` for LSP and language specific keymaps
+-- also see `config/nvim-lspconfig.lua` for LSP and language specific keymaps
 mapl("cl", [[<cmd>lua require("quicker").toggle({ loclist=true })<cr>]], { desc = "Toggle loclist" })
 mapl("cq", [[<cmd>lua require("quicker").toggle()<cr>]], { desc = "Toggle quickfix" })
 
 -- d is for debug
--- also see `plugins/dap.lua` for DAP specific keymaps
+-- also see `config/dap.lua` for DAP specific keymaps
 mapl("db", [[<cmd>lua require("dap").toggle_breakpoint()<cr>]], { desc = "Toggle breakpoint" })
 mapl("dB", [[<cmd>lua require("dap").clear_breakpoints()<cr>]], { desc = "Clear breakpoints" })
 mapl("dr", [[<cmd>lua require("dap").continue()<cr>]], { desc = "Run" })
@@ -193,8 +193,8 @@ mapl("ms", [[<cmd>lua MiniMap.refresh()<cr>]], { desc = "Side toggle" })
 mapl("mm", [[<cmd>lua MiniMap.toggle()<cr>]], { desc = "Toggle" })
 
 -- o is for options
--- also see `plugins/nvim-lspconfig.lua`
--- also see `plugins/tree-sitter.lua`
+-- also see `config/nvim-lspconfig.lua`
+-- also see `config/tree-sitter.lua`
 local option = Hosaka.toggle.option
 local global = Hosaka.toggle.global
 
@@ -214,6 +214,7 @@ mapl("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], { desc = "Toggle zoom" })
 -- p is for plugin
 mapl("pu", [[<cmd>lua vim.pack.update()<cr>]], { desc = "Update" })
 mapl("pl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List" })
+mapl("pd", [[<cmd>lua vim.ui.input({ prompt = "Delete plugin"}, vim.pack.del)<cr>]], { desc = "Delete" })
 
 -- q is for quit
 mapl("qq", [[<cmd>quitall<cr>]], { desc = "Quit all" })
@@ -221,7 +222,7 @@ mapl("qQ", [[<cmd>quitall!<cr>]], { desc = "Quit all!" })
 mapl("qs", [[<cmd>suspend<cr>]], { desc = "Suspend" })
 
 -- r is for run
--- also see `plugins/nvim-lspconfig.lua`
+-- also see `config/nvim-lspconfig.lua`
 mapl("rc", function()
   local config_path = vim.fn.stdpath("config") .. "/init.lua"
   if vim.loop.fs_stat(config_path) then
@@ -253,7 +254,7 @@ mapl("tP", [[<cmd>lua Hosaka.toggle_python()<cr>]], { desc = "Python REPL" })
 mapl("tN", [[<cmd>lua Hosaka.toggle_node()<cr>]], { desc = "Node REPL" })
 
 -- v is for visits
--- also see `plugins/mini.visits.lua`
+-- also see `config/mini.visits.lua`
 mapl("vp", [[<cmd>Pick visit_paths cwd=""<cr>]], { desc = "Path visits (all)" })
 mapl("vP", [[<cmd>Pick visit_paths<cr>]], { desc = "Path visits (cwd)" })
 mapl("vl", [[<cmd>Pick visit_labels cwd=""<cr>]], { desc = "All labels (all)" })
