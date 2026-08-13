@@ -32,9 +32,9 @@ Config.miniclues = {
   { mode = "n", keys = "<Leader>g", desc = "+Git" },
   { mode = "n", keys = "<Leader>m", desc = "+Map" },
   { mode = "n", keys = "<Leader>o", desc = "+Option" },
+  { mode = "n", keys = "<Leader>p", desc = "+Plugins" },
   { mode = "n", keys = "<Leader>q", desc = "+Quit" },
   { mode = "n", keys = "<Leader>r", desc = "+Run" },
-  { mode = "n", keys = "<Leader>rp", desc = "+Plugins" },
   { mode = "n", keys = "<Leader>s", desc = "+Session" },
   { mode = "n", keys = "<Leader>t", desc = "+Terminal" },
   { mode = "n", keys = "<Leader>v", desc = "+Visits" },
@@ -211,6 +211,10 @@ option("wrap", { name = "'wrap'" }):mapl("ow")
 option("bg", { name = "'background'", on = "dark", off = "light" }):mapl("ob")
 mapl("oz", [[<cmd>lua MiniMisc.zoom()<cr>]], { desc = "Toggle zoom" })
 
+-- p is for plugin
+mapl("pu", [[<cmd>lua vim.pack.update()<cr>]], { desc = "Update" })
+mapl("pl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List" })
+
 -- q is for quit
 mapl("qq", [[<cmd>quitall<cr>]], { desc = "Quit all" })
 mapl("qQ", [[<cmd>quitall!<cr>]], { desc = "Quit all!" })
@@ -224,8 +228,6 @@ mapl("rc", function()
     vim.cmd("source" .. config_path)
   end
 end, { desc = "Config reload" })
-mapl("rpu", [[<cmd>lua vim.pack.update()<cr>]], { desc = "Update" })
-mapl("rpl", [[<cmd>lua vim.pack.update(nil, { offline = true })<cr>]], { desc = "List" })
 mapl("rr", [[<cmd>OverseerRun<cr>]], { desc = "Run" })
 mapl("rt", [[<cmd>OverseerToggle<cr>]], { desc = "Toggle" })
 
