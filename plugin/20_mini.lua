@@ -87,6 +87,12 @@ now(function()
 end)
 
 now(function()
+  require("mini.statuscolumn").setup({
+    dim_inactive = false,
+  })
+end)
+
+now(function()
   require("mini.statusline").setup()
 end)
 
