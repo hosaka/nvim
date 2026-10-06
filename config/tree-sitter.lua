@@ -1,33 +1,75 @@
 -- tree-sitter parser management
-require("tree-sitter-manager").setup({
-  -- parsers to install on startup
-  ensure_installed = {
-    "bash",
-    "diff",
-    "dockerfile",
-    "fish",
-    "git_config",
-    "gitcommit",
-    "gitignore",
-    "html",
-    "ini",
-    "json",
-    "just",
-    "toml",
-    "yaml",
-  },
-  -- auto install when a new filetype is encountered
-  auto_install = true,
-  -- use built-in Neovim treesitter parsers
-  noauto_install = {
-    "c",
-    "lua",
-    "markdown",
-    "markdown_inline",
-    "query",
-    "vim",
-    "vimdoc",
-  },
+local ts = require("nvim-treesitter")
+
+-- parsers to install on startup
+local ensure_installed = {
+  "bash",
+  "diff",
+  "dockerfile",
+  "fish",
+  "git_config",
+  "gitcommit",
+  "gitignore",
+  "html",
+  "ini",
+  "json",
+  "just",
+  "toml",
+  "yaml",
+}
+
+-- never auto install these, use built-in Neovim treesitter parsers instead
+local noauto_install = {
+  "c",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "query",
+  "vim",
+  "vimdoc",
+}
+
+-- no-op for already installed parsers
+ts.install(ensure_installed)
+
+-- indentexpr is only set for parsers installed by nvim-treesitter,
+-- built-in parsers don't come with indent queries
+local function start(buffer, lang)
+  if not vim.api.nvim_buf_is_valid(buffer) or not pcall(vim.treesitter.start, buffer, lang) then
+    return
+  end
+  if vim.list_contains(ts.get_installed("parsers"), lang) then
+    vim.bo[buffer].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+  end
+end
+
+local available = ts.get_available()
+
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Enable treesitter and auto install parsers",
+  group = Hosaka.augroup("treesitter"),
+  callback = function(event)
+    local buffer = event.buf
+    local lang = vim.treesitter.language.get_lang(event.match)
+    if not lang then
+      return
+    end
+
+    -- auto install when a new filetype is encountered
+    local installed = ts.get_installed("parsers")
+    if
+      not vim.list_contains(installed, lang)
+      and not vim.list_contains(noauto_install, lang)
+      and vim.list_contains(available, lang)
+    then
+      ts.install(lang):await(vim.schedule_wrap(function()
+        start(buffer, lang)
+      end))
+      return
+    end
+
+    start(buffer, lang)
+  end,
 })
 
 -- better filetypes

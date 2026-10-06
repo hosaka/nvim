@@ -57,7 +57,14 @@ end)
 
 now_if_args(function()
   add({
-    gh("romus204/tree-sitter-manager.nvim"),
+    {
+      src = gh("nvim-treesitter/nvim-treesitter"),
+      data = {
+        on_update = function()
+          vim.cmd("TSUpdate")
+        end,
+      },
+    },
     gh("nvim-treesitter/nvim-treesitter-textobjects"),
     gh("nvim-treesitter/nvim-treesitter-context"),
     gh("windwp/nvim-ts-autotag"),
