@@ -117,7 +117,6 @@ now_if_args(function()
 end)
 
 -- delayed config --------------------------------------------------------------
-
 later(function()
   add({ gh("stevearc/dressing.nvim") })
   source("config/dressing.lua")
@@ -134,8 +133,8 @@ end)
 
 later(function()
   add({
-    -- fixme: anything above this version will crash neovim, wait till v2 release
-    { src = gh("saghen/blink.cmp"), version = "v1.3.1" },
+    -- prebuilt fuzzy matcher binary is downloaded for the checked out tag
+    { src = gh("saghen/blink.cmp"), version = vim.version.range("1") },
     gh("rafamadriz/friendly-snippets"),
     -- (optional) use treesitter to highlight completion items
     gh("xzbdmw/colorful-menu.nvim"),
