@@ -84,11 +84,18 @@ vim.filetype.add({
   },
 })
 
+-- yaml variations
 vim.treesitter.language.register("yaml", "yaml.docker-compose")
 vim.treesitter.language.register("yaml", "yaml.github-actions")
 vim.treesitter.language.register("yaml", "yaml.forgejo-actions")
+
+-- bash variations
 vim.treesitter.language.register("bash", "void-package")
 vim.treesitter.language.register("bash", "dotenv")
+
+-- silverbullet lua
+vim.treesitter.language.register("lua", "space_lua")
+vim.treesitter.language.register("css", "space_style")
 
 -- nvim-treesitter-textobjects
 require("nvim-treesitter-textobjects").setup({
